@@ -1,4 +1,4 @@
-final int CIRCLE_SPEED = 3;//sets the amount of cirlces that will appear on the screen per frame, lowering the number will result in a lot more cirlces on the screen, but at a slower pace, a higher 
+final int CIRCLE_SPEED = 4;//sets the amount of cirlces that will appear on the screen per frame, lowering the number will result in a lot more cirlces on the screen, but at a slower pace, a higher 
 //number will place cirles at a faster rate, but spread out. CHANGED to 3 instead of 7
 final color NO_CLICK_FILL_COLOR = color(250, 100, 100);//The initial color of the cirlce
 final color CLICK_FILL_COLOR = color(100, 0, 250);//the color of the cirlce when the mouse is hovered over it (now changed to purple)
