@@ -1,12 +1,12 @@
-final int CIRCLE_SPEED = 4;//sets the amount of cirlces that will appear on the screen per frame, lowering the number will result in a lot more cirlces on the screen, but at a slower pace, a higher 
+final int CIRCLE_SPEED = 4;//a type of variable which sets the amount of cirlces that will appear on the screen per frame, lowering the number will result in a lot more cirlces on the screen, but at a slower pace, a higher 
 //number will place cirles at a faster rate, but spread out. CHANGED to 3 instead of 7
-final color NO_CLICK_FILL_COLOR = color(250, 100, 100);//The initial color of the cirlce
+final color NO_CLICK_FILL_COLOR = color(250, 100, 100);//The type of variable which sets the color of the cirlce when the mouse is not pressed
 final color CLICK_FILL_COLOR = color(100, 0, 250);//the color of the cirlce when the mouse is hovered over it (now changed to purple)
 final color BACKGROUND_COLOR = color(0, 150, 150);//the background color (now to aqua blue)
 final color STROKE_COLOR = color(250, 150, 0);//The color of the line around the circle
  int CIRCLE_SIZE = 50;//size of the cirlce
 float r; //labeled so that the colors randomize
-float g;
+float g; //These were set to float since r=random(255); does not work with int. 
 float b;
 
 int circleX;//variable name
@@ -28,6 +28,10 @@ void setup() {
 void draw() {
     if (dist(pmouseX, mouseY, circleX, circleY) < CIRCLE_SIZE/2) { //the distance of the mouse on the X and Y axis a
     fill(CLICK_FILL_COLOR);
+    r=random(255); //selects a random color for the background. 
+  g=random(255);
+  b=random(255);
+  ellipse(r,g,b);
   }
   else {
     fill(NO_CLICK_FILL_COLOR);
@@ -50,7 +54,7 @@ void draw() {
 
 void mousePressed() {//when the mouse is clicked, this code changes the background to different colors and the circle size to 25px. Holding it will keep the cirlce size to 25px.
  
-  r=random(255);
+  r=random(255); //selects a random color for the background. 
 g=random(255);
 b=random(255);
 background(r,g,b);
