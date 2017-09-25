@@ -45,11 +45,14 @@ void draw() {
   if (circleX + CIRCLE_SIZE/2 > width || circleX - CIRCLE_SIZE/2 < 0) {//if circleX + half the ellipse size is greater than the width which is 640, or less than 640, then the ellipse will change direction 
   //on the X axis so it doesnt go off the screen. 
     circleVX = -circleVX;
+
     
   }
   if (circleY + CIRCLE_SIZE/2 > height || circleY - CIRCLE_SIZE/2 < 0) {//if circleY + half the ellipse size is greater than the height which is 480, or less than 480, then the ellipse will change direction 
   //on the Y axis so it doesnt go off the screen. 
     circleVY = -circleVY;
+    CIRCLE_SIZE= CIRCLE_SIZE-2;//Gets progressively smaller.
+
   }
 
 
