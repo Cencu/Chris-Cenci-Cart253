@@ -1,17 +1,22 @@
 color backgroundColor = color(0);
 
-int numStatic = 1000;
-int staticSizeMin = 1;
+int numStatic = 10;//number of static particles on the screen
+int staticSizeMin = 1;//static sizes in the background
 int staticSizeMax = 3;
 color staticColor = color(200);
+
+float r;
+float g;
+float b;
 
 int paddleX;
 int paddleY;
 int paddleVX;
-int paddleSpeed = 10;
-int paddleWidth = 128;
+int paddleSpeed = 10;//speed of the paddle 
+int paddleWidth = 128;//size of the paddle
 int paddleHeight = 16;
-color paddleColor = color(255);
+color paddleColor = color(200);
+
 
 int ballX;
 int ballY;
@@ -27,20 +32,21 @@ void setup() {
   setupPaddle();
   setupBall();
 }
-
+//Paddles initial starting location
 void setupPaddle() {
-  paddleX = width/2;
-  paddleY = height - paddleHeight;
+  paddleX = width/2;//paddle location at start;
+  paddleY = height - paddleHeight;//CHANGE?
   paddleVX = 0;
+ 
 }
-
+//Balls' initial starting location, along with its variables such as speed
 void setupBall() {
   ballX = width/2;
   ballY = height/2;
   ballVX = ballSpeed;
   ballVY = ballSpeed;
 }
-
+//Variableslisted 
 void draw() {
   background(backgroundColor);
 
@@ -52,25 +58,29 @@ void draw() {
   drawPaddle();
   drawBall();
 }
-
+//the command for the static in the background 
+//CHANGED to the static being different colors
 void drawStatic() {
   for (int i = 0; i < numStatic; i++) {
    float x = random(0,width);
    float y = random(0,height);
    float staticSize = random(staticSizeMin,staticSizeMax);
-   fill(staticColor);
+   fill(r,g,b);
    rect(x,y,staticSize,staticSize);
+   r=random(255);
+   g=random(255);
+   b=random(255);
   }
 }
-
+//constrains the paddle to the screen
 void updatePaddle() {
   paddleX += paddleVX;  
   paddleX = constrain(paddleX,0+paddleWidth/2,width-paddleWidth/2);
 }
 
 void updateBall() {
-  ballX += ballVX;
-  ballY += ballVY;
+  ballX += ballVX+2;
+  ballY += ballVY-1;
   
   handleBallHitPaddle();
   handleBallHitWall();
@@ -80,8 +90,9 @@ void updateBall() {
 void drawPaddle() {
   rectMode(CENTER);
   noStroke();
-  fill(paddleColor);
+  fill(r,g,b);
   rect(paddleX, paddleY, paddleWidth, paddleHeight);
+  
 }
 
 void drawBall() {
@@ -132,7 +143,7 @@ void handleBallHitWall() {
     ballVY = -ballVY;
   }
 }
-
+//when the left or right keys are pressed, 
 void keyPressed() {
   if (keyCode == LEFT) {
     paddleVX = -paddleSpeed;
@@ -140,7 +151,7 @@ void keyPressed() {
     paddleVX = paddleSpeed;
   }
 }
-
+//stops the paddle from moving after the key is released 
 void keyReleased() {
   if (keyCode == LEFT && paddleVX < 0) {
     paddleVX = 0;
