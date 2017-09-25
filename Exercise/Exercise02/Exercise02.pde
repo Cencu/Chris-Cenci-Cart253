@@ -1,13 +1,14 @@
 color backgroundColor = color(0);
 
-int numStatic = 10;//number of static particles on the screen
-int staticSizeMin = 1;//static sizes in the background
-int staticSizeMax = 3;
-color staticColor = color(200);
-
-float r;
+float r;//Color variables
 float g;
 float b;
+int numStatic = 10;//number of static particles on the screen
+int staticSizeMin = 1;//static sizes in the background
+int staticSizeMax = 9;
+color staticColor = color(r,g,b);
+
+
 
 int paddleX;
 int paddleY;
@@ -66,10 +67,10 @@ void drawStatic() {
    float y = random(0,height);
    float staticSize = random(staticSizeMin,staticSizeMax);
    fill(r,g,b);
+   r=random(200);
+   g=random(200);
+   b=random(200);
    rect(x,y,staticSize,staticSize);
-   r=random(255);
-   g=random(255);
-   b=random(255);
   }
 }
 //constrains the paddle to the screen
@@ -79,8 +80,8 @@ void updatePaddle() {
 }
 
 void updateBall() {
-  ballX += ballVX+2;
-  ballY += ballVY-1;
+  ballX += ballVX;
+  ballY += ballVY;
   
   handleBallHitPaddle();
   handleBallHitWall();
@@ -90,7 +91,7 @@ void updateBall() {
 void drawPaddle() {
   rectMode(CENTER);
   noStroke();
-  fill(r,g,b);
+ 
   rect(paddleX, paddleY, paddleWidth, paddleHeight);
   
 }
@@ -143,7 +144,7 @@ void handleBallHitWall() {
     ballVY = -ballVY;
   }
 }
-//when the left or right keys are pressed, 
+//when the left or right keys are pressed, this piece of code moves the paddle.
 void keyPressed() {
   if (keyCode == LEFT) {
     paddleVX = -paddleSpeed;
