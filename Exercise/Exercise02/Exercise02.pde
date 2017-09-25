@@ -1,4 +1,3 @@
-
 color backgroundColor = color(0);
 
 int numStatic = 1000;
