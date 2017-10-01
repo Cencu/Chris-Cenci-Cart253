@@ -113,7 +113,8 @@ void draw() {
   drawPaddleTwo();
   drawBallTwo();
 }
-//the command for the static in the background 
+//the command for the static in the background, controls the location, set to random. 
+//
 //CHANGED to the static being different colors
 void drawStatic() {
   for (int i = 0; i < numStatic; i++) {
@@ -146,6 +147,7 @@ void updatePaddleTwo() {
   paddleXTwo = constrain(paddleXTwo,0+paddleWidthTwo/2,width-paddleWidthTwo/2);
 }
 //Includes more variables, sets the ball's movement.
+//
 void updateBall() {
   ballX += ballVX;
   ballY += ballVY;
@@ -197,7 +199,7 @@ void drawBallTwo() {
   rect(ballXTwo, ballYTwo, ballSizeTwo, ballSizeTwo);
   
 }
-
+//If the ball hits the paddle, 
 void handleBallHitPaddle() {
   if (ballOverlapsPaddle()) {
     ballY = paddleY - paddleHeight/2 - ballSize/2;
@@ -230,7 +232,7 @@ boolean ballOverlapsPaddleTwo() {
   }
   return false;
 }
-
+//Resets the ball if it falls off the screen. 
 void handleBallOffBottom() {
   if (ballOffBottom()) {
     ballX = width/2;
@@ -268,7 +270,7 @@ void handleBallHitWall() {
     ballVY = -ballVY;
   }
 }
-
+//Controls the ball so that it doesnt go off the screen of the Y axis, bounces in a diagonal direction. 
 void handleBallHitWallTwo() {
   if (ballXTwo - ballSizeTwo/2 < 0) {
     ballXTwo = 0 + ballSizeTwo/2;
