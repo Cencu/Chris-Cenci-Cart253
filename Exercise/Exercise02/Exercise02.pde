@@ -101,7 +101,6 @@ void draw() {
 
   updatePaddle();
   updateBall();
-
   drawPaddle();
   drawBall();
   
@@ -190,12 +189,10 @@ void drawBall() {
   rect(ballX, ballY, ballSize, ballSize);  
 }
 
-
-
 void drawBallTwo() {
   rectMode(CENTER);
   noStroke();
-  fill(ballColorTwo);
+  fill(r,b,g);
   rect(ballXTwo, ballYTwo, ballSizeTwo, ballSizeTwo);
   
 }
@@ -278,6 +275,7 @@ void handleBallHitWallTwo() {
   } else if (ballXTwo + ballSizeTwo/2 > width) {
     ballXTwo = width - ballSizeTwo/2;
     ballVXTwo = -ballVXTwo;
+
   }
   
   if (ballYTwo - ballSizeTwo/2 < 0) {
@@ -285,7 +283,8 @@ void handleBallHitWallTwo() {
     ballVYTwo = -ballVYTwo;
   }
 }
-//when the left or right keys are pressed, this piece of code moves the paddle.
+//when the left or right keys are pressed, this piece of code moves the paddle. 
+//New paddle moves with A and D now. 
 void keyPressed() {
   if (keyCode == LEFT) {
     paddleVX = -paddleSpeed;
