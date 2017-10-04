@@ -15,7 +15,7 @@ int moverX; int moverY; int moverVX; int moverVY; int moverSize;
    rVY=moverVY;
    rSize=moverSize;
    
-}
+ }
  void rupdate() {
    rX += moverVX+1;
    rY += moverVY;
