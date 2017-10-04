@@ -40,7 +40,7 @@ class Bouncer {
    if (mouseX > width/2) {
      size=size+2;
    }
-   if (size > 200) {
+   if (size > 75) {
      size=size-5;
    }
    if (mouseX < width/2) {
@@ -61,6 +61,9 @@ class Bouncer {
    }
    if (mousePressed) {
      vx= vx+1;
+   }
+   if (keyPressed) {
+     background(backgroundColor);
    }
 //Constrains the cirlces to the screen so they dont go off.
    x = constrain(x,size/2,width-size/2);
