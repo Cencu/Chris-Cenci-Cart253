@@ -16,11 +16,6 @@ void draw() {
   bouncer.draw();
   bouncer2.draw();
   mover.rupdate();
-  mover.handleMover();
   mover.draw();
 
-}
-
-void mousePressed() {
-  background(backgroundColor);
 }

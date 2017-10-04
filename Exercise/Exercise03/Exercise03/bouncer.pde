@@ -59,6 +59,9 @@ class Bouncer {
    if (y - size/2 < 0 || y + size/2 > height) {
      vy = -vy;
    }
+   if (mousePressed) {
+     vx= vx+1;
+   }
 //Constrains the cirlces to the screen so they dont go off.
    x = constrain(x,size/2,width-size/2);
    y = constrain(y,size/2,height-size/2);
