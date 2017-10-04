@@ -51,7 +51,7 @@ class Bouncer {
    }
 // Up to here is the code I added
 
-
+//these codes change the velocity of the cirlces when they touch height and width, the cirlces velocities will go in opposite directions if the boolean is true. 
    if (x - size/2 < 0 || x + size/2 > width) {
     vx = -vx; 
    }
@@ -59,12 +59,12 @@ class Bouncer {
    if (y - size/2 < 0 || y + size/2 > height) {
      vy = -vy;
    }
-  
+//Constrains the cirlces to the screen so they dont go off.
    x = constrain(x,size/2,width-size/2);
    y = constrain(y,size/2,height-size/2);
   
  }
- 
+ //when the mouse hovers over the cirlce it changes color
  void handleMouse() {
    if (dist(mouseX,mouseY,x,y) < size/2) {
     fillColor = hoverColor; 
