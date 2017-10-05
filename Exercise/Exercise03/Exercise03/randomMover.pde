@@ -5,10 +5,7 @@ class Mover {
  int rVX;
  int rVY;
  int rSize;
-int moverX; int moverY; int moverVX; int moverVY; int moverSize;
  Mover(int moverX, int moverY, int moverVX, int moverVY, int moverSize) {
-
- 
    rX = moverX;
    rY = moverY;
    rVX = moverVX;
@@ -17,22 +14,22 @@ int moverX; int moverY; int moverVX; int moverVY; int moverSize;
    
  }
  void rupdate() {
-   rX += moverVX+1;
-   rY += moverVY;
+   rX += rVX+1;
+   rY += rVY;
 
    handleMover();
  }
  void handleMover() {
-   if (rX - moverSize/2 < 0 || rX + moverSize/2 > width) {
+   if (rX - rSize/2 < 0 || rX + rSize/2 > width) {
     rVX = rVX*2; 
    }
    
-   if (rY - moverSize/2 < 0 || rY + moverSize/2 > height) {
+   if (rY - rSize/2 < 0 || rY + rSize/2 > height) {
      rVY = rVY*2;
    }
 //Constrains the cirlces to the screen so they dont go off.
-   rX = constrain(rX,moverSize/2,width-moverSize/2);
-   rY = constrain(rY,moverSize/2,height-moverSize/2);
+   rX = constrain(rX,rSize/2,width-rSize/2);
+   rY = constrain(rY,rSize/2,height-rSize/2);
  }
   void draw() {
    noStroke();
