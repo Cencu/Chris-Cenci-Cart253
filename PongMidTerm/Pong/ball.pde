@@ -8,9 +8,10 @@ class Ball {
   /////////////// Properties ///////////////
 
   // Default values for speed and size
-  int SPEED = 5;
+  int SPEED = 15;
   int SIZE = 16;
-
+  int p1Score=0;
+  int p2Score=0;
   // The location of the ball
   int x;
   int y;
@@ -59,36 +60,12 @@ class Ball {
     if (y - SIZE/2 < 0 || y + SIZE/2 > height) {
       // If it is, then make it "bounce" by reversing its velocity
       vy = -vy;
+    }//makes it bounce off the borders 
+    if (x - SIZE/2 < 15 || x + SIZE/2 > width-15) {
+      // If it is, then make it "bounce" by reversing its velocity
+      vx = -vx;
     }
   }
-  
-  // reset()
-  //
-  // Resets the ball to the centre of the screen.
-  // Note that it KEEPS its velocity
-  
-  void reset() {
-    x = width/2;
-    y = height/2;
-  }
-  
-  // isOffScreen()
-  //
-  // Returns true if the ball is off the left or right side of the window
-  // otherwise false
-  // (If we wanted to return WHICH side it had gone off, we'd have to return
-  // something like an int (e.g. 0 = not off, 1 = off left, 2 = off right)
-  // or a String (e.g. "ON SCREEN", "OFF LEFT", "OFF RIGHT")
-  
-  boolean isOffScreen() {
-    return (x + SIZE/2 < 0 || x - SIZE/2 > width);
-  }
-
-  // collide(Paddle paddle)
-  //
-  // Checks whether this ball is colliding with the paddle passed as an argument
-  // If it is, it makes the ball bounce away from the paddle by reversing its
-  // x velocity
 
   void collide(Paddle paddle) {
     // Calculate possible overlaps with the paddle side by side
@@ -96,7 +73,7 @@ class Ball {
     boolean insideRight = (x - SIZE/2 < paddle.x + paddle.WIDTH/2);
     boolean insideTop = (y + SIZE/2 > paddle.y - paddle.HEIGHT/2);
     boolean insideBottom = (y - SIZE/2 < paddle.y + paddle.HEIGHT/2);
-    
+
     // Check if the ball overlaps with the paddle
     if (insideLeft && insideRight && insideTop && insideBottom) {
       // If it was moving to the left
@@ -108,9 +85,25 @@ class Ball {
         x = paddle.x - paddle.WIDTH/2 - SIZE/2;
       }
       // And make it bounce
-      vx = -vx;
+      x = width/2;
+      y = height/2;
     }
   }
+
+  void reset() {
+    x = width/2;
+    y = height/2;
+  }
+
+  // isOffScreen()
+  //
+  // Returns true if the ball is off the left or right side of the window
+  // otherwise false
+  // (If we wanted to return WHICH side it had gone off, we'd have to return
+  // something like an int (e.g. 0 = not off, 1 = off left, 2 = off right)
+  // or a String (e.g. "ON SCREEN", "OFF LEFT", "OFF RIGHT")
+
+
 
   // display()
   //
@@ -123,6 +116,13 @@ class Ball {
     rectMode(CENTER);
 
     // Draw the ball
-    rect(x, y, SIZE, SIZE);
-  }
+  
+
+
+
+  rect(x, y, SIZE, SIZE);
+
+}
+  
+  
 }

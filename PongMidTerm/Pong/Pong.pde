@@ -8,14 +8,19 @@
 // No score display. (Yet!)
 // Pretty ugly. (Now!)
 // Only two paddles. (So far!)
-
+PImage img;
 // Global variables for the paddles and the ball
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
-
-// The distance from the edge of the window a paddle should be
-int PADDLE_INSET = 8;
+Score score;
+//New variables for the borders
+Border leftBorder;
+Border rightBorder; 
+Border border;
+// The distance from the edge of the window a paddle should be *CHANGED* to 40.
+int PADDLE_INSET = 40;
+int border_X=640;
 
 // The background colour during play (black)
 color backgroundColor = color(0);
@@ -28,6 +33,7 @@ color backgroundColor = color(0);
 void setup() {
   // Set the size
   size(640, 480);
+  img = loadImage("midterm.png");
 
   // Create the paddles on either side of the screen. 
   // Use PADDLE_INSET to to position them on x, position them both at centre on y
@@ -36,7 +42,8 @@ void setup() {
   // different accented characters in text editors (so avoid those if you're changing this)
   leftPaddle = new Paddle(PADDLE_INSET, height/2, '1', 'q');
   rightPaddle = new Paddle(width - PADDLE_INSET, height/2, '0', 'p');
-
+  //Creates borders on the screens 
+ score = new Score();
   // Create the ball at the centre of the screen
   ball = new Ball(width/2, height/2);
 }
@@ -49,26 +56,34 @@ void setup() {
 void draw() {
   // Fill the background each frame so we have animation
   background(backgroundColor);
+  image(img, 0, 0);
 
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
   rightPaddle.update();
   ball.update();
 
+
+
   // Check if the ball has collided with either paddle
-  ball.collide(leftPaddle);
+ ball.collide(leftPaddle);
   ball.collide(rightPaddle);
+  rectMode(CORNER);
+rect(0,0,20,640);
+rect(620,0,20,540);
+ 
 
   // Check if the ball has gone off the screen
-  if (ball.isOffScreen()) {
-    // If it has, reset the ball
-    ball.reset();
-  }
 
   // Display the paddles and the ball
   leftPaddle.display();
   rightPaddle.display();
   ball.display();
+  score.display(ball);
+
+  score.whoWins();
+ /* leftBorder.display();
+  rightBorder.display();*/
 }
 
 // keyPressed()
