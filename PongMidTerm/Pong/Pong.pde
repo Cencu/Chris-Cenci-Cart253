@@ -13,7 +13,7 @@ PImage img;
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
-Score score;
+/*Score score;*/
 //New variables for the borders
 Border leftBorder;
 Border rightBorder; 
@@ -43,7 +43,7 @@ void setup() {
   leftPaddle = new Paddle(PADDLE_INSET, height/2, '1', 'q');
   rightPaddle = new Paddle(width - PADDLE_INSET, height/2, '0', 'p');
   //Creates borders on the screens 
- score = new Score();
+ /*score = new Score();*/
   // Create the ball at the centre of the screen
   ball = new Ball(width/2, height/2);
 }
@@ -79,9 +79,9 @@ rect(620,0,20,540);
   leftPaddle.display();
   rightPaddle.display();
   ball.display();
-  score.display(ball);
+ /* score.display(ball);*/
 
-  score.whoWins();
+  ball.whoWins();
  /* leftBorder.display();
   rightBorder.display();*/
 }

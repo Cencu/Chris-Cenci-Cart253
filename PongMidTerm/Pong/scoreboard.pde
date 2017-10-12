@@ -1,5 +1,5 @@
 
-class Score {
+/*class Score {
 
  int p1Score=0;
  int p2Score=0;
@@ -10,7 +10,11 @@ class Score {
  void display(Ball ball) {
    
    
-if(ball.x >= width-20) {
+/*if(ball.x >= paddle.HEIGHT) {
+    p1Score = p1Score + 1;
+}
+
+if(ball.collide(Paddle paddle)) {
     p1Score = p1Score + 1;
 }
     
@@ -39,3 +43,4 @@ if(ball.x >= width-20) {
 }
   
 }
+*/

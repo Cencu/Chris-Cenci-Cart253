@@ -5,6 +5,10 @@
 
 class Ball {
 
+ int gameWin=10;
+ boolean keypress = false;
+  boolean endgame = false;
+ 
   /////////////// Properties ///////////////
 
   // Default values for speed and size
@@ -69,10 +73,14 @@ class Ball {
 
   void collide(Paddle paddle) {
     // Calculate possible overlaps with the paddle side by side
-    boolean insideLeft = (x + SIZE/2 > paddle.x - paddle.WIDTH/2);
-    boolean insideRight = (x - SIZE/2 < paddle.x + paddle.WIDTH/2);
-    boolean insideTop = (y + SIZE/2 > paddle.y - paddle.HEIGHT/2);
-    boolean insideBottom = (y - SIZE/2 < paddle.y + paddle.HEIGHT/2);
+    boolean insideLeft = (x + SIZE/2 > leftPaddle.x - paddle.WIDTH/2);
+    boolean insideRight = (x - SIZE/2 < leftPaddle.x + paddle.WIDTH/2);
+    boolean insideTop = (y + SIZE/2 > leftPaddle.y - paddle.HEIGHT/2);
+    boolean insideBottom = (y - SIZE/2 < leftPaddle.y + paddle.HEIGHT/2);
+    boolean insideLeftR = (x + SIZE/2 > rightPaddle.x - paddle.WIDTH/2);
+    boolean insideRightR = (x - SIZE/2 < rightPaddle.x + paddle.WIDTH/2);
+    boolean insideTopR = (y + SIZE/2 > rightPaddle.y - paddle.HEIGHT/2);
+    boolean insideBottomR = (y - SIZE/2 < rightPaddle.y + paddle.HEIGHT/2);
 
     // Check if the ball overlaps with the paddle
     if (insideLeft && insideRight && insideTop && insideBottom) {
@@ -88,6 +96,26 @@ class Ball {
       x = width/2;
       y = height/2;
     }
+        if (insideLeftR && insideRightR && insideTopR && insideBottomR) {
+      // If it was moving to the left
+      if (vx < 0) {
+        // Reset its position to align with the right side of the paddle
+        x = paddle.x + paddle.WIDTH/2 + SIZE/2;
+      } else if (vx > 0) {
+        // Reset its position to align with the left side of the paddle
+        x = paddle.x - paddle.WIDTH/2 - SIZE/2;
+      }
+      // And make it bounce
+      x = width/2;
+      y = height/2;
+    }
+    if(insideLeft && insideRight && insideTop && insideBottom) {
+    p1Score = p1Score + 1;
+}
+if(insideLeftR && insideRightR && insideTopR && insideBottomR) {
+    p2Score = p2Score + 1;
+
+  }
   }
 
   void reset() {
@@ -108,7 +136,18 @@ class Ball {
   // display()
   //
   // Draw the ball at its position
-
+  void whoWins() {  //display on screen who wins and who loses.
+  if (p1Score >= gameWin || p2Score >= gameWin) {
+    textSize(30);
+  
+    if (p1Score > p2Score) {
+      fill(0, 255, 0, 180);
+      text("Player 1 Wins", width/4-0, 50); }
+      if (p2Score > p1Score) {
+      fill(0, 255, 0, 180);
+      text("Player 2 Wins", width/4-0, 50); }
+  }
+    } 
   void display() {
     // Set up the appearance of the ball (no stroke, a fill, and rectMode as CENTER)
     noStroke();
@@ -116,13 +155,16 @@ class Ball {
     rectMode(CENTER);
 
     // Draw the ball
-  
+     textSize(100);
+  fill(255,0,0);
+  text(p1Score,220,70);
+  text(p2Score,350,70);
 
 
 
   rect(x, y, SIZE, SIZE);
 
 }
-  
+
   
 }
