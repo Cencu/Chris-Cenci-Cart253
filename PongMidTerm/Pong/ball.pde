@@ -5,14 +5,14 @@
 
 class Ball {
 
- int gameWin=10;
- boolean keypress = false;
-  boolean endgame = false;
- 
+  int gameWin=10;
+
+  PImage imgb;
+  float  incXY=.1;
   /////////////// Properties ///////////////
 
   // Default values for speed and size
-  int SPEED = 15;
+  int SPEED = 10;
   int SIZE = 16;
   int p1Score=0;
   int p2Score=0;
@@ -44,9 +44,25 @@ class Ball {
     y = _y;
     vx = SPEED;
     vy = SPEED;
+
   }
 
+/*if (keyPressed) {
+      if (key=='s') {
+    ball.x += ball.vx+ball.incXY;
+    ball.y += ball.vy+ball.incXY;
+      }
 
+      
+    }*/
+/*void keyReleased() {
+   if (key=='s') {
+    x += vx;
+    y += vy;
+      }
+    
+}*/
+    
   /////////////// Methods ///////////////
 
   // update()
@@ -56,9 +72,12 @@ class Ball {
   // and whether the ball has gone off the screen on either side.
 
   void update() {
+
     // First update the location based on the velocity (so the ball moves)
     x += vx;
     y += vy;
+
+
 
     // Check if the ball is going off the top of bottom
     if (y - SIZE/2 < 0 || y + SIZE/2 > height) {
@@ -84,41 +103,42 @@ class Ball {
 
     // Check if the ball overlaps with the paddle
     if (insideLeft && insideRight && insideTop && insideBottom) {
-      // If it was moving to the left
-      if (vx < 0) {
-        // Reset its position to align with the right side of the paddle
-        x = paddle.x + paddle.WIDTH/2 + SIZE/2;
-      } else if (vx > 0) {
-        // Reset its position to align with the left side of the paddle
-        x = paddle.x - paddle.WIDTH/2 - SIZE/2;
-      }
-      // And make it bounce
-      x = width/2;
-      y = height/2;
-    }
-        if (insideLeftR && insideRightR && insideTopR && insideBottomR) {
-      // If it was moving to the left
-      if (vx < 0) {
-        // Reset its position to align with the right side of the paddle
-        x = paddle.x + paddle.WIDTH/2 + SIZE/2;
-      } else if (vx > 0) {
-        // Reset its position to align with the left side of the paddle
-        x = paddle.x - paddle.WIDTH/2 - SIZE/2;
-      }
-      // And make it bounce
-      x = width/2;
-      y = height/2;
-    }
-    if(insideLeft && insideRight && insideTop && insideBottom) {
-    p1Score = p1Score + 1;
-}
-if(insideLeftR && insideRightR && insideTopR && insideBottomR) {
-    p2Score = p2Score + 1;
 
-  }
+      // If it was moving to the left
+      if (vx < 0) {
+        // Reset its position to align with the right side of the paddle
+        x = paddle.x + paddle.WIDTH/2 + SIZE/2;
+      } else if (vx > 0) {
+        // Reset its position to align with the left side of the paddle
+        x = paddle.x - paddle.WIDTH/2 - SIZE/2;
+      }
+      // And make it bounce
+      x = width/2;
+      y = height/2;
+    }
+    if (insideLeftR && insideRightR && insideTopR && insideBottomR) {
+      // If it was moving to the left
+      if (vx < 0) {
+        // Reset its position to align with the right side of the paddle
+        x = paddle.x + paddle.WIDTH/2 + SIZE/2;
+      } else if (vx > 0) {
+        // Reset its position to align with the left side of the paddle
+        x = paddle.x - paddle.WIDTH/2 - SIZE/2;
+      }
+      // And make it bounce
+      x = width/2;
+      y = height/2;
+    }
+    if (insideLeft && insideRight && insideTop && insideBottom) {
+      p1Score = p1Score + 1;
+    }
+    if (insideLeftR && insideRightR && insideTopR && insideBottomR) {
+      p2Score = p2Score + 1;
+    }
   }
 
   void reset() {
+    
     x = width/2;
     y = height/2;
   }
@@ -131,40 +151,39 @@ if(insideLeftR && insideRightR && insideTopR && insideBottomR) {
   // something like an int (e.g. 0 = not off, 1 = off left, 2 = off right)
   // or a String (e.g. "ON SCREEN", "OFF LEFT", "OFF RIGHT")
 
-
-
   // display()
   //
   // Draw the ball at its position
   void whoWins() {  //display on screen who wins and who loses.
-  if (p1Score >= gameWin || p2Score >= gameWin) {
-    textSize(30);
-  
-    if (p1Score > p2Score) {
-      fill(0, 255, 0, 180);
-      text("Player 1 Wins", width/4-0, 50); }
+    if (p1Score >= gameWin || p2Score >= gameWin) {
+      textSize(30);
+
+      if (p1Score > p2Score) {
+        fill(0, 255, 0, 180);
+        text("Player 1 Wins", 120, 110); 
+        vx=0;
+        vy=0;
+      }
       if (p2Score > p1Score) {
-      fill(0, 255, 0, 180);
-      text("Player 2 Wins", width/4-0, 50); }
-  }
-    } 
+        fill(0, 255, 0, 180);
+        text("Player 2 Wins", 320, 110); 
+        vx=0;
+        vy=0;
+      }
+    }
+  } 
   void display() {
     // Set up the appearance of the ball (no stroke, a fill, and rectMode as CENTER)
     noStroke();
-    fill(ballColor);
+    fill(0);
     rectMode(CENTER);
 
     // Draw the ball
-     textSize(100);
-  fill(255,0,0);
-  text(p1Score,220,70);
-  text(p2Score,350,70);
+    textSize(100);
+    fill(255, 0, 0);
+    text(p1Score, 180, 80);
+    text(p2Score, 400, 80);
 
-
-
-  rect(x, y, SIZE, SIZE);
-
-}
-
-  
+    ellipse(x, y, SIZE, SIZE);
+  }
 }

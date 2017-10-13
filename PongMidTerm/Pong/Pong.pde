@@ -9,6 +9,7 @@
 // Pretty ugly. (Now!)
 // Only two paddles. (So far!)
 PImage img;
+PImage imgb;
 // Global variables for the paddles and the ball
 Paddle leftPaddle;
 Paddle rightPaddle;
@@ -43,7 +44,7 @@ void setup() {
   leftPaddle = new Paddle(PADDLE_INSET, height/2, '1', 'q');
   rightPaddle = new Paddle(width - PADDLE_INSET, height/2, '0', 'p');
   //Creates borders on the screens 
- /*score = new Score();*/
+  /*score = new Score();*/
   // Create the ball at the centre of the screen
   ball = new Ball(width/2, height/2);
 }
@@ -61,17 +62,22 @@ void draw() {
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
   rightPaddle.update();
-  ball.update();
+  /*ball.update();*/
+if (keyPressed) {
+      if (key=='s') {
+    ball.update();
+      }
 
-
+      
+    }
 
   // Check if the ball has collided with either paddle
- ball.collide(leftPaddle);
+  ball.collide(leftPaddle);
   ball.collide(rightPaddle);
   rectMode(CORNER);
-rect(0,0,20,640);
-rect(620,0,20,540);
- 
+  rect(0, 0, 20, 640);
+  rect(620, 0, 20, 540);
+
 
   // Check if the ball has gone off the screen
 
@@ -79,11 +85,10 @@ rect(620,0,20,540);
   leftPaddle.display();
   rightPaddle.display();
   ball.display();
- /* score.display(ball);*/
-
+  /* score.display(ball);*/
   ball.whoWins();
- /* leftBorder.display();
-  rightBorder.display();*/
+  /* leftBorder.display();
+   rightBorder.display();*/
 }
 
 // keyPressed()
@@ -96,6 +101,10 @@ void keyPressed() {
   // Just call both paddles' own keyPressed methods
   leftPaddle.keyPressed();
   rightPaddle.keyPressed();
+
+
+
+ 
 }
 
 // keyReleased()
@@ -106,4 +115,6 @@ void keyReleased() {
   // Call both paddles' keyReleased methods
   leftPaddle.keyReleased();
   rightPaddle.keyReleased();
+
+
 }
