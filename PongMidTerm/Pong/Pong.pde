@@ -1,3 +1,8 @@
+//Welcome to dodgePongBall!
+//Each player starts with 10 lives.
+//The objective of the game is to avoid the ball, opposite of what pong is supposed to be.
+//
+
 //Images for the ball and background
 PImage img;
 PImage imgb;
@@ -14,8 +19,10 @@ color backgroundColor = color(0);
 
 void setup() {
   size(640, 480);
+  frameRate(60);
   //loads the image onto the screen
   img = loadImage("midterm.png");
+  
 //Changed the controls.
   leftPaddle = new Paddle(PADDLE_INSET, height/2, 'w', 's');
   rightPaddle = new Paddle(width - PADDLE_INSET, height/2, 'o', 'l');
