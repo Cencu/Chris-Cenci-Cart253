@@ -19,8 +19,7 @@ color backgroundColor = color(0);
 
 void setup() {
   size(640, 480);
-  frameRate(60);
-  //loads the image onto the screen
+//loads the image onto the screen
   img = loadImage("midterm.png");
   
 //Changed the controls.
