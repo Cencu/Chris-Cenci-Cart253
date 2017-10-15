@@ -74,7 +74,7 @@ class Ball {
       }
       x = width/2;
       y = height/2;
-      SIZE=SIZE+2;
+      SIZE=SIZE+6;
     }
     if (insideLeftR && insideRightR && insideTopR && insideBottomR) {
       if (vx < 0) {
@@ -84,7 +84,7 @@ class Ball {
       }
       x = width/2;
       y = height/2;
-      SIZE=SIZE+2;
+      SIZE=SIZE+6;
 
     }
     //Adds a point to the team if the paddle is hit. 
