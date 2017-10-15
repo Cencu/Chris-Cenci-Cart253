@@ -8,8 +8,7 @@ class Ball {
   PImage imgb;
   //speeds up throughout the game
   int incV=1/2;
-
-  float SPEED = 12;
+  float SPEED = 5.0;
   int SIZE = 16;
   //Player lives, each team starts with 10. 
   int p1Score=10;
@@ -22,6 +21,8 @@ class Ball {
   float vx;
   float vy;
 
+  boolean start = false;
+
 
   color ballColor = color(255);
 
@@ -32,38 +33,25 @@ class Ball {
     vy = SPEED;
   }
 
-  /*if (keyPressed) {
-   if (key=='s') {
-   ball.x += ball.vx+ball.incXY;
-   ball.y += ball.vy+ball.incXY;
-   }
-   
-   
-   }*/
 
   void update() {
-
-    x += vx;
-    y += vy;
-
-
 
 
     if (y - SIZE < 0 || y + SIZE > height) {
 
-      vy= -vy+1;
+    float  vy= float -vy;
     } 
-    if (x - SIZE < 15 || x + SIZE > width ) {
+    if (x - SIZE < 15 || x + SIZE > width-15 ) {
       vx= -vx;
      
     }
     if (SIZE <=50) {
      constrain(SIZE,50,50); 
     }
-    
-    
+   
   }
   
+ 
 
   void collide(Paddle paddle) {
     //registers what happens when the ball collides with either side of the paddle. 
@@ -87,7 +75,6 @@ class Ball {
       }
       x = width/2;
       y = height/2;
-      vy=vy+2;
       SIZE=SIZE+2;
     }
     if (insideLeftR && insideRightR && insideTopR && insideBottomR) {
@@ -98,16 +85,18 @@ class Ball {
       }
       x = width/2;
       y = height/2;
-
       SIZE=SIZE+2;
 
     }
     //Adds a point to the team if the paddle is hit. 
     if (insideLeft && insideRight && insideTop && insideBottom) {
       p1Score = p1Score - 1;
+
     }
     if (insideLeftR && insideRightR && insideTopR && insideBottomR) {
       p2Score = p2Score - 1;
+
+
     }
   }
 
@@ -115,8 +104,7 @@ class Ball {
 
     x = width/2;
     y = height/2;
-          vx=vx+3;
-      vy=vy+2;
+
   }
 
   //Displays who wins if team has no more lives
@@ -149,11 +137,10 @@ class Ball {
     text(p1Score, 180, 80);
     text(p2Score, 400, 80);
 imgb = loadImage("ball.png");
-
     ellipse(x, y, SIZE, SIZE);
 
 
-      
-    
+   
   }
+
 }
