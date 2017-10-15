@@ -43,7 +43,6 @@ void draw() {
     ball.x += ball.vx;
     ball.y += ball.vy;
   }
-      SPEED+=0.01;
 
 
 

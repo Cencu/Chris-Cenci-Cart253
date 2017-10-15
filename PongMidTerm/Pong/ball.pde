@@ -8,7 +8,7 @@ class Ball {
   PImage imgb;
   //speeds up throughout the game
   int incV=1/2;
-  float SPEED = 5.0;
+  float SPEED = 8;
   int SIZE = 16;
   //Player lives, each team starts with 10. 
   int p1Score=10;
@@ -37,18 +37,17 @@ class Ball {
   void update() {
 
 
-    if (y - SIZE < 0 || y + SIZE > height) {
-
-    float  vy= float -vy;
+    if (y - SIZE/2 < 15 || y + SIZE/2 > height-5) {
+      vy=-vy;
     } 
-    if (x - SIZE < 15 || x + SIZE > width-15 ) {
+    if (x - SIZE/2 < 18 || x + SIZE/2 > width-15 ) {
       vx= -vx;
      
     }
     if (SIZE <=50) {
      constrain(SIZE,50,50); 
     }
-   
+
   }
   
  
@@ -114,13 +113,13 @@ class Ball {
       //Ball stops moving when a team reaches 0. 
       if (p1Score < p2Score) {
         fill(0, 255, 0, 180);
-        text("Player 2 Wins", 120, 110); 
+        text("Player 1 Wins", 120, 110); 
         vx=0;
         vy=0;
       }
       if (p2Score < p1Score) {
         fill(0, 255, 0, 180);
-        text("Player 1 Wins", 320, 110); 
+        text("Player 2 Wins", 320, 110); 
         vx=0;
         vy=0;
       }
