@@ -11,7 +11,7 @@ PImage imgb;
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
-  float SPEED = 5;
+  float SPEED = 8.0;
 
 
 int PADDLE_INSET = 40;
@@ -40,6 +40,10 @@ void draw() {
   background(backgroundColor);
   image(img, 0, 0);
   if (start) {
+      SPEED = SPEED +.01;
+
+    float vy = noise(SPEED) * width;
+    float vx = noise(SPEED) * height;
     ball.x += ball.vx;
     ball.y += ball.vy;
   }

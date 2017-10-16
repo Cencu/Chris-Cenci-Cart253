@@ -8,7 +8,6 @@ class Ball {
   PImage imgb;
   //speeds up throughout the game
   int incV=1/2;
-  float SPEED = 8;
   int SIZE = 16;
   //Player lives, each team starts with 10. 
   int p1Score=10;
