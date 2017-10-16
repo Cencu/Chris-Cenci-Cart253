@@ -7,15 +7,12 @@ class Ball {
   //image for the ball
   PImage imgb;
   //speeds up throughout the game
-  int incV=1/2;
   int SIZE = 16;
   //Player lives, each team starts with 10. 
   int p1Score=10;
   int p2Score=10;
-
   int x;
   int y;
-
 
   float vx;
   float vy;
@@ -34,7 +31,6 @@ class Ball {
 
 
   void update() {
-
 
     if (y - SIZE/2 < 15 || y + SIZE/2 > height-5) {
       vy=-vy;

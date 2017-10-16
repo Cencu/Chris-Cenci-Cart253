@@ -40,14 +40,14 @@ void draw() {
   background(backgroundColor);
   image(img, 0, 0);
   if (start) {
-      SPEED = SPEED +.01;
+      /*SPEED = SPEED +.01;
 
     float vy = noise(SPEED) * width;
-    float vx = noise(SPEED) * height;
+    float vx = noise(SPEED) * height;*/
     ball.x += ball.vx;
     ball.y += ball.vy;
+  
   }
-
 
 
   leftPaddle.update();
