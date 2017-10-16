@@ -4,14 +4,13 @@
 //Click to start game
 
 //Images for the ball and background
-  boolean start = false;
+boolean start = false;
 
 PImage img;
-PImage imgb;
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
-  float SPEED = 8.0;
+float SPEED = 8;
 
 
 int PADDLE_INSET = 40;
@@ -22,11 +21,11 @@ color backgroundColor = color(0);
 
 void setup() {
   size(640, 480);
-  //loads the image onto the screen
+  //loads the background image onto the screen
   img = loadImage("midterm.png");
 
 
-  //Changed the controls.
+  //Changed the controls. W,S and O,L
   leftPaddle = new Paddle(PADDLE_INSET, height/2, 'w', 's');
   rightPaddle = new Paddle(width - PADDLE_INSET, height/2, 'o', 'l');
 
@@ -34,19 +33,17 @@ void setup() {
 }
 
 void mousePressed() {
- start=!start; 
+  start=!start;
 }
 void draw() {
-  background(backgroundColor);
-  image(img, 0, 0);
+  background(img);
   if (start) {
-      /*SPEED = SPEED +.01;
-
-    float vy = noise(SPEED) * width;
-    float vx = noise(SPEED) * height;*/
+    /*SPEED = SPEED *2;
+     
+     float vy = noise(ball.vx) * width;
+     float vx = noise(ball.vy) * height;*/
     ball.x += ball.vx;
     ball.y += ball.vy;
-  
   }
 
 
@@ -68,7 +65,6 @@ void draw() {
   ball.display();
   //activates when a player reaches 10 points
   ball.whoWins();
-  
 }
 
 void keyPressed() {

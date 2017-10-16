@@ -32,20 +32,46 @@ class Ball {
 
   void update() {
 
-    if (y - SIZE/2 < 15 || y + SIZE/2 > height-5) {
+constrain(SPEED,8,15);
+
+    if (y - SIZE/2 < 0 || y + SIZE/2 > height) {
       vy=-vy;
+      accelerate();
+      /* if vy is negative
+       make it more negative (subtract one)
+       else if vy is positive
+       make it bigger (add one)*/
     } 
-    if (x - SIZE/2 < 18 || x + SIZE/2 > width-15 ) {
-      vx= -vx;
-     
-    }
-    if (SIZE <=50) {
-     constrain(SIZE,50,50); 
+    if (x - SIZE/2 < 20 || x + SIZE/2 > width-20 ) {
+      vx=-vx;
+      accelerate();
     }
 
+    if (SIZE <=30) {
+      constrain(SIZE, 30, 30);
+    }
   }
-  
- 
+
+
+  void accelerate() {
+    if (vy <= 1) {
+      vy=vy-1;
+    } else {
+      vy=vy+1 ;
+    }
+    if (vx < 0) {
+      vx=vx-1;
+    } else {
+      vx=vx+1;
+    }
+    
+    vy = constrain(vy,-8,8);
+   /* if (vx >= 10 || vy >=10) {
+      constrain(vy, 8, 10);
+      constrain(vx, 8, 10);
+    }*/
+  }
+
 
   void collide(Paddle paddle) {
     //registers what happens when the ball collides with either side of the paddle. 
@@ -80,17 +106,13 @@ class Ball {
       x = width/2;
       y = height/2;
       SIZE=SIZE+6;
-
     }
     //Adds a point to the team if the paddle is hit. 
     if (insideLeft && insideRight && insideTop && insideBottom) {
       p1Score = p1Score - 1;
-
     }
     if (insideLeftR && insideRightR && insideTopR && insideBottomR) {
       p2Score = p2Score - 1;
-
-
     }
   }
 
@@ -98,7 +120,6 @@ class Ball {
 
     x = width/2;
     y = height/2;
-
   }
 
   //Displays who wins if team has no more lives
@@ -108,21 +129,21 @@ class Ball {
       //Ball stops moving when a team reaches 0. 
       if (p1Score < p2Score) {
         fill(0, 255, 0, 180);
-        text("Player 1 Wins", 120, 110); 
+        text("Player 2 Wins", 320, 110); 
         vx=0;
         vy=0;
       }
       if (p2Score < p1Score) {
         fill(0, 255, 0, 180);
-        text("Player 2 Wins", 320, 110); 
+        text("Player 1 Wins", 120, 110); 
         vx=0;
         vy=0;
       }
     }
   } 
   void display() {
-    noStroke();
-    fill(0);
+   /* noStroke();
+    fill(0);*/
     ellipseMode(CENTER);
 
     //Text size, color and location
@@ -130,11 +151,6 @@ class Ball {
     fill(255, 0, 0);
     text(p1Score, 180, 80);
     text(p2Score, 400, 80);
-imgb = loadImage("ball.png");
     ellipse(x, y, SIZE, SIZE);
-
-
-   
   }
-
 }
