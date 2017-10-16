@@ -52,7 +52,6 @@ void draw() {
 
 
   ball.update();
-
   ball.collide(leftPaddle);
   ball.collide(rightPaddle);
   rectMode(CORNER);

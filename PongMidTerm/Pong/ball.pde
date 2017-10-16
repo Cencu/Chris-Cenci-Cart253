@@ -48,14 +48,15 @@ constrain(SPEED,8,15);
     }
 
     if (SIZE <=30) {
-      constrain(SIZE, 30, 30);
+    SIZE=  constrain(SIZE, 25, 25);
     }
   }
 
 
   void accelerate() {
-    if (vy <= 1) {
+    if (vy <= 0) {
       vy=vy-1;
+      
     } else {
       vy=vy+1 ;
     }
@@ -64,12 +65,11 @@ constrain(SPEED,8,15);
     } else {
       vx=vx+1;
     }
-    
-    vy = constrain(vy,-8,8);
-   /* if (vx >= 10 || vy >=10) {
-      constrain(vy, 8, 10);
-      constrain(vx, 8, 10);
-    }*/
+
+    vy = constrain(vy,-16,16);
+    vx = constrain(vx,-16,16);
+
+
   }
 
 
@@ -123,24 +123,25 @@ constrain(SPEED,8,15);
   }
 
   //Displays who wins if team has no more lives
-  void whoWins() {  
+  void whoWins() {
     if (p1Score <= gameWin || p2Score <= gameWin) {
       textSize(30);
       //Ball stops moving when a team reaches 0. 
       if (p1Score < p2Score) {
         fill(0, 255, 0, 180);
-        text("Player 2 Wins", 320, 110); 
+        text("Player 2 Wins!", 320, 110); 
         vx=0;
         vy=0;
       }
       if (p2Score < p1Score) {
         fill(0, 255, 0, 180);
-        text("Player 1 Wins", 120, 110); 
+        text("Player 1 Wins!", 120, 110); 
         vx=0;
         vy=0;
       }
     }
   } 
+
   void display() {
    /* noStroke();
     fill(0);*/
