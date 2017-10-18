@@ -32,31 +32,34 @@ class Ball {
 
   void update() {
 
-constrain(SPEED,8,15);
 
-    if (y - SIZE/2 < 0 || y + SIZE/2 > height) {
+
+    if (y - SIZE/2 < +5 || y + SIZE/2 > height) {
       vy=-vy;
       accelerate();
-      /* if vy is negative
-       make it more negative (subtract one)
-       else if vy is positive
-       make it bigger (add one)*/
     } 
-    if (x - SIZE/2 < 20 || x + SIZE/2 > width-20 ) {
+    if (x - SIZE/2 < 25 || x + SIZE/2 > width-25 ) {
       vx=-vx;
       accelerate();
     }
-
-    if (SIZE <=30) {
-    SIZE=  constrain(SIZE, 25, 25);
+    if (SIZE/2 > width ) {
+      reset();
     }
   }
+  void outOfScreen() {
+    if (y < 0 ) {
+      x = width/2;
+      y = height/2;
+    }
+
+  }
+
+
 
 
   void accelerate() {
     if (vy <= 0) {
       vy=vy-1;
-      
     } else {
       vy=vy+1 ;
     }
@@ -65,11 +68,13 @@ constrain(SPEED,8,15);
     } else {
       vx=vx+1;
     }
+    if (SIZE <=30) {
+      SIZE=  constrain(SIZE, 25, 25);
+    }
 
-    vy = constrain(vy,-16,16);
-    vx = constrain(vx,-16,16);
 
-
+    vy = constrain(vy, -16, 15);
+    vx = constrain(vx, -15, 15);
   }
 
 
@@ -143,8 +148,8 @@ constrain(SPEED,8,15);
   } 
 
   void display() {
-   /* noStroke();
-    fill(0);*/
+    /* noStroke();
+     fill(0);*/
     ellipseMode(CENTER);
 
     //Text size, color and location

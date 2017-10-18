@@ -43,7 +43,13 @@ void draw() {
      float vy = noise(ball.vx) * width;
      float vx = noise(ball.vy) * height;*/
     ball.x += ball.vx;
+
     ball.y += ball.vy;
+     if (ball.x <= width/2) {
+     ball.x += ball.vx++; 
+    } else if ( ball.x >= width/2) {
+     ball.x += ball.vx--; 
+    }
   }
 
 
@@ -54,6 +60,7 @@ void draw() {
   ball.update();
   ball.collide(leftPaddle);
   ball.collide(rightPaddle);
+  ball.outOfScreen();
   rectMode(CORNER);
   //Borders on the left and right side
   rect(0, 0, 20, 640);
