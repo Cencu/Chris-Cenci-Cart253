@@ -2,20 +2,20 @@
 //Each player starts with 10 lives.
 //The objective of the game is to avoid the ball, opposite of what pong is supposed to be.
 //Click to start game
-
-//Images for the ball and background
+//Starts the game
 boolean start = false;
-
+//Background Image
 PImage img;
+
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
+
 float SPEED = 8;
 
 
 int PADDLE_INSET = 40;
 
-color backgroundColor = color(0);
 
 
 
@@ -31,22 +31,21 @@ void setup() {
 
   ball = new Ball(width/2, height/2);
 }
-
-void mousePressed() {
+//If the mouse is pressed, the game will start, or the velocities will be able to function.
+void mouseClicked() {
   start=!start;
 }
 void draw() {
   background(img);
+  //This if statement registers if the start function above was called. 
   if (start) {
-    /*SPEED = SPEED *2;
-     
-     float vy = noise(ball.vx) * width;
-     float vx = noise(ball.vy) * height;*/
-    ball.x += ball.vx;
 
+    ball.x += ball.vx;
     ball.y += ball.vy;
+// If the ball is less than half the width, then the verlocity of the X axix will increase
      if (ball.x <= width/2) {
      ball.x += ball.vx++; 
+// If not it will decrease if its greater than half the width. 
     } else if ( ball.x >= width/2) {
      ball.x += ball.vx--; 
     }

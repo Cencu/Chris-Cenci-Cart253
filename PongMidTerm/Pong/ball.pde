@@ -4,10 +4,8 @@ class Ball {
   //Registers the game ending at 0 points.
   //The game works on a system of "lives" 
   int gameWin=0;
-  //image for the ball
-  PImage imgb;
   //speeds up throughout the game
-  int SIZE = 16;
+  int SIZE = 20;
   //Player lives, each team starts with 10. 
   int p1Score=10;
   int p2Score=10;
@@ -29,34 +27,28 @@ class Ball {
     vy = SPEED;
   }
 
-
   void update() {
-
-
-
+    //Changes velocity when it hits the border, not the paddle. 
     if (y - SIZE/2 < +5 || y + SIZE/2 > height) {
       vy=-vy;
+      //Accelerate also increases speed. 
       accelerate();
     } 
     if (x - SIZE/2 < 25 || x + SIZE/2 > width-25 ) {
       vx=-vx;
       accelerate();
     }
-    if (SIZE/2 > width ) {
-      reset();
-    }
   }
+  
+  //Resets the ball if it glitches (The only way I found how to reslove this issue.)
   void outOfScreen() {
     if (y < 0 ) {
       x = width/2;
       y = height/2;
     }
-
   }
 
-
-
-
+  //Accelerates the speed 
   void accelerate() {
     if (vy <= 0) {
       vy=vy-1;
@@ -68,13 +60,9 @@ class Ball {
     } else {
       vx=vx+1;
     }
-    if (SIZE <=30) {
-      SIZE=  constrain(SIZE, 25, 25);
-    }
-
-
-    vy = constrain(vy, -16, 15);
-    vx = constrain(vx, -15, 15);
+    //Constrains the speed since it would go too fast
+    vy= constrain(vy,-16,16);
+    vx= constrain(vx,-16,16);
   }
 
 
@@ -92,7 +80,6 @@ class Ball {
     boolean insideBottomR = (y - SIZE/2 < rightPaddle.y + paddle.HEIGHT/2);
     //Resets the ball if paddle is touched. 
     if (insideLeft && insideRight && insideTop && insideBottom) {
-
       if (vx < 0) {
         x = paddle.x + paddle.WIDTH/2 + SIZE/2;
       } else if (vx > 0) {
@@ -100,8 +87,8 @@ class Ball {
       }
       x = width/2;
       y = height/2;
-      SIZE=SIZE+6;
     }
+    
     if (insideLeftR && insideRightR && insideTopR && insideBottomR) {
       if (vx < 0) {
         x = paddle.x + paddle.WIDTH/2 + SIZE/2;
@@ -110,9 +97,8 @@ class Ball {
       }
       x = width/2;
       y = height/2;
-      SIZE=SIZE+6;
     }
-    //Adds a point to the team if the paddle is hit. 
+    //Reduces a point to the team if the paddle is hit. 
     if (insideLeft && insideRight && insideTop && insideBottom) {
       p1Score = p1Score - 1;
     }
@@ -122,10 +108,9 @@ class Ball {
   }
 
   void reset() {
-
     x = width/2;
     y = height/2;
-  }
+  } 
 
   //Displays who wins if team has no more lives
   void whoWins() {
@@ -148,15 +133,14 @@ class Ball {
   } 
 
   void display() {
-    /* noStroke();
-     fill(0);*/
-    ellipseMode(CENTER);
 
-    //Text size, color and location
+    ellipseMode(CENTER);
+    fill(0,0,255);
+    ellipse(x, y, SIZE, SIZE);
+//Scoreboard
     textSize(100);
     fill(255, 0, 0);
     text(p1Score, 180, 80);
     text(p2Score, 400, 80);
-    ellipse(x, y, SIZE, SIZE);
   }
 }
