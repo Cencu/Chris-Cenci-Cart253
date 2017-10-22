@@ -27,7 +27,7 @@ void setup() {
   //Sets the griddies location, a random point on the screen, 
     int x = floor(random(0, width/gridSize));
     int y = floor(random(0, height/gridSize));
-  //Parameters for the griddies, their location is set by X and Y, 
+  //Parameters for the griddies, their location is set by X and Y, which is random. 
     griddies[i] = new Griddie(x * gridSize, y * gridSize, gridSize);
   }
 }

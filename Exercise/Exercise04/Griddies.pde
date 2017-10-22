@@ -35,6 +35,7 @@ class Griddie {
   void update() {
     
     // QUESTION: What is this if-statement for?
+    //If all the energy of the griddies equal 0, then the update() loop will not be activated
     if (energy == 0) {
       return;
     }
@@ -75,6 +76,7 @@ class Griddie {
   void collide(Griddie other) {
     // QUESTION: What is this if-statement for?
     if (energy == 0 || other.energy == 0) {
+      maxEnergy = energy-275;
       return;
     }
     
@@ -92,6 +94,8 @@ class Griddie {
   // Draw the Griddie on the screen as a rectangle
   void display() {
     // QUESTION: What does this fill line do?
+    // Fill is the color, energy is the opacity. fill is registered as (255,0,0), and the energy variable is equal to the max energy variable. 
+    //
     fill(fill, energy); 
     noStroke();
     rect(x, y, size, size);
