@@ -21,7 +21,7 @@ void setup() {
   frameRate(4);
 
   // QUESTION: What does this for loop do?
-  //The FOR loop makes the griddies move randomly across the screen by one step every time. The LENGTH variable resets their integer value back to zero. 
+  //ANSWER The FOR loop makes the griddies move randomly across the screen by one step every time. The LENGTH variable resets their integer value back to zero. 
   //The program runs, when it registers that I is at zero, it increments it by one, then length resets the griddie back to zero, and the program loops again. 
   for (int i = 0; i < griddies.length; i++) {
   //Sets the griddies location, a random point on the screen, 
@@ -50,6 +50,8 @@ void draw() {
       // QUESTION: What is this if-statement for?
       if (j != i) {
         // QUESTION: What does this line check?
+        //ANSWER If the griddie [j] is an unequal number with griddie [i] (if j equals one and i equals 0) then it activates the collide loop, which checks its energy levels
+        //And if the griddie collides with another griddie. If it does then it adds energy. If it doesnt and the energy is zero then it dies. 
         griddies[i].collide(griddies[j]);
       }
     }

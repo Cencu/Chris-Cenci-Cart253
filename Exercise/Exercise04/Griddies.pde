@@ -35,18 +35,21 @@ class Griddie {
   void update() {
     
     // QUESTION: What is this if-statement for?
-    //If all the energy of the griddies equal 0, then the update() loop will not be activated
+    //ANSWER If all the energy of the griddies equal 0, then the update() loop will not be activated
     if (energy == 0) {
       return;
     }
     
     // QUESTION: How does the Griddie movement updating work?
+    //ANSWER the integer xMoveType is set to produce a random variable between -1 and 2
+    //size * that integer is then assigned to X and Y, which make it move since they are in the griddies display loop.
     int xMoveType = floor(random(-1,2));
     int yMoveType = floor(random(-1,2));
     x += size * xMoveType;
     y += size * yMoveType;
     
     // QUESTION: What are these if statements doing?
+    //ANSWER If the griddie moves off the screen then it relocates it back on the screen.
     if (x < 0) {
       x += width;
     }
@@ -75,12 +78,13 @@ class Griddie {
   
   void collide(Griddie other) {
     // QUESTION: What is this if-statement for?
+    //ANSWER If the energy of the griddie is equal to 0, or the energy of the other girdie is equal to zero, then the loop returns and the griddie disappears 
     if (energy == 0 || other.energy == 0) {
-      maxEnergy = energy-275;
       return;
     }
     
     // QUESTION: What does this if-statement check?
+    //ANSWER Checks if the griddies collide, meaning if their X and Y locations are equal then they collided, adding their energy. 
     if (x == other.x && y == other.y) {
       // Increase this Griddie's energy
       energy += collideEnergy;
@@ -94,8 +98,8 @@ class Griddie {
   // Draw the Griddie on the screen as a rectangle
   void display() {
     // QUESTION: What does this fill line do?
-    // Fill is the color, energy is the opacity. fill is registered as (255,0,0), and the energy variable is equal to the max energy variable. 
-    //
+    // ANSWER Fill is the color, energy is the opacity. fill is registered as (255,0,0), adding another number equals the opacity. 
+    //Since the energy can increase or decrease, the opacity will also increase or decrease. 
     fill(fill, energy); 
     noStroke();
     rect(x, y, size, size);
