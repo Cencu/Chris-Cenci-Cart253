@@ -8,9 +8,14 @@
 
 // The size of a single grid element
 int gridSize = 20;
+
+
+
 // An array storing all the griddies
 Griddie[] griddies = new Griddie[100];
-Diegrid diegrid = new Diegrid 
+
+Diegrid diegrid; 
+
 // setup()
 //
 // Set up the window and the griddies
@@ -20,14 +25,16 @@ void setup() {
   size(640, 480);
   frameRate(4);
 
+  diegrid = new Diegrid(w, h, big, big); 
+  
   // QUESTION: What does this for loop do?
   //ANSWER The FOR loop makes the griddies move randomly across the screen by one step every time. The LENGTH variable resets their integer value back to zero. 
   //The program runs, when it registers that I is at zero, it increments it by one, then length resets the griddie back to zero, and the program loops again. 
   for (int i = 0; i < griddies.length; i++) {
-  //Sets the griddies location, a random point on the screen, 
+    //Sets the griddies location, a random point on the screen, 
     int x = floor(random(0, width/gridSize));
     int y = floor(random(0, height/gridSize));
-  //Parameters for the griddies, their location is set by X and Y, which is random. 
+    //Parameters for the griddies, their location is set by X and Y, which is random. 
     griddies[i] = new Griddie(x * gridSize, y * gridSize, gridSize);
   }
 }
@@ -38,7 +45,9 @@ void setup() {
 
 void draw() {
   background(50);
-
+diegrid.movement();
+diegrid.ifAte();
+diegrid.display();
   // We need to loop through all the griddies one by one
   for (int i = 0; i < griddies.length; i++) {
 
@@ -55,7 +64,7 @@ void draw() {
         griddies[i].collide(griddies[j]);
       }
     }
-    
+
     // Display the griddies
     griddies[i].display();
   }
