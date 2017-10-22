@@ -10,7 +10,7 @@
 int gridSize = 20;
 // An array storing all the griddies
 Griddie[] griddies = new Griddie[100];
-
+Diegrid diegrid = new Diegrid 
 // setup()
 //
 // Set up the window and the griddies
