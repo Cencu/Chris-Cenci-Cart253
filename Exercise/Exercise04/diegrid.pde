@@ -3,49 +3,62 @@
 
 class Diegrid {
   
-  
-  int w; //x
-  int h; //y
-  int big; //size
-  int hunger; //type of energy
+
+  int x; 
+  int y; 
+  int size; 
   int colors = color(0,0,30);
+//Displays how many griddies The Diegrid ate
+  int killCount=0;
   
-  Diegrid(int tempW, int tempH, int tempBig) {
-    w = tempW;
-    h = tempH;
-    big = tempBig;
-    hunger = big; 
+  Diegrid(int tempX, int tempY, int tempSize, int tempColors) {
+    x = tempX;
+    y = tempY;
+    size = tempSize;
+    colors = tempColors;
   }
+  
+//Its movement
   void movement() {
-    int movementW = floor(random(-2,4));
-    int movementH = floor(random(-2,4)); 
-    w += big * movementW;
-    h += big * movementH;
+    int movementX = floor(random(-2,2));
+    int movementY = floor(random(-2,2)); 
+    x += gridSize * movementX;
+    y += gridSize * movementY;
     
-    
-    if (w < 0) {
-      w += width;
+
+    if (x < 0) {
+      x += width;
     }
-    else if (w >= width) {
-      w -= width;
+    else if (x >= width) {
+      x -= width;
     }
-    if (h < 0) {
-      h += height;
+    if (y < 0) {
+      y += height;
     }
-    else if (h >= height) {
-      h -= height;
+    else if (y >= height) {
+      y -= height;
+    }
+  }
+
+//Registers if the griddies touch the sides of the Diegrid or overlap/are inside it. 
+//If they meet the conditions then they return and disappear
+  void ifAte(Griddie griddie ) {
+    if (griddie.energy == 0){
+     return; 
+    }
+    if (x <= griddie.x && x + size >= griddie.x + griddie.size && y <= griddie.y && y + size >= griddie.y + griddie.size) {
+      griddie.energy = 0;
+      colors = colors+5;
+      killCount=killCount+1;
+      size = size+1;//Increases in size per kill
+      println(killCount); //Notes the amount of griddies ate.
     }
   }
   
-  void ifAte(Griddie) {
-    if (w == griddie.x && h == griddie.y) {
-      energy.griddie = 0;
-      colors = colors+5;
-    }
-  }
+
   void display() {
     fill(colors);
     noStroke();
-    rect(w,h,big,big);
+    rect(x,y,size,size);
   }
 }
