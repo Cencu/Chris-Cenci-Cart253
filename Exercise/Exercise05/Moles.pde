@@ -3,24 +3,22 @@ class Moles {
   //Size of the moles
   int moleSize = 25;
   //Number of moles
-  int moles = n; 
+  //int moles = n; 
   int x;
   int y;
   //Color of regular moles and "golden" moles, which are worth more points
   color moleColor = color(200, 0, 0);
   color  specialColor = color(252, 136, 12);
 
-  Moles(int _x, int _y) {
+  Moles(int _x, int _y, int _moleSize) {
     x = _x;
     y = _y;
+    moleSize = _moleSize;
   }
 
   void update() {
-    if (n == 0) {
-      return;
-    }
 
-
+    
     float xMove = noise(-1, 2);
     float yMove = noise(-1, 2);
     x += moleSize * xMove;
