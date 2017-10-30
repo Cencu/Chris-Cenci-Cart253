@@ -1,9 +1,9 @@
 
 class Score {
 //Timer on the screen, 60 seconds
-  String time = "05";
+  String time = "30";
   int t;
-  int interval = 05; 
+  int interval = 30; 
   int x;
   int y;
   int point = 0;
