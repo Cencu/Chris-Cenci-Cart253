@@ -1,5 +1,7 @@
 
 class Moles {
+  
+  PImage img;
   //Size of the moles
   int moleSize = 25;
   //Number of moles
@@ -50,6 +52,8 @@ class Moles {
   void display() {
     fill(moleColor);
     noStroke();
+//img = loadImage("mole.jpg");
+
     ellipse(x, y, moleSize, moleSize);
   }
 }
