@@ -6,6 +6,7 @@ class Moles {
   //int moles = n; 
   int x;
   int y;
+  int xMove;
   //Color of regular moles and "golden" moles, which are worth more points
   color moleColor = color(200, 0, 0);
   color  specialColor = color(252, 136, 12);
@@ -19,7 +20,7 @@ class Moles {
   void update() {
 
     
-    float xMove = noise(-1, 2);
+    float xMove = noise(-1,2);
     float yMove = noise(-1, 2);
     x += moleSize * xMove;
     y += moleSize * yMove;
@@ -36,6 +37,16 @@ class Moles {
       y -= height;
     }
   }
+  void whacked() {
+    if (mouseX > x-moleSize && mouseX< x +moleSize && mouseY > y - moleSize
+    && mouseY < y + moleSize && mousePressed) {
+      moleSize = 0;
+    }
+  }
+  
+
+  
+  
   void display() {
     fill(moleColor);
     noStroke();
