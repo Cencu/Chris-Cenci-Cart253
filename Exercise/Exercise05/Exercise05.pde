@@ -14,6 +14,7 @@ float goldMole = random(0, 1);
 color  specialColor = color(252, 136, 12);
 //Array of moles, 20 are displayed on the screen
 Moles[] moles = new Moles[20];
+
 void setup () {
   size(1020, 600); 
   point = 0;
