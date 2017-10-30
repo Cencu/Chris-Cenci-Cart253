@@ -1,17 +1,25 @@
 
 class Score {
 
-  String time = "010";
+  String time = "120";
   int t;
-  int interval = 10; 
+  int interval = 120; 
+  int x;
+  int y;
+  
+  Score(int _x, int _y) {
+   x = _x;
+   y = _y;
+  }    
+  
   void display() {
-    t = interval-int(millis()/1000);
+    t = interval-int(millis()/1200);
     time = nf(t, 3);
     if (t == 0) {
       println("GAME OVER");
-      interval+=10;
+      interval+=120;
     }
 
-    text(time, width/2, height/2);
+    text(time, width/2, 20);
   }
 }

@@ -4,6 +4,7 @@ int moleSize = 25;
 
 int x = 0;
 int y = 0; 
+ Score score = new Score(width/2,height-20);
 
 float goldMole = random(0,1);
   color  specialColor = color(252, 136, 12);
@@ -11,7 +12,6 @@ float goldMole = random(0,1);
 Moles[] moles = new Moles[2];
 void setup () {
   size(1020, 600); 
-  Score score = new Score(height/2, width/2);
 
 
   for (int i = 0; i < moles.length; i++) {
