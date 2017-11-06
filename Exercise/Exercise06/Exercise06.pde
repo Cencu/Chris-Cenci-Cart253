@@ -15,7 +15,7 @@ PVector brightestPixel = new PVector(-1,-1);
 
 // An array of bouncers to play with
 Bouncer[] bouncers = new Bouncer[10];
-
+Tracker tracker = new Tracker();
 // setup()
 //
 // Creates the bouncers and starts the webcam
@@ -44,7 +44,7 @@ void setup() {
 void draw() {
   // A function that processes the current frame of video
   handleVideoInput();
-
+  tracker.track();
   // Draw the video frame to the screen
   image(video, 0, 0);
   
@@ -55,6 +55,8 @@ void draw() {
   for (int i = 0; i < bouncers.length; i++) {
    bouncers[i].update();
    bouncers[i].display();
+     tracker.display();
+
   }
   
   // For now we just draw a crappy ellipse at the brightest pixel
