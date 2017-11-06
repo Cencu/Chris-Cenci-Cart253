@@ -9,10 +9,11 @@ class Bouncer {
   float x;
   float y;
 
+  float easing = -0.05;
+
   // Variables for velocity
   float vx;
   float vy;
-
   // The size of the Bouncer
   float size;
 
@@ -40,10 +41,13 @@ class Bouncer {
   //
   // Adds the Bouncer's current velocity to its position
   // and checks for bouncing off the walls.
-  void update() {
-    x += vx;
-    y += vy;
-
+  void update(Tracker tracker) {
+  //x += vx;
+ vx = tracker.trackX-100 - x;
+   x += vx * easing;
+  //y += vy;
+   vy = tracker.trackY-100 - y;
+   y += vy *easing;
     handleBounce();
   }
 
@@ -57,12 +61,15 @@ class Bouncer {
     if (x - size/2 < 0 || x + size/2 > width) {
       // Bounce on the x-axis
       vx = -vx;
+      easing = -easing;
     }
 
     // Check the top and bottom
     if (y - size/2 < 0 || y + size/2 > height) {
       // Bounce on the y-axis
       vy = -vy;
+            easing = -easing;
+
     }
 
     // Make sure the Bouncer isn't off the edge

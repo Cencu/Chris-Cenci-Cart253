@@ -1,6 +1,7 @@
 // Exercise 06
 //
 // Using the webcam as input to play with Bouncers.
+//INTERACTIVITY
 
 // Import the video library
 import processing.video.*;
@@ -52,9 +53,10 @@ void draw() {
   // If the brightness (or other video property) is going to interact with all the
   // Bouncers, it will need to happen in here.
   for (int i = 0; i < bouncers.length; i++) {
-    bouncers[i].update();
+    bouncers[i].update(tracker);
     bouncers[i].display();
-    tracker.touched(bouncers[i]);
+
+    tracker.runAway(bouncers[i]);
   }
   tracker.display();
   tracker.track();
