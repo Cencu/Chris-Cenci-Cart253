@@ -69,7 +69,9 @@ class Bouncer {
     x = constrain(x, size/2, width-size/2);
     y = constrain(y, size/2, height-size/2);
   }
-
+void die() {
+  size = 0;
+}
   // display()
   //
   // Draw an ellipse in the Bouncer's location, with its size
