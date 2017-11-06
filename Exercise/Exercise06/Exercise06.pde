@@ -1,7 +1,8 @@
 // Exercise 06
 //
 // Using the webcam as input to play with Bouncers.
-//INTERACTIVITY
+//INTERACTIVITY: Use the magic wand (anything really red) to control the tracker. The tracker follows the wand and the bouncers follow the tracker, but keep a safe distance from it.
+//If you push the bouncers to the borders, they bounce off the wall but return right back to the tracker.
 
 // Import the video library
 import processing.video.*;
@@ -16,6 +17,7 @@ PVector brightestPixel = new PVector(-1, -1);
 
 // An array of bouncers to play with
 Bouncer[] bouncers = new Bouncer[10];
+//Tracker class
 Tracker tracker = new Tracker();
 // setup()
 //
@@ -55,9 +57,8 @@ void draw() {
   for (int i = 0; i < bouncers.length; i++) {
     bouncers[i].update(tracker);
     bouncers[i].display();
-
-    tracker.runAway(bouncers[i]);
   }
+  //Display and activate the tracker
   tracker.display();
   tracker.track();
 

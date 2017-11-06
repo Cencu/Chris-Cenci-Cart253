@@ -8,7 +8,7 @@ class Bouncer {
   // Variables for position
   float x;
   float y;
-
+//What makes the bouncers stay away from the tracker and move smoothly
   float easing = -0.05;
 
   // Variables for velocity
@@ -42,11 +42,12 @@ class Bouncer {
   // Adds the Bouncer's current velocity to its position
   // and checks for bouncing off the walls.
   void update(Tracker tracker) {
-  //x += vx;
- vx = tracker.trackX-100 - x;
+  //Bouncers movment, the velocity is equal to the trackersX location minus 100, the safe distance
+  // -x uses the location of the ellipse
+ vx = tracker.trackX-100-x;
    x += vx * easing;
-  //y += vy;
-   vy = tracker.trackY-100 - y;
+  //
+   vy = tracker.trackY-100-y;
    y += vy *easing;
     handleBounce();
   }
@@ -76,9 +77,7 @@ class Bouncer {
     x = constrain(x, size/2, width-size/2);
     y = constrain(y, size/2, height-size/2);
   }
-void die() {
-  size = 0;
-}
+
   // display()
   //
   // Draw an ellipse in the Bouncer's location, with its size
