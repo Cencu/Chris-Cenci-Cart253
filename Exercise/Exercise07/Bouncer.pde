@@ -37,6 +37,7 @@ class Bouncer {
      vy = -vy;
    }
   }
+  
 //Displays the bouncers
   void display() {
     noStroke();
