@@ -20,7 +20,7 @@ void setup() {
     //translates all the tones to an integer value, choosing random ones between 0 and its length of the array
     int toneIndex = floor(random(0, tones.length));
     // Each Bouncer just starts with random values and an random tone with each time the program runs
-    bouncers[i] = new Bouncer(random(0, width-5), random(0, height-5), random(-10, 10), random(-10, 10), random(20, 50), tones[toneIndex]);
+    bouncers[i] = new Bouncer(random(100, width-100), random(100, height-100), random(-10, 10), random(-10, 10), random(20, 50), tones[toneIndex]);
   }
 }
 void draw() {
