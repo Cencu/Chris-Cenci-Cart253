@@ -1,9 +1,9 @@
 class Bouncer {
+
 //Position variables
   float x;
   float y;
-  
-  
+
 //Velocities
   float vx;
   float vy;
@@ -31,13 +31,31 @@ class Bouncer {
 //Checks if the bouncers are bouncing off the left and right border
    if (x-size/2 < 0 || x+size/2 >width) {
      vx = -vx;
-   }
+
+ }
 //Checks if the bouncers are bouncing off the top and bottom borders   
    if (y - size/2 < 0 || y + size/2 > height) {
      vy = -vy;
+    // tone2.play();
    }
   }
-  
+  void jingle() {
+  if (x-size/2 < 0){
+  tone.play();
+  }
+  if (x+size/2 >width) {
+   tone2.play();
+  }
+  if (y - size/2 < 0) {
+  tone3.play();
+  }
+  if (y + size/2 > height) {
+  tone4.play();
+  }
+  if (size == 25 && y - size/2 < 0 || y + size/2 > height) {
+   tone6.play(); 
+  }
+  }
 //Displays the bouncers
   void display() {
     noStroke();
