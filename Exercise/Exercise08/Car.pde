@@ -23,6 +23,18 @@ class Car {
    x+=100;
  }
  
+ void accident(Obstacle obstacle) {
+    boolean left = (x + sizeX/2 > obstacle.x - obstacle.sizeX/2);
+    boolean right = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
+    boolean top = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
+    boolean bottom = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
+
+    if (left && right &&top && bottom) {
+     sizeX = 0;
+     sizeY = 0;
+    }
+ }
+ 
  //Displays the car as a car image, starting in the second lane
  void display() {
  //Constrains the car the the screen so it doesnt go off when switching lanes

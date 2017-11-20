@@ -13,6 +13,7 @@ class Obstacle {
     sizeY = tempSY;
     
   }
+  //Obstacle moves downwards
   void update() {
    y += speed;
   }
