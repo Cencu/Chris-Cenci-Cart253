@@ -1,10 +1,16 @@
+
+PImage redCar;
 float x = 100;
 float y;
 float sizex = 8;
 float sizey = 150;
 float speed = 5;
+
 //Array of lanes, 16 are appearing on the screen
 Lanes[] lanes = new Lanes[16];
+
+//Car class
+Car car;
 
 void setup() {
  size(500,800); 
@@ -28,6 +34,8 @@ void setup() {
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
   
+  car = new Car(157,600,40,80);
+  
 }
 
 void draw() {
@@ -37,4 +45,16 @@ void draw() {
     lanes[i].update();
     lanes[i].lanesDown();
   }
+  
+  car.display();
+  
+}
+
+void keyPressed() {
+ if (keyCode == LEFT) {
+   car.switchLanesLeft();
+   }
+    if (keyCode == RIGHT) {
+      car.switchLanesRight();
+    }
 }
