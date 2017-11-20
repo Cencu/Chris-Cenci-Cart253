@@ -33,7 +33,7 @@ void setup() {
     lanes[14] = new Lanes(x*3, 825, speed, sizex, sizey);
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
-  
+  //Cars starting location
   car = new Car(157,600,40,80);
   
 }
@@ -45,11 +45,12 @@ void draw() {
     lanes[i].update();
     lanes[i].lanesDown();
   }
-  
+  //Displays the car
   car.display();
   
 }
-
+//When the left or right keys are pressed, the car switch lanes loop is called and it switches
+//Left or right
 void keyPressed() {
  if (keyCode == LEFT) {
    car.switchLanesLeft();
