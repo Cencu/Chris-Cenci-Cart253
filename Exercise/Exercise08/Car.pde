@@ -12,6 +12,7 @@ class Car {
  sizeY = tempSizeY;
  redCar = loadImage("car.png");
  }
+ 
  //If the left key is pressed, then the car will move on the x axis by 100 pixels, like it
  //Is switching lanes
  void switchLanesLeft() {
@@ -21,9 +22,12 @@ class Car {
  void switchLanesRight() {
    x+=100;
  }
+ 
  //Displays the car as a car image, starting in the second lane
  void display() {
+ //Constrains the car the the screen so it doesnt go off when switching lanes
  x= constrain(x,50,450);
+ 
  noStroke();
  fill(255,0,0);
  imageMode(CENTER);
