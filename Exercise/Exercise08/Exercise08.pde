@@ -13,7 +13,7 @@ Lanes[] lanes = new Lanes[16];
 Car car;
 
 //Obstacle Class
-Obstacle obstacle;
+Obstacle[] obstacle = new Obstacle[5];
 void setup() {
  size(500,800); 
  
@@ -36,8 +36,9 @@ void setup() {
     lanes[14] = new Lanes(x*3, 825, speed, sizex, sizey);
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
-  //Obstacles starting location
-  obstacle = new Obstacle(157,0,5,20,40);
+  for (int i = 0; i < obstacle.length; i++) {
+   obstacle[i] = new Obstacle(157,0,5,40,80); 
+  }
   //Cars starting location
   car = new Car(157,600,40,80);
   
@@ -50,11 +51,15 @@ void draw() {
     lanes[i].update();
     lanes[i].lanesDown();
   }
+  for (int i = 0; i < obstacle.length; i++) {
+  obstacle[i].display();
+  obstacle[i].update();
+  car.accident(obstacle[i]);
+  obstacle[i].timer();
+  }
   //Displays the car
   car.display();
-  car.accident(obstacle);
-  obstacle.display();
-  obstacle.update();
+  
 }
 //When the left or right keys are pressed, the car switch lanes loop is called and it switches
 //Left or right
