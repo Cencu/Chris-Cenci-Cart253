@@ -3,11 +3,12 @@ float y;
 float sizex = 8;
 float sizey = 150;
 float speed = 5;
+//Array of lanes, 16 are appearing on the screen
 Lanes[] lanes = new Lanes[16];
 
 void setup() {
  size(500,800); 
- 
+ //Each lane are in a different position. So I had to initialze all lanes in different positions
  for (int i = 0; i < lanes.length; i++) {
     lanes[0] = new Lanes(x, 0, speed, sizex, sizey);
     lanes[1] = new Lanes(x*2, 0, speed, sizex, sizey);
