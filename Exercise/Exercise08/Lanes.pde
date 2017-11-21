@@ -30,6 +30,7 @@ class Lanes {
   void display() {
    noStroke();
    fill(255);
+   rectMode(CORNER);
    rect(x,y,sizeX,sizeY);
   }
 }

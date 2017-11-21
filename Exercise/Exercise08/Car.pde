@@ -26,9 +26,9 @@ class Car {
  //This loop checks when the car has been touched by the obstacle class
  //The booleans check when the car has collided with an object on all sides
  void accident(Obstacle obstacle) {
-    boolean left = (x + sizeX > obstacle.x - obstacle.sizeX);
-    boolean right = (x - sizeX < obstacle.x + obstacle.sizeX);
-    boolean top = (y + sizeY > obstacle.y - obstacle.sizeY);
+    boolean left = (x + sizeX/2 > obstacle.x - obstacle.sizeX/2);
+    boolean right = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
+    boolean top = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
     boolean bottom = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
 //When the booleans are true, then the car disappears
     if (left && right &&top && bottom) {
