@@ -36,6 +36,17 @@ class Car {
      sizeY = 0;
     }
  }
+ void accidentTruck (Obstacle truck) {
+    boolean leftT = (x + sizeX/2 > truck.x - truck.sizeX/2);
+    boolean rightT = (x - sizeX/2 < truck.x + truck.sizeX/2);
+    boolean topT = (y + sizeY/2 > truck.y - truck.sizeY/2);
+    boolean bottomT = (y - sizeY/2 < truck.y + truck.sizeY/2);
+    
+    if (leftT && rightT &&topT && bottomT) {
+     sizeX = 0;
+     sizeY = 0;
+    }
+ }
  
  //Displays the car as a car image, starting in the second lane
  void display() {

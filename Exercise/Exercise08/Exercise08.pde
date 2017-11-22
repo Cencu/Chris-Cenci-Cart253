@@ -2,7 +2,7 @@
 
 PImage redCar;
 float x = 100;
-float b = 100;
+float b = 126;
 float y;
 float sizex = 8;
 float sizey = 150;
@@ -11,20 +11,24 @@ float speed = 5;
 String time = "00";
 int t;
 int interval = 00;
-
+String timeTruck = "00";
+int tTruck;
+int intervalTruck = 00;
 //Array of lanes, 16 are appearing on the screen
 Lanes[] lanes = new Lanes[16];
 
 //Car class
 Car car;
 int tempTime = 0;
+int tempTimeTruck = 0;
+
 int globalIndex = 0;
 
 //Obstacle Class
-Obstacle[] obstacle = new Obstacle[10];
+Obstacle[] obstacle = new Obstacle[2];
+Obstacle[] truck = new Obstacle[2];
 void setup() {
   size(500, 800); 
-
   //Each lane are in a different position. So I had to initialze all lanes in different positions
   for (int i = 0; i < lanes.length; i++) {
     lanes[0] = new Lanes(x, 0, speed, sizex, sizey);
@@ -46,7 +50,13 @@ void setup() {
   }
   for (int i = 0; i < obstacle.length; i++) {
 
-    obstacle[i] = new Obstacle(b*floor(random(.5,5)), 200, 5, 40, 80);
+    obstacle[i] = new Obstacle(b*floor(random(0,5)), -80, 5, 40, 80,color(255,0,0));
+    
+  }
+    for (int i = 0; i < truck.length; i++) {
+
+    truck[i] = new Obstacle(b*floor(random(0,5)), -150, 5, 40, 120,color(0,0,255));
+    
   }
   //Cars starting location
   car = new Car(157, 600, 40, 80);
@@ -63,16 +73,29 @@ void draw() {
     obstacle[i].display();
     obstacle[i].update();
     car.accident(obstacle[i]);
+    obstacle[i].timer();
+   
+  }
+  for (int i = 0; i < truck.length; i++){
+    truck[i].display();
+    truck[i].update();
+    car.accident(truck[i]);
+    truck[i].timerTruck();
   }
   
-  t = interval+int(millis()/1000)-tempTime;
-  time = nf(t, 2);
+  
+  //t = interval+int(millis()/1000)-tempTime;
+  //time = nf(t, 2);
 
-  if (t == 6) {
-  time = "00";
-  tempTime = int(millis()/1000);
-  }
-  text(time, width/2, 50);
+  //if (t == 6) {
+  //time = "00";
+  //tempTime = int(millis()/1000);
+  //Obstacle j = new Obstacle(b*floor(random(0,5)), 2, 5, 40, 80);
+  //obstacle = (Obstacle[]) append(obstacle,j);
+    
+  //}
+  //text(time, width/2, 50);
+
 
   //Displays the car
   car.display();
@@ -87,3 +110,7 @@ void keyPressed() {
     car.switchLanesRight();
   }
 }
+
+ 
+
+  
