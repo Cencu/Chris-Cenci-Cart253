@@ -1,6 +1,7 @@
 
 
 PImage redCar;
+PImage scoremenu;
 float x = 100;
 float b = 100;
 float y;
@@ -8,27 +9,35 @@ float sizex = 8;
 float sizey = 150;
 float speed = 5;
 
-String time = "00";
+PFont clock;
+
+String time = ":00";
 int t;
 int interval = 00;
+int carAdd = 0;
+
 String timeTruck = "00";
 int tTruck;
 int intervalTruck = 00;
+int truckAdd = 0;
 //Array of lanes, 16 are appearing on the screen
 Lanes[] lanes = new Lanes[16];
+//Powerups, which appear at random intervals 
+Powerups powerups;
 
 //Car class
 Car car;
 int tempTime = 0;
 int tempTimeTruck = 0;
 
-int globalIndex = 0;
-
 //Obstacle Class
 Obstacle[] obstacle = new Obstacle[2];
 Obstacle[] truck = new Obstacle[2];
 void setup() {
-  size(500, 800); 
+  size(700, 800); 
+  scoremenu = loadImage("scoremenu.png");   
+    clock = createFont("digital-7.ttf",50);
+
   //Each lane are in a different position. So I had to initialze all lanes in different positions
   for (int i = 0; i < lanes.length; i++) {
     lanes[0] = new Lanes(x, 0, speed, sizex, sizey);
@@ -64,6 +73,8 @@ void setup() {
 
 void draw() {
   background(100); 
+  image(scoremenu,600,height/2);
+  scoremenu.resize(200,805);
   for (int i = 0; i < lanes.length; i++) {
     lanes[i].display();
     lanes[i].update();
@@ -74,13 +85,14 @@ void draw() {
     obstacle[i].update();
     car.accident(obstacle[i]);
     obstacle[i].timer();
-   
+   obstacle[i].overlap();
   }
   for (int i = 0; i < truck.length; i++){
     truck[i].display();
     truck[i].update();
     car.accident(truck[i]);
     truck[i].timerTruck();
+    truck[i].overlap();
   }
   
   

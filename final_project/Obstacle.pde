@@ -29,33 +29,41 @@ class Obstacle {
     t = interval+int(millis()/1000)-tempTime;
     time = nf(t, 2);
     
-    if (t == 6) {
-      time = "00";
-      tempTime = int(millis()/1000);
+    if (t == 6 + carAdd) {
+     // time = "00";
+     // tempTime = int(millis()/1000);
       Obstacle j = new Obstacle(50 + b*floor(random(0, 5)), -80, 5, 40, 80, color(255, 0, 0));
       obstacle = (Obstacle[]) append(obstacle, j);
+      carAdd +=6;
     }
-    
-    text(time, width/2, 50);
+    text(time, 600, 125);
+    textFont(clock);
+
   }
   
   void timerTruck() {
     tTruck = intervalTruck+int(millis()/1000)-tempTimeTruck;
     timeTruck = nf(tTruck, 2);
 
-    if (tTruck == 11) {
-      timeTruck = "00";
-      tempTimeTruck = int(millis()/1000);
+    if (tTruck == 11 + truckAdd) {
+      //timeTruck = "00";
+     // tempTimeTruck = int(millis()/1000);
       Obstacle d = new Obstacle(50 + b*floor(random(0, 5)), -150, 5, 40, 150, color(0, 0, 255));
       truck = (Obstacle[]) append(truck, d);
+      truckAdd += 11;
     }
-    
-   // text(timeTruck, width/3, 50);
   }
-  
-  void avoidCollision() {
-    
-    
+
+  void overlap() {
+//  //  boolean left = (x + sizeX/2 > obstacle.x - obstacle.sizeX/2);
+//   // boolean right = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
+//    boolean top = (y> y-sizeY/2);
+//    boolean bottom = (y< y+sizeY/2);
+////When the booleans are true, then the car disappears
+//    if (top && bottom) {
+//     sizeX = 0;
+//     sizeY = 0;
+//    }
   }
   
   
