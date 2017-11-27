@@ -16,12 +16,20 @@ class Obstacle {
     sizeY = tempSY;
     moment = 0;
     carColor = tempCar;
+    placed = false;
+    addToScreen();
   }
 
   //Obstacle moves downwards
   void update() {
     if (moment < millis()) {
-      y += speed;
+      if (!placed) {
+        addToScreen();
+      } else {
+        //println(y);
+        y += speed;
+        //println(y);
+      }
     }
   }
 
@@ -59,25 +67,59 @@ class Obstacle {
     }
   }
 
-  void overlap() {
-  
-  }
+
 
 
   void display() {
+    // if (moment < millis()) {
+    fill(carColor);
+    rectMode(CENTER);
+    rect(x, y, sizeX, sizeY);
 
-    if (moment < millis()) {
-      fill(carColor);
-      rectMode(CENTER);
-      rect(x, y, sizeX, sizeY);
-    }
-//If the obstacles go off the screen, then they will reappear at the top, the +150 is so it is completely off the screen, and the +200 is so that 
-//It is smooth when coming down from the top
+  //println(y);
+
     if (y >= height+150) {
-      //moment equals a random time between 0 and 10, 
-      moment = millis() + floor(random(0, 10000));
-      y -= height+200;
-      x = 50 + b*floor(random(0, 5));
+      placed = false;
+      addToScreen();
     }
   }
+  //If the obstacles go off the screen, then they will reappear at the top, the +150 is so it is completely off the screen, and the +200 is so that 
+  //It is smooth when coming down from the top
+  void addToScreen() {
+    if (placed) {
+      return;
+    }
+    
+    //moment equals a random time between 0 and 10, 
+    moment = millis() + floor(random(0, 7000));
+    y = -150;
+    x = 50 + b*floor(random(0, 5));
+    placed = true;
+    
+    for (int j = 0; j < truck.length; j++) {
+      if (this != truck[j] && collision(truck[j])) {
+        placed = false;
+      }
+    }
+    for (int j = 0; j < obstacle.length; j++) {
+      if (this != obstacle[j] && collision(obstacle[j])) {
+        placed = false;
+      }
+    }
+  }
+
+
+boolean collision(Obstacle obstacle) {
+  if (obstacle == null) {
+    return false;
+  }
+  
+  boolean left = (x + sizeX/2 > obstacle.x - obstacle.sizeX/2);
+  boolean right = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
+  boolean top = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
+  boolean bottom = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
+
+  return (left && right && top && bottom);
+}
+
 }

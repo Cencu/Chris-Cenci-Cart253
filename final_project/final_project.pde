@@ -8,7 +8,7 @@ float y;
 float sizex = 8;
 float sizey = 150;
 float speed = 5;
-
+//boolean placed = false;
 PFont clock;
 
 String time = ":00";
@@ -36,7 +36,7 @@ Obstacle[] truck = new Obstacle[2];
 void setup() {
   size(700, 800); 
   scoremenu = loadImage("scoremenu.png");   
-    clock = createFont("digital-7.ttf",50);
+  clock = createFont("digital-7.ttf", 50);
 
   //Each lane are in a different position. So I had to initialze all lanes in different positions
   for (int i = 0; i < lanes.length; i++) {
@@ -58,57 +58,41 @@ void setup() {
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
   for (int i = 0; i < obstacle.length; i++) {
-
-    obstacle[i] = new Obstacle(50 + b*floor(random(0,5)), -80, 5, 40, 80,color(255,0,0));
-    
+    obstacle[i] = new Obstacle(50 + b*floor(random(0, 5)), -80, 5, 40, 80, color(255, 0, 0));
   }
-    for (int i = 0; i < truck.length; i++) {
-
-    truck[i] = new Obstacle(50 + b*floor(random(0,5)), -150, 5, 40, 120,color(0,0,255));
-    
+  for (int i = 0; i < truck.length; i++) {
+    truck[i] = new Obstacle(50 + b*floor(random(0, 5)), -150, 5, 40, 120, color(0, 0, 255));
   }
   //Cars starting location
   car = new Car(157, 600, 40, 80);
-  powerups = new Powerups(x,y,10,30,5);
+  powerups = new Powerups(x, y, 10, 30, 5);
 }
 
 void draw() {
   background(100); 
-  image(scoremenu,600,height/2);
-  scoremenu.resize(200,805);
+  image(scoremenu, 600, height/2);
+  scoremenu.resize(200, 805);
   for (int i = 0; i < lanes.length; i++) {
     lanes[i].display();
     lanes[i].update();
     lanes[i].lanesDown();
   }
+  
   for (int i = 0; i < obstacle.length; i++) {
     obstacle[i].display();
     obstacle[i].update();
     car.accident(obstacle[i]);
     obstacle[i].timer();
-   obstacle[i].overlap();
+    obstacle[i].addToScreen();
   }
-  for (int i = 0; i < truck.length; i++){
+
+  for (int i = 0; i < truck.length; i++) {
     truck[i].display();
     truck[i].update();
     car.accident(truck[i]);
     truck[i].timerTruck();
-    truck[i].overlap();
+    truck[i].addToScreen();
   }
-  
-  
-  //t = interval+int(millis()/1000)-tempTime;
-  //time = nf(t, 2);
-
-  //if (t == 6) {
-  //time = "00";
-  //tempTime = int(millis()/1000);
-  //Obstacle j = new Obstacle(b*floor(random(0,5)), 2, 5, 40, 80);
-  //obstacle = (Obstacle[]) append(obstacle,j);
-    
-  //}
-  //text(time, width/2, 50);
-
 
   //Displays the car
   car.display();
@@ -123,7 +107,3 @@ void keyPressed() {
     car.switchLanesRight();
   }
 }
-
- 
-
-  
