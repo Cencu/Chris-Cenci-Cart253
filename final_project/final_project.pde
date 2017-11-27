@@ -69,6 +69,7 @@ void setup() {
   }
   //Cars starting location
   car = new Car(157, 600, 40, 80);
+  powerups = new Powerups(x,y,10,30,5);
 }
 
 void draw() {
