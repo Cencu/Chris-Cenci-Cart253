@@ -2,7 +2,7 @@
 
 PImage redCar;
 float x = 100;
-float b = 126;
+float b = 100;
 float y;
 float sizex = 8;
 float sizey = 150;
@@ -50,12 +50,12 @@ void setup() {
   }
   for (int i = 0; i < obstacle.length; i++) {
 
-    obstacle[i] = new Obstacle(b*floor(random(0,5)), -80, 5, 40, 80,color(255,0,0));
+    obstacle[i] = new Obstacle(50 + b*floor(random(0,5)), -80, 5, 40, 80,color(255,0,0));
     
   }
     for (int i = 0; i < truck.length; i++) {
 
-    truck[i] = new Obstacle(b*floor(random(0,5)), -150, 5, 40, 120,color(0,0,255));
+    truck[i] = new Obstacle(50 + b*floor(random(0,5)), -150, 5, 40, 120,color(0,0,255));
     
   }
   //Cars starting location
