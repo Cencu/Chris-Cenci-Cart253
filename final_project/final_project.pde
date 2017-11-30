@@ -37,17 +37,16 @@ enum State {
  NONE,
  TITLE,
  MENU,
- REGULAR_MODE
+ //OBSTACLE
 }
 
 State state;
 Title title;
 Menu menu;
 
-
 void setup() {
   size(700, 800); 
-  title = new Title();
+   title = new Title();
   menu = new Menu();
   state = State.TITLE;
    
@@ -82,6 +81,7 @@ void setup() {
   //Cars starting location
   car = new Car(157, 600, 40, 80);
   powerups = new Powerups(x, y, 10, 30, 5);
+ 
 }
 
 void draw() {
@@ -112,12 +112,10 @@ void draw() {
       menu.selection = State.NONE;
     }
     break;
-case REGULAR_MODE:
-    obstacle[2].update();
-    if (obstacle[2].returnToMenu) {
-      state = State.MENU;
-    }
-    break;
+  
+  //case OBSTACLE:
+  //obstacle[].update();
+  //break;
   }
   background(100); 
   image(scoremenu, 600, height/2);
@@ -127,15 +125,15 @@ case REGULAR_MODE:
     lanes[i].update();
     lanes[i].lanesDown();
   }
-  
-  for (int i = 0; i < obstacle.length; i++) {
 
-  
+  for (int i = 0; i < obstacle.length; i++) {
     obstacle[i].display();
-    //obstacle[i].update();
+    obstacle[i].update();
     car.accident(obstacle[i]);
     obstacle[i].timer();
     obstacle[i].addToScreen();
+    obstacle[i].update();
+ 
   }
 
   for (int i = 0; i < truck.length; i++) {
@@ -148,6 +146,8 @@ case REGULAR_MODE:
 
   //Displays the car
   car.display();
+
+  
 }
 
 
@@ -160,23 +160,21 @@ void keyPressed() {
   if (keyCode == RIGHT) {
     car.switchLanesRight();
   }
-
+}
+void keyReleased() {
   switch (state) {
   case NONE:
     break;
 
   case TITLE:
-    title.keyPressed();
+    title.keyReleased();
     break;
 
   case MENU:
-    menu.keyPressed();
-    break;
-
-  case REGULAR_MODE:
-    obstacle[2].keyPressed();
+    menu.keyReleased();
     break;
 
 
   }
+
 }

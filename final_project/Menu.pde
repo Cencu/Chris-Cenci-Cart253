@@ -17,7 +17,7 @@ State selection = State.NONE;
   }
   void keyPressed() {
    if (key == 'r' || key == 'R') {
-     selection = State.REGULAR_MODE; 
+     //selection = State.OBSTACLE; 
    }
   // else if (key == 'w' || key == 'W') {
   // selection = State.WEBCAM_MODE;
