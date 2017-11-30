@@ -1,5 +1,4 @@
 
-
 PImage redCar;
 PImage scoremenu;
 float x = 100;
@@ -69,6 +68,7 @@ void setup() {
 }
 
 void draw() {
+
   background(100); 
   image(scoremenu, 600, height/2);
   scoremenu.resize(200, 805);

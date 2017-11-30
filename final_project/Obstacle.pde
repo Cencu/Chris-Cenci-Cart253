@@ -91,7 +91,7 @@ class Obstacle {
     }
     
     //moment equals a random time between 0 and 10, 
-    moment = millis() + floor(random(0, 7000));
+    moment = millis() + floor(random(0, 5000));
     y = -150;
     x = 50 + b*floor(random(0, 5));
     placed = true;
