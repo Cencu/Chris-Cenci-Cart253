@@ -37,7 +37,7 @@ enum State {
  NONE,
  TITLE,
  MENU,
- //OBSTACLE
+ OBSTACLE
 }
 
 State state;
@@ -110,14 +110,14 @@ void draw() {
     if (menu.selection != State.NONE) {
       state = menu.selection;
       menu.selection = State.NONE;
+      state = State.OBSTACLE;
     }
     break;
   
-  //case OBSTACLE:
-  //obstacle[].update();
-  //break;
-  }
-  background(100); 
+  case OBSTACLE:
+    
+    if (menu.selection == State.NONE ) {
+      background(100); 
   image(scoremenu, 600, height/2);
   scoremenu.resize(200, 805);
   for (int i = 0; i < lanes.length; i++) {
@@ -128,7 +128,6 @@ void draw() {
 
   for (int i = 0; i < obstacle.length; i++) {
     obstacle[i].display();
-    obstacle[i].update();
     car.accident(obstacle[i]);
     obstacle[i].timer();
     obstacle[i].addToScreen();
@@ -146,19 +145,38 @@ void draw() {
 
   //Displays the car
   car.display();
-
-  
+    }
+    break;
+  } 
 }
 
 
 //When the left or right keys are pressed, the car switch lanes loop is called and it switches
 //Left or right
 void keyPressed() {
+  
+    switch (state) {
+  case NONE:
+    break;
+
+  case TITLE:
+    title.keyPressed();
+    break;
+
+  case MENU:
+    menu.keyPressed();
+    break;
+
+
+  
+  case OBSTACLE:
   if (keyCode == LEFT) {
     car.switchLanesLeft();
   }
   if (keyCode == RIGHT) {
     car.switchLanesRight();
+  }
+  break;
   }
 }
 void keyReleased() {
@@ -173,8 +191,9 @@ void keyReleased() {
   case MENU:
     menu.keyReleased();
     break;
-
-
+   
+   case OBSTACLE:
+   break;
   }
 
 }
