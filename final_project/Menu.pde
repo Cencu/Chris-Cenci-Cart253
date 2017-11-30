@@ -18,6 +18,8 @@ State selection = State.NONE;
   void keyPressed() {
    if (key == 'r' || key == 'R') {
      selection = State.OBSTACLE; 
+     stereoSound.loop();
+
    }
   // else if (key == 'w' || key == 'W') {
   // selection = State.WEBCAM_MODE;

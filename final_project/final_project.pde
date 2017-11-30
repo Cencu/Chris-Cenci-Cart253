@@ -1,4 +1,15 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
 
+import processing.sound.*;
+
+SoundFile tone;
+Minim minim;
+AudioPlayer stereoSound;
 PImage redCar;
 PImage scoremenu;
 float x = 100;
@@ -56,7 +67,9 @@ void setup() {
   menu = new Menu();
   //state in the title screen
   state = State.TITLE;
-
+  tone = new SoundFile(this,"honk.wav");
+  minim = new Minim(this);
+ stereoSound = minim.loadFile("highway.wav");
   scoremenu = loadImage("scoremenu.png");   
   clock = createFont("digital-7.ttf", 50);
 
@@ -153,6 +166,7 @@ void draw() {
 
       //Displays the car
       car.display();
+
     }
     break;
   }
@@ -183,6 +197,9 @@ void keyPressed() {
     }
     if (keyCode == RIGHT) {
       car.switchLanesRight();
+    }
+    if (keyCode == 'z' || keyCode == 'Z') {
+     tone.play(); 
     }
     break;
   }
