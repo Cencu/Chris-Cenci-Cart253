@@ -32,8 +32,25 @@ int tempTimeTruck = 0;
 //Obstacle Class
 Obstacle[] obstacle = new Obstacle[2];
 Obstacle[] truck = new Obstacle[2];
+
+enum State {
+ NONE,
+ TITLE,
+ MENU,
+ REGULAR_MODE
+}
+
+State state;
+Title title;
+Menu menu;
+
+
 void setup() {
   size(700, 800); 
+  title = new Title();
+  menu = new Menu();
+  state = State.TITLE;
+   
   scoremenu = loadImage("scoremenu.png");   
   clock = createFont("digital-7.ttf", 50);
 
@@ -68,7 +85,40 @@ void setup() {
 }
 
 void draw() {
+  
+  switch (state) {
+    // If our state is NONE, we do nothing
+  case NONE:
+    break;
 
+  // If our state is TITLE we update the title object
+  // which displays it, and then we check whether the title
+  // screen is finished and if so we go to the menu state
+  case TITLE:
+    title.update();
+    if (title.finished) {
+      state = State.MENU;
+    }
+    break;
+
+  // If our state is MENU we update the menu
+  // We then check whether anything has been selected
+  // in the menu and if so we switch to that state
+  // (And reset the menu selection for next time.)
+  case MENU:
+    menu.update();
+    if (menu.selection != State.NONE) {
+      state = menu.selection;
+      menu.selection = State.NONE;
+    }
+    break;
+case REGULAR_MODE:
+    obstacle[2].update();
+    if (obstacle[2].returnToMenu) {
+      state = State.MENU;
+    }
+    break;
+  }
   background(100); 
   image(scoremenu, 600, height/2);
   scoremenu.resize(200, 805);
@@ -79,8 +129,10 @@ void draw() {
   }
   
   for (int i = 0; i < obstacle.length; i++) {
+
+  
     obstacle[i].display();
-    obstacle[i].update();
+    //obstacle[i].update();
     car.accident(obstacle[i]);
     obstacle[i].timer();
     obstacle[i].addToScreen();
@@ -97,6 +149,8 @@ void draw() {
   //Displays the car
   car.display();
 }
+
+
 //When the left or right keys are pressed, the car switch lanes loop is called and it switches
 //Left or right
 void keyPressed() {
@@ -105,5 +159,24 @@ void keyPressed() {
   }
   if (keyCode == RIGHT) {
     car.switchLanesRight();
+  }
+
+  switch (state) {
+  case NONE:
+    break;
+
+  case TITLE:
+    title.keyPressed();
+    break;
+
+  case MENU:
+    menu.keyPressed();
+    break;
+
+  case REGULAR_MODE:
+    obstacle[2].keyPressed();
+    break;
+
+
   }
 }

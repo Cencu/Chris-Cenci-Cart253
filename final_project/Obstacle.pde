@@ -8,6 +8,9 @@ class Obstacle {
   float moment;
   color carColor;
 
+  boolean returnToMenu = false;
+
+
   Obstacle(float tempX, float tempY, float tempS, float tempSX, float tempSY, color tempCar) {
     x = tempX;
     y = tempY;
@@ -121,5 +124,11 @@ boolean collision(Obstacle obstacle) {
 
   return (left && right && top && bottom);
 }
+void keyPressed() {
+ if (key == 'm' || key == 'M') {
+     returnToMenu = true; 
+    }
+  }
+
 
 }
