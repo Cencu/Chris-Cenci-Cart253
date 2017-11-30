@@ -1,13 +1,18 @@
 class Obstacle {
+  //checked if the car are placed, starts as false
   boolean placed = false;
+  //Location of the cars, when they go into the lanes
   float x=126;
   float y;
+  //Car speeds
   float speed = 5; 
   float sizeX = 40;
   float sizeY = 80;
+  //the moment the car is off the screen
   float moment;
   color carColor;
-
+  
+//Tracks wether or not we should return to the menu
   boolean returnToMenu = false;
 
 
@@ -25,19 +30,21 @@ class Obstacle {
 
   //Obstacle moves downwards
   void update() {
+    //If the moment the car is off the screen is less than the milliseconds, and if 
+    //The car is not placed, then we add it to the screen
+    //If not we update the speed
     if (moment < millis()) {
       if (!placed) {
         addToScreen();
       } else {
-        //println(y);
         y += speed;
-        //println(y);
       }
     }
   }
 
   void timer() {
-    //Converts milliseconds to actual seconds int converts millis to integers a
+    //Converts milliseconds to actual seconds
+    //int converts millis to integers, minus temp time 
     t = interval+int(millis()/1000)-tempTime;
     //nf formats the numbers into strings, so time = 00, it'll show the string time, and adds 2 zeros
     time = nf(t, 2);
@@ -72,15 +79,13 @@ class Obstacle {
 
 
 
-
+//Displays the car
   void display() {
-    // if (moment < millis()) {
     fill(carColor);
     rectMode(CENTER);
     rect(x, y, sizeX, sizeY);
-
-  //println(y);
-
+    //If the car or truck goes completely offscreen, then it resets 
+    //placed turns to false
     if (y >= height+150) {
       placed = false;
       addToScreen();
@@ -93,7 +98,10 @@ class Obstacle {
       return;
     }
     
-    //moment equals a random time between 0 and 10, 
+    //moment equals a random time between 0 and 5,
+    //Checks when the obstacles will respawn 
+    //Respawn before the screen, so it will appear as they are flowing smoothly
+    //Spawn between the five lanes
     moment = millis() + floor(random(0, 5000));
     y = -150;
     x = 50 + b*floor(random(0, 5));
@@ -111,12 +119,12 @@ class Obstacle {
     }
   }
 
-
+//If the obstacle spawns in the same locaction as another obstacle, then it returns false and deletes
 boolean collision(Obstacle obstacle) {
   if (obstacle == null) {
     return false;
   }
-  
+  //Checks if the obstacles have collided.
   boolean left = (x + sizeX/2 > obstacle.x - obstacle.sizeX/2);
   boolean right = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
   boolean top = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
@@ -124,6 +132,8 @@ boolean collision(Obstacle obstacle) {
 
   return (left && right && top && bottom);
 }
+
+//Returns to menu
 void keyPressed() {
  if (key == 'm' || key == 'M') {
      returnToMenu = true; 

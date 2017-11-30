@@ -33,23 +33,30 @@ int tempTimeTruck = 0;
 Obstacle[] obstacle = new Obstacle[2];
 Obstacle[] truck = new Obstacle[2];
 
+// An enum is a way to group together a set of named options
+// In this case I'm using it for tracking the state the program is in.
 enum State {
- NONE,
- TITLE,
- MENU,
- OBSTACLE
+  NONE, 
+    TITLE, 
+    MENU, 
+    OBSTACLE
 }
-
+// This is the variable that actually tracks the state in the game
 State state;
+//create variables to store the different objects that
+// represent the different states of the game
 Title title;
 Menu menu;
 
 void setup() {
   size(700, 800); 
-   title = new Title();
+  
+  // Create the different states
+  title = new Title();
   menu = new Menu();
+  //state in the title screen
   state = State.TITLE;
-   
+
   scoremenu = loadImage("scoremenu.png");   
   clock = createFont("digital-7.ttf", 50);
 
@@ -81,19 +88,18 @@ void setup() {
   //Cars starting location
   car = new Car(157, 600, 40, 80);
   powerups = new Powerups(x, y, 10, 30, 5);
- 
 }
 
 void draw() {
-  
+//Selects between alternatives
   switch (state) {
     // If our state is NONE, we do nothing
   case NONE:
     break;
 
-  // If our state is TITLE we update the title object
-  // which displays it, and then we check whether the title
-  // screen is finished and if so we go to the menu state
+    // If our state is TITLE we update the title object
+    // which displays it, and then we check whether the title
+    // screen is finished and if so we go to the menu state
   case TITLE:
     title.update();
     if (title.finished) {
@@ -101,10 +107,10 @@ void draw() {
     }
     break;
 
-  // If our state is MENU we update the menu
-  // We then check whether anything has been selected
-  // in the menu and if so we switch to that state
-  // (And reset the menu selection for next time.)
+    // If our state is MENU we update the menu
+    // We then check whether anything has been selected
+    // in the menu and if so we switch to that state
+    // (And reset the menu selection for next time.)
   case MENU:
     menu.update();
     if (menu.selection != State.NONE) {
@@ -113,49 +119,51 @@ void draw() {
       state = State.OBSTACLE;
     }
     break;
-  
+// If our state is OBSTACLE we update the
+  // obstacle object which runs the game and then check whether 
+  // the player has chosen to return to the menu. If so we set
+  // the state appropriate, and reset the game.
   case OBSTACLE:
-    
+
     if (menu.selection == State.NONE ) {
       background(100); 
-  image(scoremenu, 600, height/2);
-  scoremenu.resize(200, 805);
-  for (int i = 0; i < lanes.length; i++) {
-    lanes[i].display();
-    lanes[i].update();
-    lanes[i].lanesDown();
-  }
+      image(scoremenu, 600, height/2);
+      scoremenu.resize(200, 805);
+      for (int i = 0; i < lanes.length; i++) {
+        lanes[i].display();
+        lanes[i].update();
+        lanes[i].lanesDown();
+      }
 
-  for (int i = 0; i < obstacle.length; i++) {
-    obstacle[i].display();
-    car.accident(obstacle[i]);
-    obstacle[i].timer();
-    obstacle[i].addToScreen();
-    obstacle[i].update();
- 
-  }
+      for (int i = 0; i < obstacle.length; i++) {
+        obstacle[i].display();
+        car.accident(obstacle[i]);
+        obstacle[i].timer();
+        obstacle[i].addToScreen();
+        obstacle[i].update();
+      }
 
-  for (int i = 0; i < truck.length; i++) {
-    truck[i].display();
-    truck[i].update();
-    car.accident(truck[i]);
-    truck[i].timerTruck();
-    truck[i].addToScreen();
-  }
+      for (int i = 0; i < truck.length; i++) {
+        truck[i].display();
+        truck[i].update();
+        car.accident(truck[i]);
+        truck[i].timerTruck();
+        truck[i].addToScreen();
+      }
 
-  //Displays the car
-  car.display();
+      //Displays the car
+      car.display();
     }
     break;
-  } 
+  }
 }
 
 
 //When the left or right keys are pressed, the car switch lanes loop is called and it switches
 //Left or right
 void keyPressed() {
-  
-    switch (state) {
+
+  switch (state) {
   case NONE:
     break;
 
@@ -168,15 +176,15 @@ void keyPressed() {
     break;
 
 
-  
+
   case OBSTACLE:
-  if (keyCode == LEFT) {
-    car.switchLanesLeft();
-  }
-  if (keyCode == RIGHT) {
-    car.switchLanesRight();
-  }
-  break;
+    if (keyCode == LEFT) {
+      car.switchLanesLeft();
+    }
+    if (keyCode == RIGHT) {
+      car.switchLanesRight();
+    }
+    break;
   }
 }
 void keyReleased() {
@@ -191,9 +199,8 @@ void keyReleased() {
   case MENU:
     menu.keyReleased();
     break;
-   
-   case OBSTACLE:
-   break;
-  }
 
+  case OBSTACLE:
+    break;
+  }
 }
