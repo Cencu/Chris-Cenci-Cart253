@@ -10,6 +10,8 @@ import processing.sound.*;
 SoundFile tone;
 Minim minim;
 AudioPlayer stereoSound;
+AudioInput mic;
+
 PImage redCar;
 PImage scoremenu;
 float x = 100;
@@ -69,6 +71,9 @@ void setup() {
   state = State.TITLE;
   tone = new SoundFile(this,"honk.wav");
   minim = new Minim(this);
+  mic = minim.getLineIn();
+  
+  
  stereoSound = minim.loadFile("highway.wav");
   scoremenu = loadImage("scoremenu.png");   
   clock = createFont("digital-7.ttf", 50);
@@ -154,6 +159,7 @@ void draw() {
         obstacle[i].timer();
         obstacle[i].addToScreen();
         obstacle[i].update();
+        obstacle[i].swerve();
       }
 
       for (int i = 0; i < truck.length; i++) {

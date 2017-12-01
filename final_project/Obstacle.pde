@@ -41,6 +41,14 @@ class Obstacle {
       }
     }
   }
+  
+  void swerve() {
+    float level = mic.mix.level();
+    if (level ==10) {
+     b+=50; 
+     println(level);
+    }
+  }
 
   void timer() {
     //Converts milliseconds to actual seconds
