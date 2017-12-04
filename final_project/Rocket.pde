@@ -17,13 +17,13 @@ class Rocket {
 //5.What it does when used
 //Appending it
   
-  Rocket(float tempX, float tempY, float tempSpeed, float tempSX, float tempSY, float tempColor) {
-   x = tempX;
-   y = tempY;
-   sizeX = tempSX;
-   sizeY = tempSY;
-   speed = tempSpeed;
-   rocketColor = tempColor;
+  Rocket(float tempx, float tempy, float tempspeed, float tempsizex, float tempsizey, float tempcolor) {
+    x = tempx;
+    y = tempy;
+    sizeX = tempsizex;
+    sizeY = tempsizey;
+    speed = tempspeed;
+    rocketColor = tempcolor;
   }
   
   void update() {
@@ -54,10 +54,6 @@ class Rocket {
    rect(700,600,40,120);
    }
   }
-  void rocketUsed(Car car) {
-   if (keyCode=='q' && powerup) {
-     rect(car.x,car.y,40,120);
-   }
-  }
+ 
   
 }

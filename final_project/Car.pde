@@ -4,6 +4,9 @@ class Car {
  float sizeX = 40;
  float sizeY = 80;
  PImage redCar;
+ boolean slipped = false;
+ 
+ float grip = 2;
  
  Car(float tempX, float tempY, float tempSizeX, float tempSizeY) {
  x = tempX;
@@ -16,11 +19,19 @@ class Car {
  //If the left key is pressed, then the car will move on the x axis by 100 pixels, like it
  //Is switching lanes
  void switchLanesLeft() {
-   x+=-100;
+   if (!slipped) {
+   x-=100;
+ } if (slipped) {
+   x +=0;
+ }
  }
  //Same as code above, but moves right
  void switchLanesRight() {
+   if  (!slipped){
    x+=100;
+ } if (slipped) {
+   x +=0;
+ }
  }
  
  //This loop checks when the car has been touched by the obstacle class
@@ -47,6 +58,23 @@ class Car {
      sizeY = 0;
     }
  }
+ 
+ void oilspill(Obstacle oil) {
+    boolean left = (x + sizeX/2 > oil.x - oil.sizeX/2);
+    boolean right = (x - sizeX/2 < oil.x + oil.sizeX/2);
+    boolean top = (y + sizeY/2 > oil.y - oil.sizeY/2);
+    boolean bottom = (y - sizeY/2 < oil.y + oil.sizeY/2);
+    
+    if (left && right &&top && bottom) {
+      slipped = true;
+    }
+    
+ }
+ void oilreset(Obstacle oil) {
+    if (slipped && oil.y > height+100) {
+      slipped = false;
+    } 
+    }
  
  //Displays the car as a car image, starting in the second lane
  void display() {

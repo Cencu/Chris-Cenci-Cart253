@@ -45,6 +45,11 @@ PFont clock;
   int intervalTruck = 00;
   int truckAdd = 0;
   int tempTimeTruck = 0;
+  
+  String timeC = ":00";
+  int tC;
+  int intervalC = 00;
+  int tempTimeC = 0;
 
 //Array of lanes, 16 are appearing on the screen
 Lanes[] lanes = new Lanes[16];
@@ -52,11 +57,11 @@ Lanes[] lanes = new Lanes[16];
 //Obstacle Class
 Obstacle[] obstacle = new Obstacle[2];
 Obstacle[] truck = new Obstacle[2];
+Obstacle[] oil = new Obstacle[2];
 
 //Rocket Class
-ArrayList<Rocket> rockets;
-boolean fire =true;
-
+Rocket[] rocket = new Rocket[1];
+Shooting shooting;
 //Car class
 Car car;
 
@@ -113,16 +118,21 @@ void setup() {
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
   for (int i = 0; i < obstacle.length; i++) {
-    obstacle[i] = new Obstacle(50 + b*floor(random(0, 5)), -80, 5, 40, 80, color(255, 0, 0));
+    obstacle[i] = new Obstacle(50 + b*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
   }
   for (int i = 0; i < truck.length; i++) {
-    truck[i] = new Obstacle(50 + b*floor(random(0, 5)), -150, 5, 40, 120, color(0, 0, 255));
+    truck[i] = new Obstacle(50 + b*floor(random(0, 5)), -150, speed, 40, 120, color(0, 0, 255));
   }
-  
-  rockets = new ArrayList<Rocket>();
+    for (int i = 0; i < oil.length; i++) {
+    oil[i] = new Obstacle(50 + b*floor(random(0, 5)), -50, speed, 10, 10, color(0));
+  }
+  for (int i = 0; i < rocket.length; i++) {
+    rocket[i] = new Rocket(50 + b*floor(random(0, 5)), -150, 5, 40, 120, color(0, 0, 255));
+  }
   
   //Cars starting location
   car = new Car(157, 600, 40, 80);
+  shooting = new Shooting(0,0,5,40,80);
 }
 
 void draw() {
@@ -177,6 +187,7 @@ void draw() {
         obstacle[i].addToScreen();
         obstacle[i].update();
         obstacle[i].swerve(car);
+        obstacle[i].difficulty();
       }
 
       for (int i = 0; i < truck.length; i++) {
@@ -185,17 +196,26 @@ void draw() {
         car.accident(truck[i]);
         truck[i].timerTruck();
         truck[i].addToScreen();
+        truck[i].difficulty();
       }
-      for (int i = rockets.size()-1; i >=0; i--) {
-        Rocket rocket = rockets.get(i);
-       rocket.update();
-       rocket.display(); 
-       rocket.collected(car);
-       rocket.rocketHeld();
-       rocket.rocketUsed(car);
+            for (int i = 0; i < oil.length; i++) {
+        oil[i].display();
+        oil[i].update();
+        oil[i].addToScreen();
+        oil[i].timer();
+        oil[i].difficulty();
+        car.oilspill(oil[i]);
+        car.oilreset(oil[i]);
+      }
+      for (int i = 0; i < rocket.length; i++) {
+       rocket[i].update();
+       rocket[i].display(); 
+       rocket[i].collected(car);
+       rocket[i].rocketHeld();
       }
 
       //Displays the car
+             shooting.ifShot(car);
       car.display();
 
     }
@@ -251,4 +271,5 @@ void keyReleased() {
   case OBSTACLE:
     break;
   }
+
 }
