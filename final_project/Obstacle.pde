@@ -42,11 +42,11 @@ class Obstacle {
     }
   }
   
-  void swerve() {
+  void swerve(Car car) {
     float level = mic.mix.level();
-    if (level ==10) {
-     b+=50; 
-     println(level);
+    if (level > .001 && car.y -200 < y && car.x > x - 5 && car.x < x + sizeX + 5 ) {
+     x+=100;
+     
     }
   }
 

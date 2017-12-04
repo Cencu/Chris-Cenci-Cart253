@@ -1,3 +1,4 @@
+
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
@@ -11,6 +12,7 @@ SoundFile tone;
 Minim minim;
 AudioPlayer stereoSound;
 AudioInput mic;
+
 
 PImage redCar;
 PImage scoremenu;
@@ -63,7 +65,8 @@ Menu menu;
 
 void setup() {
   size(700, 800); 
-  
+ 
+
   // Create the different states
   title = new Title();
   menu = new Menu();
@@ -159,7 +162,7 @@ void draw() {
         obstacle[i].timer();
         obstacle[i].addToScreen();
         obstacle[i].update();
-        obstacle[i].swerve();
+        obstacle[i].swerve(car);
       }
 
       for (int i = 0; i < truck.length; i++) {
