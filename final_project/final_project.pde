@@ -16,37 +16,49 @@ AudioInput mic;
 
 PImage redCar;
 PImage scoremenu;
+
+//Lanes X location
 float x = 100;
-float b = 100;
-float y;
 float sizex = 8;
 float sizey = 150;
+
+//Obstacles X location
+float b = 100;
+
+float y;
+
+//Global Speed
 float speed = 5;
-//boolean placed = false;
+
+//Fonts
 PFont clock;
 
-String time = ":00";
-int t;
-int interval = 00;
-int carAdd = 0;
+  
+  String time = ":00";
+  int t;
+  int interval = 00;
+  int carAdd = 0;
+  int tempTime = 0;
 
-String timeTruck = "00";
-int tTruck;
-int intervalTruck = 00;
-int truckAdd = 0;
+  String timeTruck = "00";
+  int tTruck;
+  int intervalTruck = 00;
+  int truckAdd = 0;
+  int tempTimeTruck = 0;
+
 //Array of lanes, 16 are appearing on the screen
 Lanes[] lanes = new Lanes[16];
-//Powerups, which appear at random intervals 
-Powerups powerups;
-
-//Car class
-Car car;
-int tempTime = 0;
-int tempTimeTruck = 0;
 
 //Obstacle Class
 Obstacle[] obstacle = new Obstacle[2];
 Obstacle[] truck = new Obstacle[2];
+
+//Rocket Class
+ArrayList<Rocket> rockets;
+boolean fire =true;
+
+//Car class
+Car car;
 
 // An enum is a way to group together a set of named options
 // In this case I'm using it for tracking the state the program is in.
@@ -106,9 +118,11 @@ void setup() {
   for (int i = 0; i < truck.length; i++) {
     truck[i] = new Obstacle(50 + b*floor(random(0, 5)), -150, 5, 40, 120, color(0, 0, 255));
   }
+  
+  rockets = new ArrayList<Rocket>();
+  
   //Cars starting location
   car = new Car(157, 600, 40, 80);
-  powerups = new Powerups(x, y, 10, 30, 5);
 }
 
 void draw() {
@@ -171,6 +185,14 @@ void draw() {
         car.accident(truck[i]);
         truck[i].timerTruck();
         truck[i].addToScreen();
+      }
+      for (int i = rockets.size()-1; i >=0; i--) {
+        Rocket rocket = rockets.get(i);
+       rocket.update();
+       rocket.display(); 
+       rocket.collected(car);
+       rocket.rocketHeld();
+       rocket.rocketUsed(car);
       }
 
       //Displays the car

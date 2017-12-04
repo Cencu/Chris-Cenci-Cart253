@@ -1,9 +1,9 @@
 class Lanes {
   float x = 100;
-  float y = 100; 
+  float y; 
   float vy = 5;
-  float sizeX = 10;
-  float sizeY = 200;
+  float sizeX = 8;
+  float sizeY = 150;
   
   Lanes(float tempX, float tempY, float tempVY, float tempSizeX, float tempSizeY) {
     x = tempX;

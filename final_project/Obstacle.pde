@@ -11,6 +11,7 @@ class Obstacle {
   //the moment the car is off the screen
   float moment;
   color carColor;
+
   
 //Tracks wether or not we should return to the menu
   boolean returnToMenu = false;
@@ -44,9 +45,9 @@ class Obstacle {
   
   void swerve(Car car) {
     float level = mic.mix.level();
-    if (level > .001 && car.y -200 < y && car.x > x - 5 && car.x < x + sizeX + 5 ) {
+    if (level > .4 && car.y -200 < y && car.x > x - 5 && car.x < x + sizeX + 5 ) {
      x+=100;
-     
+     println(level);
     }
   }
 

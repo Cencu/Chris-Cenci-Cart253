@@ -1,7 +1,7 @@
 class Car {
- float x = 150;
- float y = height/3;
- float sizeX = 500;
+ float x = 157;
+ float y = 600;
+ float sizeX = 40;
  float sizeY = 80;
  PImage redCar;
  
