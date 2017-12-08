@@ -1,7 +1,7 @@
 class Rocket {
   
-  float k = 100;
-  float l = height;
+  float x = 100;
+  float y;
   float sizeX =10;
   float sizeY = 20;
   float speed = 10;
@@ -15,8 +15,8 @@ class Rocket {
 
   
   Rocket(float tempx, float tempy, float tempspeed, float tempsizex, float tempsizey, float tempcolor) {
-    k = tempx;
-    l = tempy;
+    x = tempx;
+    y = tempy;
     sizeX = tempsizex;
     sizeY = tempsizey;
     speed = tempspeed;
@@ -26,14 +26,14 @@ class Rocket {
   //then it will not
   void update() {
     if (!launched) {
-    l += speed;
+    y += speed;
     }
   }
   //If powerup is false, and launched is true, then the rocket will fire by holding the mouse key
   void launchspeed() {
     if (!powerup) {
       if(launched) {
-   l -= speed*2; 
+   y -= speed*2; 
       }
     }
   }
@@ -41,8 +41,8 @@ class Rocket {
   void display() {
    fill(255);
     rectMode(CENTER);
-    rect(k, l, sizeX, sizeY); 
-    if (l >= height+50) {
+    rect(x, y, sizeX, sizeY); 
+    if (y >= height+50) {
          // y = -50;
 
     }
@@ -50,10 +50,10 @@ class Rocket {
   //If your car comes into contact with the rocket, it will pick it up
   //the boolean powerup becomes true, activating the new location for the rocket, it now follows the car
   void collected(Car car) {
-    boolean leftP = (k + sizeX/2 > car.x - car.sizeX/2);
-    boolean rightP = (k - sizeX/2 < car.x + car.sizeX/2);
-    boolean topP = (l + sizeY/2 > car.y - car.sizeY/2);
-    boolean bottomP = (l - sizeY/2 < car.y + car.sizeY/2);
+    boolean leftP = (x + sizeX/2 > car.x - car.sizeX/2);
+    boolean rightP = (x - sizeX/2 < car.x + car.sizeX/2);
+    boolean topP = (y + sizeY/2 > car.y - car.sizeY/2);
+    boolean bottomP = (y - sizeY/2 < car.y + car.sizeY/2);
     
     if (leftP && rightP &&topP && bottomP) {
      powerup = true;
@@ -62,8 +62,8 @@ class Rocket {
   //Follows the car, however, like mentioned in the Car class, it follows the car but not its true Y location to avoid moving the car when shooting the rocket
   void follow(Car car) {
    if (powerup) {
-      k = car.p;
-      l = car.c;
+      x = car.p;
+      y = car.c;
    }
   }
   //When the boolean is true and the mouse is held, then powerup becomes false adn launched becomes true.
@@ -79,10 +79,10 @@ class Rocket {
   
   void hit(Obstacle obstacle) {
   
-    boolean leftH = (k + sizeX/2 > obstacle.x - obstacle.sizeX/2);
-    boolean rightH = (k - sizeX/2 < obstacle.x + obstacle.sizeX/2);
-    boolean topH = (l + sizeY/2 > obstacle.y - obstacle.sizeY/2);
-    boolean bottomH = (l - sizeY/2 < obstacle.y + obstacle.sizeY/2);
+    boolean leftH = (x + sizeX/2 > obstacle.x - obstacle.sizeX/2);
+    boolean rightH = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
+    boolean topH = (x + sizeY/2 > obstacle.y - obstacle.sizeY/2);
+    boolean bottomH = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
     
     if (leftH && rightH && topH && bottomH) {
       obstacle.sizeX = 0;
@@ -103,7 +103,7 @@ class Rocket {
     //carAdd starts at 0, and when the first timer reaches 6, it adds another six, so when the timer reaches 12, it adds a car, and the variable carAdd goes to 18
     if (tC == 6 + rocketAdd) {
       //The new object being added to the array, spawns on a random lane
-      Rocket o = new Rocket(50 + b*floor(random(0, 5)), -80, speed, 10, 20, color(255, 0, 0));
+      Rocket o = new Rocket(50 + x*floor(random(0, 5)), -80, speed, 10, 20, color(255, 0, 0));
       rocket = (Rocket[]) append(rocket, o);
       //Timer that adds the cars every six seconds
       rocketAdd +=5;
