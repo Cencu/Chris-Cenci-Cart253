@@ -2,14 +2,14 @@ class Rocket {
   
   float x = 100;
   float y;
-  float sizeX;
-  float sizeY;
-  float speed = 5;
+  float sizeX =10;
+  float sizeY = 20;
+  float speed = 10;
   float rocketColor;
   float moment;
   
   boolean powerup = false;
-
+  boolean launched = false;
 //1.Update it-speed going down - done
 //2.Displaying it - done
 //3.Updating it when it is collected-done
@@ -27,9 +27,19 @@ class Rocket {
   }
   
   void update() {
+    if (!launched) {
     y += speed;
+    }
   }
   
+  void launchspeed() {
+    if (!powerup) {
+      if(launched) {
+   y -= speed*2; 
+      }
+    }
+  }
+
   void display() {
    fill(255);
     rectMode(CENTER);
@@ -43,17 +53,35 @@ class Rocket {
     boolean bottom = (y - sizeY/2 < car.y + car.sizeY/2);
     
     if (left && right &&top && bottom) {
-     sizeX = 0;
-     sizeY = 0;
      powerup = true;
     }
   }
   
-  void rocketHeld() {
-   if (powerup){
-   rect(700,600,40,120);
+  void follow(Car car) {
+   if (powerup) {
+      x = car.x;
+      y = car.c;
    }
   }
- 
   
+  void shooting() {
+   if (mousePressed && powerup) {
+     powerup = false;
+     launched = true;
+   }
+  }
+  
+  void hit(Obstacle obstacle) {
+  
+    boolean leftH = (x + sizeX/2 > obstacle.x - obstacle.sizeX/2);
+    boolean rightH = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
+    boolean topH = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
+    boolean bottomH = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
+    
+    if (leftH && rightH &&topH && bottomH) {
+      obstacle.sizeX = 0;
+      obstacle.sizeY = 0;
+    }
+  }
+
 }

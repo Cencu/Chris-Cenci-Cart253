@@ -1,4 +1,10 @@
-
+//WHATS LEFT TO DO
+//refine oilspill
+//Rockets
+//Game over menu
+//Timer starts when game starts
+//refine game 
+//Comment
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
@@ -16,6 +22,8 @@ AudioInput mic;
 
 PImage redCar;
 PImage scoremenu;
+
+boolean obst = false;
 
 //Lanes X location
 float x = 100;
@@ -61,7 +69,7 @@ Obstacle[] oil = new Obstacle[2];
 
 //Rocket Class
 Rocket[] rocket = new Rocket[1];
-Shooting shooting;
+
 //Car class
 Car car;
 
@@ -118,21 +126,21 @@ void setup() {
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
   for (int i = 0; i < obstacle.length; i++) {
-    obstacle[i] = new Obstacle(50 + b*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
+    obstacle[i] = new Obstacle(50 + x*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
   }
   for (int i = 0; i < truck.length; i++) {
-    truck[i] = new Obstacle(50 + b*floor(random(0, 5)), -150, speed, 40, 120, color(0, 0, 255));
+    truck[i] = new Obstacle(50 + x*floor(random(0, 5)), -150, speed, 40, 120, color(0, 0, 255));
   }
     for (int i = 0; i < oil.length; i++) {
-    oil[i] = new Obstacle(50 + b*floor(random(0, 5)), -50, speed, 10, 10, color(0));
+    oil[i] = new Obstacle(50 + x*floor(random(0, 5)), -50, speed, 10, 10, color(0));
   }
   for (int i = 0; i < rocket.length; i++) {
-    rocket[i] = new Rocket(50 + b*floor(random(0, 5)), -150, 5, 40, 120, color(0, 0, 255));
+    rocket[i] = new Rocket(50 + b*floor(random(0, 5)), -150, 5, 10, 20, color(0, 0, 255));
   }
   
   //Cars starting location
   car = new Car(157, 600, 40, 80);
-  shooting = new Shooting(0,0,5,40,80);
+
 }
 
 void draw() {
@@ -169,7 +177,6 @@ void draw() {
   // the player has chosen to return to the menu. If so we set
   // the state appropriate, and reset the game.
   case OBSTACLE:
-
     if (menu.selection == State.NONE ) {
       background(100); 
       image(scoremenu, 600, height/2);
@@ -211,13 +218,15 @@ void draw() {
        rocket[i].update();
        rocket[i].display(); 
        rocket[i].collected(car);
-       rocket[i].rocketHeld();
+       rocket[i].hit(obstacle[i]);
+       rocket[i].hit(truck[i]);
+       rocket[i].shooting();
+       rocket[i].launchspeed();
+       rocket[i].follow(car);
       }
 
       //Displays the car
-             shooting.ifShot(car);
       car.display();
-
     }
     break;
   }
@@ -252,6 +261,7 @@ void keyPressed() {
     if (keyCode == 'z' || keyCode == 'Z') {
      tone.play(); 
     }
+
     break;
   }
 }

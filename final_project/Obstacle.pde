@@ -62,11 +62,12 @@ class Obstacle {
     //carAdd starts at 0, and when the first timer reaches 6, it adds another six, so when the timer reaches 12, it adds a car, and the variable carAdd goes to 18
     if (t == 6 + carAdd) {
       //The new object being added to the array, spawns on a random lane
-      Obstacle j = new Obstacle(50 + b*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
+      Obstacle j = new Obstacle(50 + x*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
       obstacle = (Obstacle[]) append(obstacle, j);
       //Timer that adds the cars every six seconds
       carAdd +=6;
     }
+    
     //Displays the timer
     text(time, 600, 125);
     //Timer font
@@ -81,7 +82,7 @@ class Obstacle {
     //Same as the car timer, when the timer reaches 11, the array appends and adds 11 to the timer, so at 22 seconds another truck will appear, and again at 33 seconds
     if (tTruck == 11 + truckAdd) {
       //Appends the truck, like above
-      Obstacle d = new Obstacle(50 + b*floor(random(0, 5)), -150, speed, 40, 150, color(0, 0, 255));
+      Obstacle d = new Obstacle(50 + x*floor(random(0, 5)), -150, speed, 40, 150, color(0, 0, 255));
       truck = (Obstacle[]) append(truck, d);
       truckAdd += 11;
     }
@@ -166,6 +167,7 @@ void difficulty() {
     if (t == 20+ difficultAdd) {
       speed +=2;
      difficultAdd += 20;
+           println(time);
     }
 }
 

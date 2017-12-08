@@ -19,6 +19,7 @@ State selection = State.NONE;
    if (key == 'r' || key == 'R') {
      selection = State.OBSTACLE; 
      stereoSound.loop();
+     obst = true;
 
    }
   // else if (key == 'w' || key == 'W') {

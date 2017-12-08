@@ -5,7 +5,7 @@ class Car {
  float sizeY = 80;
  PImage redCar;
  boolean slipped = false;
- 
+ float c;
  float grip = 2;
  
  Car(float tempX, float tempY, float tempSizeX, float tempSizeY) {
@@ -80,7 +80,7 @@ class Car {
  void display() {
  //Constrains the car the the screen so it doesnt go off when switching lanes
  x= constrain(x,50,450);
- 
+ c = y;
  noStroke();
  fill(255,0,0);
  imageMode(CENTER);
