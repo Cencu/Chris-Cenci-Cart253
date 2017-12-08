@@ -5,7 +5,7 @@ State selection = State.NONE;
   void update() {
    display(); 
   }
-  
+  //Simple menu display, giving two options
   void display() {
    background(0);
     textAlign(CENTER, CENTER);
@@ -19,7 +19,7 @@ State selection = State.NONE;
    if (key == 'r' || key == 'R') {
      selection = State.OBSTACLE; 
      stereoSound.loop();
-     obst = true;
+
 
    }
   // else if (key == 'w' || key == 'W') {

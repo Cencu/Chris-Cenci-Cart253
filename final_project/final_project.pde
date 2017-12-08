@@ -13,26 +13,24 @@ import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 
 import processing.sound.*;
-
+//Import sounds and microphones
 SoundFile tone;
 Minim minim;
 AudioPlayer stereoSound;
 AudioInput mic;
 
-
+//Image of car and menu on the left of the game
 PImage redCar;
 PImage scoremenu;
 
-boolean obst = false;
-
-//Lanes X location
+//X location
 float x = 100;
+//Lanes size
 float sizex = 8;
 float sizey = 150;
 
-//Obstacles X location
-float b = 100;
-
+//Obstacles location
+float b =100;
 float y;
 
 //Global Speed
@@ -41,13 +39,15 @@ float speed = 5;
 //Fonts
 PFont clock;
 
-  
+  //Timer for the cars
+  //The string displays the time
   String time = ":00";
   int t;
   int interval = 00;
+  //CarAdd adds time for when the next car is supposed to appear
   int carAdd = 0;
   int tempTime = 0;
-
+//Timer for the trucks
   String timeTruck = "00";
   int tTruck;
   int intervalTruck = 00;
@@ -97,11 +97,12 @@ void setup() {
   menu = new Menu();
   //state in the title screen
   state = State.TITLE;
+  //Load in the sound and microphone levels
   tone = new SoundFile(this,"honk.wav");
   minim = new Minim(this);
   mic = minim.getLineIn();
   
-  
+  //Load in the sound of highways, the clock font and the menu on the left
  stereoSound = minim.loadFile("highway.wav");
   scoremenu = loadImage("scoremenu.png");   
   clock = createFont("digital-7.ttf", 50);
@@ -125,20 +126,21 @@ void setup() {
     lanes[14] = new Lanes(x*3, 825, speed, sizex, sizey);
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
+  //All obstacles spawn in a ranom lane
   for (int i = 0; i < obstacle.length; i++) {
     obstacle[i] = new Obstacle(50 + x*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
   }
   for (int i = 0; i < truck.length; i++) {
-    truck[i] = new Obstacle(50 + x*floor(random(0, 5)), -150, speed, 40, 120, color(0, 0, 255));
+    truck[i] = new Obstacle(50 + b*floor(random(0, 5)), -150, speed, 40, 120, color(0, 0, 255));
   }
     for (int i = 0; i < oil.length; i++) {
-    oil[i] = new Obstacle(50 + x*floor(random(0, 5)), -50, speed, 10, 10, color(0));
+    oil[i] = new Obstacle(50 + b*floor(random(0, 5)), -50, speed, 10, 10, color(0));
   }
   for (int i = 0; i < rocket.length; i++) {
-    rocket[i] = new Rocket(50 + b*floor(random(0, 5)), -150, 5, 10, 20, color(0, 0, 255));
+    rocket[i] = new Rocket(50 + b*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
   }
   
-  //Cars starting location
+  //Cars starting location, starts in the second lane
   car = new Car(157, 600, 40, 80);
 
 }
@@ -195,6 +197,8 @@ void draw() {
         obstacle[i].update();
         obstacle[i].swerve(car);
         obstacle[i].difficulty();
+
+
       }
 
       for (int i = 0; i < truck.length; i++) {
@@ -219,10 +223,10 @@ void draw() {
        rocket[i].display(); 
        rocket[i].collected(car);
        rocket[i].hit(obstacle[i]);
-       rocket[i].hit(truck[i]);
        rocket[i].shooting();
        rocket[i].launchspeed();
        rocket[i].follow(car);
+       //rocket[i].timerRocket();
       }
 
       //Displays the car
@@ -250,7 +254,8 @@ void keyPressed() {
     break;
 
 
-
+//Switch lanes with left and right
+//Honk your horn with the Z key
   case OBSTACLE:
     if (keyCode == LEFT) {
       car.switchLanesLeft();

@@ -11,8 +11,8 @@ class Obstacle {
   //the moment the car is off the screen
   float moment;
   color carColor;
-
-   float difficultAdd = 0;
+//After 20 seconds, the difficulty increases
+  float difficultAdd = 0;
   
 //Tracks wether or not we should return to the menu
   boolean returnToMenu = false;
@@ -43,10 +43,11 @@ class Obstacle {
       }
     }
   }
-  
+  //By yelling into the mic, the other cars can move out of the way, potentially making it easier
+  //Does not work for trucks, as they are too big to move, and frankly, don't care.
   void swerve(Car car) {
     float level = mic.mix.level();
-    if (level > .4 && car.y -200 < y && car.x > x - 5 && car.x < x + sizeX + 5 ) {
+    if (level > .5 && car.y -200 < y && car.x > x - 5 && car.x < x + sizeX + 5 ) {
      x+=100;
      println(level);
     }
@@ -62,7 +63,7 @@ class Obstacle {
     //carAdd starts at 0, and when the first timer reaches 6, it adds another six, so when the timer reaches 12, it adds a car, and the variable carAdd goes to 18
     if (t == 6 + carAdd) {
       //The new object being added to the array, spawns on a random lane
-      Obstacle j = new Obstacle(50 + x*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
+      Obstacle j = new Obstacle(50 + b*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
       obstacle = (Obstacle[]) append(obstacle, j);
       //Timer that adds the cars every six seconds
       carAdd +=6;
@@ -82,7 +83,7 @@ class Obstacle {
     //Same as the car timer, when the timer reaches 11, the array appends and adds 11 to the timer, so at 22 seconds another truck will appear, and again at 33 seconds
     if (tTruck == 11 + truckAdd) {
       //Appends the truck, like above
-      Obstacle d = new Obstacle(50 + x*floor(random(0, 5)), -150, speed, 40, 150, color(0, 0, 255));
+      Obstacle d = new Obstacle(50 + b*floor(random(0, 5)), -150, speed, 40, 150, color(0, 0, 255));
       truck = (Obstacle[]) append(truck, d);
       truckAdd += 11;
     }
@@ -117,12 +118,15 @@ class Obstacle {
     y = -150;
     x = 50 + b*floor(random(0, 5));
     placed = true;
-    
+    //checks if each new appended obstacle spawns into eachother
+    //If the obstacles spawn overlapping eachother, then they will despawn
+    //
     for (int j = 0; j < truck.length; j++) {
       if (this != truck[j] && collision(truck[j])) {
         placed = false;
       }
     }
+    //Checks for each obstacle, if they have collieded with eachother or one another
         for (int j = 0; j < oil.length; j++) {
       if (this != oil[j] && collision(oil[j])) {
         placed = false;
@@ -155,7 +159,7 @@ void keyPressed() {
      returnToMenu = true; 
     }
   }
-
+//Every 20 seconds, the speed increases by two
 void difficulty() {
   //Converts milliseconds to actual seconds
     //int converts millis to integers, minus temp time 
@@ -167,7 +171,6 @@ void difficulty() {
     if (t == 20+ difficultAdd) {
       speed +=2;
      difficultAdd += 20;
-           println(time);
     }
 }
 

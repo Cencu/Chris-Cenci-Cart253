@@ -1,11 +1,16 @@
 class Car {
+  //X and Y location, as well as sizes
+  //The red car is your car
+  //Slipped checks to see if you landed in an oil spill
  float x = 157;
  float y = 600;
  float sizeX = 40;
  float sizeY = 80;
  PImage redCar;
  boolean slipped = false;
+ //Used for the rockets
  float c;
+ float p;
  float grip = 2;
  
  Car(float tempX, float tempY, float tempSizeX, float tempSizeY) {
@@ -18,6 +23,8 @@ class Car {
  
  //If the left key is pressed, then the car will move on the x axis by 100 pixels, like it
  //Is switching lanes
+ //when slipped is true, the boolean stops you from switching lanes, like there is no more grip on the car
+ //See oilspill void below.
  void switchLanesLeft() {
    if (!slipped) {
    x-=100;
@@ -58,7 +65,8 @@ class Car {
      sizeY = 0;
     }
  }
- 
+ //Checks the same as above, if the car comes into contact with oil, then the boolean will turn true
+ //What this obstacle does is stops you from changing lanes for a short time
  void oilspill(Obstacle oil) {
     boolean left = (x + sizeX/2 > oil.x - oil.sizeX/2);
     boolean right = (x - sizeX/2 < oil.x + oil.sizeX/2);
@@ -70,6 +78,7 @@ class Car {
     }
     
  }
+ //Once the oilspill is ofscreen, then slipped goes back to false, so that you can change lanes again
  void oilreset(Obstacle oil) {
     if (slipped && oil.y > height+100) {
       slipped = false;
@@ -80,7 +89,11 @@ class Car {
  void display() {
  //Constrains the car the the screen so it doesnt go off when switching lanes
  x= constrain(x,50,450);
+ //c = y is made so you can "trick" the rocket into thinking that it is following the car
+ //When the rocket is used, it uses the X and Y location to launch from, however, when setting the speed of the rocket to launch, the car would
+ //Also launch. By putting c = y, the car stays in place but the rocket still launches
  c = y;
+ p = x;
  noStroke();
  fill(255,0,0);
  imageMode(CENTER);
