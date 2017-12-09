@@ -18,7 +18,7 @@ class Car {
  y = tempY;
  sizeX = tempSizeX;
  sizeY = tempSizeY;
- redCar = loadImage("car.png");
+ redCar = loadImage("cars1.png");
  }
  
  //If the left key is pressed, then the car will move on the x axis by 100 pixels, like it

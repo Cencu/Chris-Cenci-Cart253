@@ -11,6 +11,8 @@ class Obstacle {
   //the moment the car is off the screen
   float moment;
   color carColor;
+  PImage cars;
+  PImage cars2;
 //After 20 seconds, the difficulty increases
   float difficultAdd = 0;
   
@@ -18,14 +20,14 @@ class Obstacle {
   boolean returnToMenu = false;
 
 
-  Obstacle(float tempX, float tempY, float tempS, float tempSX, float tempSY, color tempCar) {
+  Obstacle(PImage tempimg,float tempX, float tempY, float tempS, float tempSX, float tempSY) {
     x = tempX;
     y = tempY;
     speed = tempS;
     sizeX = tempSX;
     sizeY = tempSY;
     moment = 0;
-    carColor = tempCar;
+    cars =  tempimg;
     placed = false;
     addToScreen();
   }
@@ -63,7 +65,7 @@ class Obstacle {
     //carAdd starts at 0, and when the first timer reaches 6, it adds another six, so when the timer reaches 12, it adds a car, and the variable carAdd goes to 18
     if (t == 6 + carAdd) {
       //The new object being added to the array, spawns on a random lane
-      Obstacle j = new Obstacle(50 + b*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
+      Obstacle j = new Obstacle(cars,50 + b*floor(random(0, 5)), -80, speed, 40, 80);
       obstacle = (Obstacle[]) append(obstacle, j);
       //Timer that adds the cars every six seconds
       carAdd +=6;
@@ -83,7 +85,7 @@ class Obstacle {
     //Same as the car timer, when the timer reaches 11, the array appends and adds 11 to the timer, so at 22 seconds another truck will appear, and again at 33 seconds
     if (tTruck == 11 + truckAdd) {
       //Appends the truck, like above
-      Obstacle d = new Obstacle(50 + b*floor(random(0, 5)), -150, speed, 40, 150, color(0, 0, 255));
+      Obstacle d = new Obstacle(cars,50 + b*floor(random(0, 5)), -150, speed, 40, 150);
       truck = (Obstacle[]) append(truck, d);
       truckAdd += 11;
     }
@@ -93,9 +95,8 @@ class Obstacle {
 
 //Displays the car
   void display() {
-    fill(carColor);
-    rectMode(CENTER);
-    rect(x, y, sizeX, sizeY);
+    imageMode(CENTER);
+    image(cars,x, y, sizeX, sizeY);
     //If the car or truck goes completely offscreen, then it resets 
     //placed turns to false
     if (y >= height+150) {

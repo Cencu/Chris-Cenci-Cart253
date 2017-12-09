@@ -21,6 +21,9 @@ AudioInput mic;
 
 //Image of car and menu on the left of the game
 PImage redCar;
+PImage[] cars = new PImage[5];
+int w;
+int h;
 PImage scoremenu;
 
 //X location
@@ -90,7 +93,6 @@ Menu menu;
 
 void setup() {
   size(700, 800); 
- 
 
   // Create the different states
   title = new Title();
@@ -126,15 +128,20 @@ void setup() {
     lanes[14] = new Lanes(x*3, 825, speed, sizex, sizey);
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
+  
+      for (int i = 0; i < cars.length; i++) {
+   cars[i] = loadImage("cars" +i+ ".png");
+    }
+  
   //All obstacles spawn in a ranom lane
   for (int i = 0; i < obstacle.length; i++) {
-    obstacle[i] = new Obstacle(50 + x*floor(random(0, 5)), -80, speed, 40, 80, color(255, 0, 0));
+    obstacle[i] = new Obstacle(cars[0],50 + x*floor(random(0, 5)), -80, speed, 40, 80);
   }
   for (int i = 0; i < truck.length; i++) {
-    truck[i] = new Obstacle(50 + b*floor(random(0, 5)), -150, speed, 40, 120, color(0, 0, 255));
+    truck[i] = new Obstacle(cars[3], 50 + b*floor(random(0, 5)), -150, speed, 40, 120);
   }
     for (int i = 0; i < oil.length; i++) {
-    oil[i] = new Obstacle(50 + b*floor(random(0, 5)), -50, speed, 10, 10, color(0));
+    oil[i] = new Obstacle(cars[2], 50 + b*floor(random(0, 5)), -50, speed, 30, 30);
   }
   for (int i = 0; i < rocket.length; i++) {
     rocket[i] = new Rocket(50 + b*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
