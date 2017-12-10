@@ -1,6 +1,7 @@
 class Obstacle {
   //checked if the car are placed, starts as false
   boolean placed = false;
+  boolean alive = true;
   //Location of the cars, when they go into the lanes
   float x=100;
   float y;
@@ -18,7 +19,6 @@ class Obstacle {
 
   //Tracks wether or not we should return to the menu
   boolean returnToMenu = false;
-  boolean alive = true;
 
 
   Obstacle(PImage tempimg, float tempX, float tempY, float tempS, float tempSX, float tempSY) {
@@ -30,6 +30,7 @@ class Obstacle {
     moment = 0;
     cars =  tempimg;
     placed = false;
+    alive = true;
     addToScreen();
   }
 
@@ -39,7 +40,7 @@ class Obstacle {
     //The car is not placed, then we add it to the screen
     //If not we update the speed
     if (moment < millis()) {
-      if (!placed) {
+      if (!placed && alive) {
         addToScreen();
       } else {
         y += speed;
@@ -70,6 +71,8 @@ class Obstacle {
       obstacle = (Obstacle[]) append(obstacle, j);
       //Timer that adds the cars every six seconds
       carAdd +=6;
+      println("added",x,y);
+      println("append");
     }
 
     //Displays the timer
@@ -77,6 +80,8 @@ class Obstacle {
     //Timer font
     textFont(clock);
   }
+  
+
 
   void timerTruck() {
     //Timer for the truck spawning, since they are bigger, they spawn every 12 seconds
@@ -102,13 +107,14 @@ class Obstacle {
     //placed turns to false
     if (y >= height+150) {
       placed = false;
+      alive = true;
       addToScreen();
     } 
   }
   //If the obstacles go off the screen, then they will reappear at the top, the +150 is so it is completely off the screen, and the +200 is so that 
   //It is smooth when coming down from the top
   void addToScreen() {
-    if (placed) {
+    if (placed && !alive) {
       return;
     } 
 
@@ -120,6 +126,7 @@ class Obstacle {
     y = -150;
     x = 50 + b*floor(random(0, 5));
     placed = true;
+    alive = false;
     //checks if each new appended obstacle spawns into eachother
     //If the obstacles spawn overlapping eachother, then they will despawn
     //
@@ -154,6 +161,9 @@ class Obstacle {
 
     return (left && right && top && bottom);
   }
+  
+
+  
 
   //Returns to menu
   void keyPressed() {

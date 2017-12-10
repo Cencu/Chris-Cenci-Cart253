@@ -159,7 +159,7 @@ video = new Capture(this,640,480,30);
     oil[i] = new Obstacle(cars[2], 50 + b*floor(random(0, 5)), -50, speed, 30, 30);
   }
   for (int i = 0; i < rocket.length; i++) {
-    rocket[i] = new Rocket(50 + b*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
+    rocket[i] = new Rocket(50 + x*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
   }
 
   //Cars starting location, starts in the second lane
@@ -228,7 +228,6 @@ void draw() {
         obstacle[i].swerve(car);
         obstacle[i].difficulty();
 
-
       }
 
       for (int i = 0; i < truck.length; i++) {
@@ -256,9 +255,10 @@ void draw() {
         rocket[i].shooting();
         rocket[i].launchspeed();
         rocket[i].follow(car);
-        rocket[i].hit(obstacle[i]);
+        //rocket[i].hit(obstacle[i], car);
         rocket[i].hitTruck(truck[i]);
-        //rocket[i].timerRocket();
+        rocket[i].checkcollision(obstacle[i]);
+        
       }
 
       //Displays the car

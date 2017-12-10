@@ -29,14 +29,6 @@ class Rocket {
     y += speed;
     }
   }
-  //If powerup is false, and launched is true, then the rocket will fire by holding the mouse key
-  void launchspeed() {
-    if (!powerup) {
-      if(launched) {
-   y -= speed*2; 
-      }
-    }
-  }
 
   void display() {
    fill(255);
@@ -59,6 +51,16 @@ class Rocket {
      powerup = true;
     }
   }
+  
+    //If powerup is false, and launched is true, then the rocket will fire by holding the mouse key
+  void launchspeed() {
+    if (!powerup) {
+      if(launched) {
+   y -= speed*2; 
+      }
+    }
+  }
+
   //Follows the car, however, like mentioned in the Car class, it follows the car but not its true Y location to avoid moving the car when shooting the rocket
   void follow(Car car) {
    if (powerup) {
@@ -85,6 +87,7 @@ class Rocket {
     boolean bottomH = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
     
     if (leftH && rightH && topH && bottomH && sizeX > 0 && sizeY > 0) {
+ 
      obstacle.alive = false;
       obstacle.sizeX = 0;
       obstacle.sizeY = 0;
@@ -93,9 +96,17 @@ class Rocket {
          println("hit");
     } 
   }
+
+  void checkcollision(Obstacle obstacle) {
   
+      for (int j = 0; j < rocket.length; j++) {
+      if (this != rocket[j] && collision(obstacle)) {
+        obstacle.alive = false;
+      }
+    }
+  }
     boolean collision(Obstacle obstacle) {
-    if (obstacle == null) {
+    if (rocket == null) {
       return false;
     }
     //Checks if the obstacles have collided.
@@ -104,8 +115,10 @@ class Rocket {
     boolean top = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
     boolean bottom = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
 
-    return (left && right && top && bottom && sizeX > 0 && sizeY > 0);
+    return (left && right && top && bottom);
   }
+  
+
   void hitTruck(Obstacle truck) {
   
     boolean leftH = (x + sizeX/2 > truck.x - truck.sizeX/2);
@@ -113,7 +126,7 @@ class Rocket {
     boolean topH = (y + sizeY/2 > truck.y - truck.sizeY/2);
     boolean bottomH = (y - sizeY/2 < truck.y + truck.sizeY/2);
     
-    if (leftH && rightH && topH && bottomH) {
+    if (leftH && rightH && topH && bottomH && sizeX > 0 && sizeY > 0) {
       truck.sizeX = 0;
       truck.sizeY = 0;
          sizeX = 0;
