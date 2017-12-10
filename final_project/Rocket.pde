@@ -81,12 +81,41 @@ class Rocket {
   
     boolean leftH = (x + sizeX/2 > obstacle.x - obstacle.sizeX/2);
     boolean rightH = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
-    boolean topH = (x + sizeY/2 > obstacle.y - obstacle.sizeY/2);
+    boolean topH = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
     boolean bottomH = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
     
-    if (leftH && rightH && topH && bottomH) {
+    if (leftH && rightH && topH && bottomH && sizeX > 0 && sizeY > 0) {
+     obstacle.alive = false;
       obstacle.sizeX = 0;
       obstacle.sizeY = 0;
+         sizeX = 0;
+         sizeY = 0;
+         println("hit");
+    } 
+  }
+  
+    boolean collision(Obstacle obstacle) {
+    if (obstacle == null) {
+      return false;
+    }
+    //Checks if the obstacles have collided.
+    boolean left = (x + sizeX/2 > obstacle.x - obstacle.sizeX/2);
+    boolean right = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
+    boolean top = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
+    boolean bottom = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
+
+    return (left && right && top && bottom && sizeX > 0 && sizeY > 0);
+  }
+  void hitTruck(Obstacle truck) {
+  
+    boolean leftH = (x + sizeX/2 > truck.x - truck.sizeX/2);
+    boolean rightH = (x - sizeX/2 < truck.x + truck.sizeX/2);
+    boolean topH = (y + sizeY/2 > truck.y - truck.sizeY/2);
+    boolean bottomH = (y - sizeY/2 < truck.y + truck.sizeY/2);
+    
+    if (leftH && rightH && topH && bottomH) {
+      truck.sizeX = 0;
+      truck.sizeY = 0;
          sizeX = 0;
          sizeY = 0;
          println("hit");

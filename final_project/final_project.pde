@@ -1,3 +1,5 @@
+import processing.video.*;
+
 //WHATS LEFT TO DO
 //refine oilspill
 //Rockets
@@ -18,7 +20,7 @@ SoundFile tone;
 Minim minim;
 AudioPlayer stereoSound;
 AudioInput mic;
-
+Capture video;
 //Image of car and menu on the left of the game
 PImage redCar;
 PImage[] cars = new PImage[5];
@@ -35,6 +37,12 @@ float sizey = 150;
 //Obstacles location
 float b =100;
 float y;
+float sizeX = 40;
+float sizeY = 80;
+
+float carX = 157;
+float carY = 450;
+
 
 //Global Speed
 float speed = 5;
@@ -42,32 +50,37 @@ float speed = 5;
 //Fonts
 PFont clock;
 
-  //Timer for the cars
-  //The string displays the time
-  String time = ":00";
-  int t;
-  int interval = 00;
-  //CarAdd adds time for when the next car is supposed to appear
-  int carAdd = 0;
-  int tempTime = 0;
+//Timer for the cars
+//The string displays the time
+String time = ":00";
+int t;
+int interval = 00;
+//CarAdd adds time for when the next car is supposed to appear
+int carAdd = 0;
+int tempTime = 0;
 //Timer for the trucks
-  String timeTruck = "00";
-  int tTruck;
-  int intervalTruck = 00;
-  int truckAdd = 0;
-  int tempTimeTruck = 0;
-  
-  String timeC = ":00";
-  int tC;
-  int intervalC = 00;
-  int tempTimeC = 0;
+String timeTruck = "00";
+int tTruck;
+int intervalTruck = 00;
+int truckAdd = 0;
+int tempTimeTruck = 0;
+
+String timeC = ":00";
+int tC;
+int intervalC = 00;
+int tempTimeC = 0;
+
+int reddestX = 0;
+int reddestY = 0;
+float record = 1000;
+
 
 //Array of lanes, 16 are appearing on the screen
 Lanes[] lanes = new Lanes[16];
 
 //Obstacle Class
-Obstacle[] obstacle = new Obstacle[2];
-Obstacle[] truck = new Obstacle[2];
+Obstacle[] obstacle = new Obstacle[1];
+Obstacle[] truck = new Obstacle[1];
 Obstacle[] oil = new Obstacle[2];
 
 //Rocket Class
@@ -82,7 +95,8 @@ enum State {
   NONE, 
     TITLE, 
     MENU, 
-    OBSTACLE
+    OBSTACLE,
+    WEBCAM_MODE
 }
 // This is the variable that actually tracks the state in the game
 State state;
@@ -93,6 +107,7 @@ Menu menu;
 
 void setup() {
   size(700, 800); 
+video = new Capture(this,640,480,30);
 
   // Create the different states
   title = new Title();
@@ -100,12 +115,12 @@ void setup() {
   //state in the title screen
   state = State.TITLE;
   //Load in the sound and microphone levels
-  tone = new SoundFile(this,"honk.wav");
+  tone = new SoundFile(this, "honk.wav");
   minim = new Minim(this);
   mic = minim.getLineIn();
-  
+
   //Load in the sound of highways, the clock font and the menu on the left
- stereoSound = minim.loadFile("highway.wav");
+  stereoSound = minim.loadFile("highway.wav");
   scoremenu = loadImage("scoremenu.png");   
   clock = createFont("digital-7.ttf", 50);
 
@@ -128,32 +143,37 @@ void setup() {
     lanes[14] = new Lanes(x*3, 825, speed, sizex, sizey);
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
-  
-      for (int i = 0; i < cars.length; i++) {
-   cars[i] = loadImage("cars" +i+ ".png");
-    }
-  
+
+  for (int i = 0; i < cars.length; i++) {
+    cars[i] = loadImage("cars" +i+ ".png");
+  }
+
   //All obstacles spawn in a ranom lane
   for (int i = 0; i < obstacle.length; i++) {
-    obstacle[i] = new Obstacle(cars[0],50 + x*floor(random(0, 5)), -80, speed, 40, 80);
+    obstacle[i] = new Obstacle(cars[0], 50 + x*floor(random(0, 5)), -80, speed, sizeX, sizeY);
   }
   for (int i = 0; i < truck.length; i++) {
     truck[i] = new Obstacle(cars[3], 50 + b*floor(random(0, 5)), -150, speed, 40, 120);
   }
-    for (int i = 0; i < oil.length; i++) {
+  for (int i = 0; i < oil.length; i++) {
     oil[i] = new Obstacle(cars[2], 50 + b*floor(random(0, 5)), -50, speed, 30, 30);
   }
   for (int i = 0; i < rocket.length; i++) {
     rocket[i] = new Rocket(50 + b*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
   }
-  
+
   //Cars starting location, starts in the second lane
-  car = new Car(157, 600, 40, 80);
+  car = new Car(carX, carY, 40, 80);
 
 }
 
 void draw() {
-//Selects between alternatives
+  if (video.available()) {
+  video.read();
+    image(video,0,0);
+
+}
+  //Selects between alternatives
   switch (state) {
     // If our state is NONE, we do nothing
   case NONE:
@@ -181,15 +201,18 @@ void draw() {
       state = State.OBSTACLE;
     }
     break;
-// If our state is OBSTACLE we update the
-  // obstacle object which runs the game and then check whether 
-  // the player has chosen to return to the menu. If so we set
-  // the state appropriate, and reset the game.
+    // If our state is OBSTACLE we update the
+    // obstacle object which runs the game and then check whether 
+    // the player has chosen to return to the menu. If so we set
+    // the state appropriate, and reset the game.
   case OBSTACLE:
+  case WEBCAM_MODE:
     if (menu.selection == State.NONE ) {
       background(100); 
       image(scoremenu, 600, height/2);
       scoremenu.resize(200, 805);
+
+      
       for (int i = 0; i < lanes.length; i++) {
         lanes[i].display();
         lanes[i].update();
@@ -215,8 +238,9 @@ void draw() {
         truck[i].timerTruck();
         truck[i].addToScreen();
         truck[i].difficulty();
+
       }
-            for (int i = 0; i < oil.length; i++) {
+      for (int i = 0; i < oil.length; i++) {
         oil[i].display();
         oil[i].update();
         oil[i].addToScreen();
@@ -226,18 +250,20 @@ void draw() {
         car.oilreset(oil[i]);
       }
       for (int i = 0; i < rocket.length; i++) {
-       rocket[i].update();
-       rocket[i].display(); 
-       rocket[i].collected(car);
-       rocket[i].hit(obstacle[i]);
-       rocket[i].shooting();
-       rocket[i].launchspeed();
-       rocket[i].follow(car);
-       //rocket[i].timerRocket();
+        rocket[i].update();
+        rocket[i].display(); 
+        rocket[i].collected(car);
+        rocket[i].shooting();
+        rocket[i].launchspeed();
+        rocket[i].follow(car);
+        rocket[i].hit(obstacle[i]);
+        rocket[i].hitTruck(truck[i]);
+        //rocket[i].timerRocket();
       }
 
       //Displays the car
-      car.display();
+      car.display(menu);
+      car.track(menu);
     }
     break;
   }
@@ -261,17 +287,18 @@ void keyPressed() {
     break;
 
 
-//Switch lanes with left and right
-//Honk your horn with the Z key
+    //Switch lanes with left and right
+    //Honk your horn with the Z key
   case OBSTACLE:
+  case WEBCAM_MODE:
     if (keyCode == LEFT) {
-      car.switchLanesLeft();
+      car.switchLanesLeft(menu);
     }
     if (keyCode == RIGHT) {
-      car.switchLanesRight();
+      car.switchLanesRight(menu);
     }
     if (keyCode == 'z' || keyCode == 'Z') {
-     tone.play(); 
+      tone.play();
     }
 
     break;
@@ -291,7 +318,8 @@ void keyReleased() {
     break;
 
   case OBSTACLE:
+    break; 
+    case WEBCAM_MODE:
     break;
   }
-
 }

@@ -12,6 +12,11 @@ class Car {
  float c;
  float p;
  float grip = 2;
+ boolean alive = true;
+ 
+   color trackColor = color (255, 0, 0);
+ float trackX = 0;
+  float trackY = 0;
  
  Car(float tempX, float tempY, float tempSizeX, float tempSizeY) {
  x = tempX;
@@ -25,17 +30,21 @@ class Car {
  //Is switching lanes
  //when slipped is true, the boolean stops you from switching lanes, like there is no more grip on the car
  //See oilspill void below.
- void switchLanesLeft() {
+ void switchLanesLeft(Menu menu) {
    if (!slipped) {
+     if(!menu.vidstart){
    x-=100;
+   }
  } if (slipped) {
    x +=0;
  }
  }
  //Same as code above, but moves right
- void switchLanesRight() {
+ void switchLanesRight(Menu menu) {
    if  (!slipped){
-   x+=100;
+         if(!menu.vidstart){
+   x+=100;         
+ }
  } if (slipped) {
    x +=0;
  }
@@ -49,9 +58,9 @@ class Car {
     boolean top = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
     boolean bottom = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
 //When the booleans are true, then the car disappears
-    if (left && right &&top && bottom) {
-     sizeX = 0;
-     sizeY = 0;
+    if (left && right &&top && bottom && obstacle.sizeX > 0) {
+       sizeX = 0;
+       sizeY = 0;
     }
  }
  void accidentTruck (Obstacle truck) {
@@ -60,7 +69,7 @@ class Car {
     boolean topT = (y + sizeY/2 > truck.y - truck.sizeY/2);
     boolean bottomT = (y - sizeY/2 < truck.y + truck.sizeY/2);
     
-    if (leftT && rightT &&topT && bottomT) {
+    if (leftT && rightT &&topT && bottomT && truck.sizeX > 0) {
      sizeX = 0;
      sizeY = 0;
     }
@@ -84,9 +93,38 @@ class Car {
       slipped = false;
     } 
     }
- 
+ void track(Menu menu) {
+       if (menu.vidstart) {
+      //radius to detect changes
+    float record = 1000;
+    //The for loop keeps on re-checking the width and height of the screen for any
+    //changes
+    for (int x = 1; x < video.width; x++) {
+      for (int y = 0; y < video.height; y++) {
+        int loc = x+y *640;
+        //The floats are equal to the location of the pixels. They are tracking red, so the float amount will follow changes in red motion. 
+        color pixelColor = video.pixels[loc];
+        float r1 = red(pixelColor);
+        float g1 = green(pixelColor);
+        float b1 = blue(pixelColor);
+        float r2 = red(trackColor);
+        float g2 = green(trackColor);
+        float b2 = blue(trackColor);
+        //compares the current color with the color being tracked
+        float amount = dist(r1, g1, b1, r2, g2, b2);
+        //If the current color being tracked is less than the recorded color which is red, then 
+        //it tracks its location.
+        if (amount < record) {
+          record = amount;
+          trackX = x;
+          trackY = y;
+        }
+      }
+    }
+}
+ }
  //Displays the car as a car image, starting in the second lane
- void display() {
+ void display(Menu menu) {
  //Constrains the car the the screen so it doesnt go off when switching lanes
  x= constrain(x,50,450);
  //c = y is made so you can "trick" the rocket into thinking that it is following the car
@@ -94,10 +132,17 @@ class Car {
  //Also launch. By putting c = y, the car stays in place but the rocket still launches
  c = y;
  p = x;
+ if (menu.vidstart) {
+ x = trackX;
+ y = trackY;
+ } else {
+  y = 600; 
+ }
  noStroke();
  fill(255,0,0);
  imageMode(CENTER);
 image(redCar,x,y,sizeX,sizeY);
+
 }
 
 }

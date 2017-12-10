@@ -1,4 +1,5 @@
 class Menu {
+  boolean vidstart = false;
 State selection = State.NONE;
   Menu() {
   }
@@ -19,12 +20,15 @@ State selection = State.NONE;
    if (key == 'r' || key == 'R') {
      selection = State.OBSTACLE; 
      stereoSound.loop();
-
+ 
 
    }
-  // else if (key == 'w' || key == 'W') {
-  // selection = State.WEBCAM_MODE;
-  //}
+   else if (key == 'w' || key == 'W') {
+   selection = State.WEBCAM_MODE;
+   video.start();
+   vidstart = true;
+   stereoSound.loop();
+  }
 }
 
 void keyReleased() {
