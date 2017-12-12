@@ -1,5 +1,5 @@
 class Invisibility {
-    float x = 100;
+  float x = 100;
   float y;
   float sizeX =10;
   float sizeY = 20;
@@ -7,9 +7,9 @@ class Invisibility {
   float shieldColor;
   boolean shield = false;
   boolean follow = false;
-    float moment;
+  float moment;
 
-  
+
   Invisibility(float tempx, float tempy, float tempspeed, float tempsizex, float tempsizey, float tempcolor) {
     x = tempx;
     y = tempy;
@@ -18,42 +18,42 @@ class Invisibility {
     speed = tempspeed;
     shieldColor = tempcolor;
   }
-  
-   void update() {
+
+  void update() {
     y += speed;
   }
-  
+
   void display() {
-   fill(0);
+    fill(0);
     rectMode(CENTER);
-    rect(x, y, sizeX, sizeY); 
+    rect(x, y, sizeX, sizeY);
   }
-  
-   void collected(Car car) {
+
+  void collected(Car car) {
     boolean leftP = (x + sizeX/2 > car.x - car.sizeX/2);
     boolean rightP = (x - sizeX/2 < car.x + car.sizeX/2);
     boolean topP = (y + sizeY/2 > car.y - car.sizeY/2);
     boolean bottomP = (y - sizeY/2 < car.y + car.sizeY/2);
-    
+
     if (leftP && rightP &&topP && bottomP) {
-     follow = true;
+      follow = true;
     }
   }
-  
-   void follow(Car car) {
-   if (follow) {
+
+  void follow(Car car) {
+    if (follow) {
       x = car.p;
       y = car.c;
-   }
+    }
   }
-    void activate() {
+  void activate() {
     if (key == 's' || key == 'S') {    
-     follow = false;
-     shield = true;
-     println(shield);
+      follow = false;
+      shield = true;
+      println(shield);
     }
-    }
-  
+  }
+
   void invisitimer() {
     //Converts milliseconds to actual seconds
     //int converts millis to integers, minus temp time 
@@ -68,23 +68,21 @@ class Invisibility {
       invisibility = (Invisibility[]) append(invisibility, o);
       //Timer that adds the cars every six seconds
       invisiadd +=5;
-     
     }
-    }
-     void invisEnd(Car car) {
+  }
+  void invisEnd(Car car) {
     if (shield) {
-    tI = intervalI+int(millis()/1000)-tempTimeI;
-    timeI = nf(tI, 2);
-    println(tI);
-    tI -= 6;
-          car.alive = true;
-
+      tI = intervalI+int(millis()/1000)-tempTimeI;
+      timeI = nf(tI, 2);
+      println(tI);
+      tI -= 6;
+      car.alive = true;
     }
-        if (tI > 6) {
+    if (tI > 6) {
       tI -=6;
       shield = false;
       car.alive = true;
       println("deac");
     }
-    }
+  }
 }

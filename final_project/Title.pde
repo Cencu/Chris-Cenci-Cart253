@@ -22,12 +22,14 @@ class Title {
   void display() {
     background(0);
     textAlign(CENTER, CENTER);
-    textSize(64);
+    textSize(80);
     fill(255);
-    text("TRAFFIC HATER", width/2, height/2);
+    text("TRAFFIC",width/2, height/3);
+    text("HATER", width/2, height/2.2);
+        textSize(30);
 
-    textSize(32);
     text("Press any key to continue", width/2, 3*height/4);
+    textFont(titlefont);
   }
   
   // keyPressed()

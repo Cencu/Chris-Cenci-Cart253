@@ -49,7 +49,7 @@ float speed = 5;
 
 //Fonts
 PFont clock;
-
+PFont titlefont;
 //Timer for the cars
 //The string displays the time
 String time = ":00";
@@ -131,7 +131,7 @@ void setup() {
   stereoSound = minim.loadFile("highway.wav");
   scoremenu = loadImage("scoremenu.png");   
   clock = createFont("digital-7.ttf", 50);
-
+  titlefont = createFont("ABATI__.TTF",50);
   //Each lane are in a different position. So I had to initialze all lanes in different positions
   for (int i = 0; i < lanes.length; i++) {
     lanes[0] = new Lanes(x, 0, speed, sizex, sizey);
