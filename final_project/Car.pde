@@ -69,7 +69,7 @@ class Car {
     boolean topT = (y + sizeY/2 > truck.y - truck.sizeY/2);
     boolean bottomT = (y - sizeY/2 < truck.y + truck.sizeY/2);
     
-    if (leftT && rightT &&topT && bottomT && truck.sizeX > 0) {
+    if (leftT && rightT &&topT && bottomT && truck.sizeX > 0 && truck.sizeY > 0) {
      alive = false;
 
  }

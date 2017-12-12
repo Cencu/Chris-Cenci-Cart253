@@ -46,16 +46,13 @@ class Invisibility {
       y = car.c;
    }
   }
-  
-  void activate() {
-    if (keyPressed && follow) {
+    void activate() {
     if (key == 's' || key == 'S') {    
      follow = false;
      shield = true;
      println(shield);
     }
     }
-  } 
   
   void invisitimer() {
     //Converts milliseconds to actual seconds
@@ -80,8 +77,10 @@ class Invisibility {
     timeI = nf(tI, 2);
     println(tI);
     tI -= 6;
+          car.alive = true;
+
     }
-    if (tI > 6) {
+        if (tI > 6) {
       tI -=6;
       shield = false;
       car.alive = true;
