@@ -58,10 +58,10 @@ class Car {
     boolean top = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
     boolean bottom = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
 //When the booleans are true, then the car disappears
-    if (left && right &&top && bottom && obstacle.sizeX > 0) {
-       sizeX = 0;
-       sizeY = 0;
-    }
+    if (left && right &&top && bottom && obstacle.sizeX > 0 && obstacle.sizeY > 0) {
+     alive = false;
+    
+ }
  }
  void accidentTruck (Obstacle truck) {
     boolean leftT = (x + sizeX/2 > truck.x - truck.sizeX/2);
@@ -70,9 +70,16 @@ class Car {
     boolean bottomT = (y - sizeY/2 < truck.y + truck.sizeY/2);
     
     if (leftT && rightT &&topT && bottomT && truck.sizeX > 0) {
+     alive = false;
+
+ }
+ }
+ 
+ void shield(Invisibility invisibility) {
+  if (!alive && !invisibility.shield) {
      sizeX = 0;
      sizeY = 0;
-    }
+    } 
  }
  //Checks the same as above, if the car comes into contact with oil, then the boolean will turn true
  //What this obstacle does is stops you from changing lanes for a short time

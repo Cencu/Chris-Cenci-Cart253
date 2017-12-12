@@ -69,6 +69,13 @@ String timeC = ":00";
 int tC;
 int intervalC = 00;
 int tempTimeC = 0;
+int invisiadd = 0;
+
+String timeI = ":00";
+int tI;
+int intervalI = 00;
+int tempTimeI = 0;
+int invisi = 0;
 
 int reddestX = 0;
 int reddestY = 0;
@@ -84,6 +91,7 @@ Obstacle[] truck = new Obstacle[1];
 Obstacle[] oil = new Obstacle[2];
 
 //Rocket Class
+Invisibility[] invisibility = new Invisibility[3];
 Rocket[] rocket = new Rocket[1];
 
 //Car class
@@ -95,7 +103,7 @@ enum State {
   NONE, 
     TITLE, 
     MENU, 
-    OBSTACLE,
+    OBSTACLE, 
     WEBCAM_MODE
 }
 // This is the variable that actually tracks the state in the game
@@ -107,7 +115,7 @@ Menu menu;
 
 void setup() {
   size(700, 800); 
-video = new Capture(this,640,480,30);
+  video = new Capture(this, 640, 480, 30);
 
   // Create the different states
   title = new Title();
@@ -162,17 +170,19 @@ video = new Capture(this,640,480,30);
     rocket[i] = new Rocket(50 + x*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
   }
 
+  for (int i = 0; i < invisibility.length; i++) {
+    invisibility[i] = new Invisibility(50 + x*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
+  }
+
   //Cars starting location, starts in the second lane
   car = new Car(carX, carY, 40, 80);
-
 }
 
 void draw() {
   if (video.available()) {
-  video.read();
-    image(video,0,0);
-
-}
+    video.read();
+    image(video, 0, 0);
+  }
   //Selects between alternatives
   switch (state) {
     // If our state is NONE, we do nothing
@@ -212,7 +222,7 @@ void draw() {
       image(scoremenu, 600, height/2);
       scoremenu.resize(200, 805);
 
-      
+
       for (int i = 0; i < lanes.length; i++) {
         lanes[i].display();
         lanes[i].update();
@@ -227,7 +237,6 @@ void draw() {
         obstacle[i].update();
         obstacle[i].swerve(car);
         obstacle[i].difficulty();
-
       }
 
       for (int i = 0; i < truck.length; i++) {
@@ -237,7 +246,6 @@ void draw() {
         truck[i].timerTruck();
         truck[i].addToScreen();
         truck[i].difficulty();
-
       }
       for (int i = 0; i < oil.length; i++) {
         oil[i].display();
@@ -255,15 +263,25 @@ void draw() {
         rocket[i].shooting();
         rocket[i].launchspeed();
         rocket[i].follow(car);
-        //rocket[i].hit(obstacle[i], car);
-        rocket[i].hitTruck(truck[i]);
+        rocket[i].hit(obstacle[i]);
+        //rocket[i].hitTruck(truck[i]);
         rocket[i].checkcollision(obstacle[i]);
-        
+        //rocket[i].timerRocket();
       }
-
+      for (int i = 0; i < invisibility.length; i++) {
+        invisibility[i].invisitimer();
+        invisibility[i].update();
+        invisibility[i].display();
+        invisibility[i].collected(car);
+        invisibility[i].follow(car);
+        invisibility[i].activate();
+        car.shield(invisibility[i]);
+        invisibility[i].invisEnd(car);
+      }
       //Displays the car
       car.display(menu);
       car.track(menu);
+
     }
     break;
   }
@@ -300,26 +318,26 @@ void keyPressed() {
     if (keyCode == 'z' || keyCode == 'Z') {
       tone.play();
     }
-
-    break;
+       
+      break;
+    }
   }
-}
-void keyReleased() {
-  switch (state) {
-  case NONE:
-    break;
+  void keyReleased() {
+    switch (state) {
+    case NONE:
+      break;
 
-  case TITLE:
-    title.keyReleased();
-    break;
+    case TITLE:
+      title.keyReleased();
+      break;
 
-  case MENU:
-    menu.keyReleased();
-    break;
+    case MENU:
+      menu.keyReleased();
+      break;
 
-  case OBSTACLE:
-    break; 
+    case OBSTACLE:
+      break; 
     case WEBCAM_MODE:
-    break;
+      break;
+    }
   }
-}

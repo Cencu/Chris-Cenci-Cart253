@@ -146,6 +146,7 @@ class Obstacle {
         placed = false;
       }
     }
+
   }
 
   //If the obstacle spawns in the same locaction as another obstacle, then it returns false and deletes

@@ -8,7 +8,7 @@ class Rocket {
   float rocketColor;
   float moment;
   
-  float rocketAdd = 0;
+  int rocketAdd = 0;
   
   boolean powerup = false;
   boolean launched = false;
@@ -21,6 +21,9 @@ class Rocket {
     sizeY = tempsizey;
     speed = tempspeed;
     rocketColor = tempcolor;
+    powerup = false;
+    launched = false;
+
   }
   //If launched is false, then the rocket will continue moving down the screen, however if it is true
   //then it will not
@@ -34,10 +37,6 @@ class Rocket {
    fill(255);
     rectMode(CENTER);
     rect(x, y, sizeX, sizeY); 
-    if (y >= height+50) {
-         // y = -50;
-
-    }
   }
   //If your car comes into contact with the rocket, it will pick it up
   //the boolean powerup becomes true, activating the new location for the rocket, it now follows the car
@@ -106,7 +105,7 @@ class Rocket {
     }
   }
     boolean collision(Obstacle obstacle) {
-    if (rocket == null) {
+    if (obstacle == null) {
       return false;
     }
     //Checks if the obstacles have collided.
