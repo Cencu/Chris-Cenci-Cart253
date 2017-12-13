@@ -1,31 +1,36 @@
 import processing.video.*;
 
 //WHATS LEFT TO DO
-//refine oilspill
 //Rockets
 //Game over menu
-//Timer starts when game starts
-//refine game 
+//Instructions menu
 //Comment
+
+//LIBRARIES\\
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
 import ddf.minim.signals.*;
 import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
-
 import processing.sound.*;
+
+
 //Import sounds and microphones
 SoundFile tone;
 Minim minim;
 AudioPlayer stereoSound;
 AudioInput mic;
 Capture video;
-//Image of car and menu on the left of the game
+
+//IMAGES\\
+//Players Car
 PImage redCar;
+//Shield Powerup
+PImage shieldPic;
+//Array of cars, the images of the obstacles
 PImage[] cars = new PImage[5];
-int w;
-int h;
+
 PImage scoremenu;
 
 //X location
@@ -88,10 +93,10 @@ Lanes[] lanes = new Lanes[16];
 //Obstacle Class
 Obstacle[] obstacle = new Obstacle[1];
 Obstacle[] truck = new Obstacle[1];
-Obstacle[] oil = new Obstacle[2];
+Obstacle[] oil = new Obstacle[1];
 
 //Rocket Class
-Invisibility[] invisibility = new Invisibility[3];
+Invisibility[] invisibility = new Invisibility[1];
 Rocket[] rocket = new Rocket[1];
 
 //Car class
@@ -155,23 +160,23 @@ void setup() {
   for (int i = 0; i < cars.length; i++) {
     cars[i] = loadImage("cars" +i+ ".png");
   }
-
+  
   //All obstacles spawn in a ranom lane
   for (int i = 0; i < obstacle.length; i++) {
-    obstacle[i] = new Obstacle(cars[0], 50 + x*floor(random(0, 5)), -80, speed, sizeX, sizeY);
+    obstacle[i] = new Obstacle(cars[0], 50 + b*floor(random(0, 5)), -80, speed, sizeX, sizeY);
   }
   for (int i = 0; i < truck.length; i++) {
-    truck[i] = new Obstacle(cars[3], 50 + b*floor(random(0, 5)), -150, speed, 40, 120);
+    truck[i] = new Obstacle(cars[4], 50 + b*floor(random(0, 5)), -150, speed, 40, 120);
   }
   for (int i = 0; i < oil.length; i++) {
-    oil[i] = new Obstacle(cars[2], 50 + b*floor(random(0, 5)), -50, speed, 30, 30);
+    oil[i] = new Obstacle(cars[3], 50 + b*floor(random(0, 5)), -50, speed, 30, 30);
   }
   for (int i = 0; i < rocket.length; i++) {
     rocket[i] = new Rocket(50 + x*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
   }
 
   for (int i = 0; i < invisibility.length; i++) {
-    invisibility[i] = new Invisibility(50 + x*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
+    invisibility[i] = new Invisibility(shieldPic, 50 + x*floor(random(0, 5)), -50, speed, 80, 80);
   }
 
   //Cars starting location, starts in the second lane

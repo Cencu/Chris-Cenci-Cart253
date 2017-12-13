@@ -13,7 +13,7 @@ class Obstacle {
   float moment;
   color carColor;
   PImage cars;
-  PImage cars2;
+
   //After 20 seconds, the difficulty increases
   float difficultAdd = 0;
 

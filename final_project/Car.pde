@@ -136,8 +136,8 @@ class Car {
     //c = y is made so you can "trick" the rocket into thinking that it is following the car
     //When the rocket is used, it uses the X and Y location to launch from, however, when setting the speed of the rocket to launch, the car would
     //Also launch. By putting c = y, the car stays in place but the rocket still launches
-    c = y;
     p = x;
+    c = y;
     if (menu.vidstart) {
       x = trackX;
       y = trackY;
