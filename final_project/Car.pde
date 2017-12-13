@@ -65,6 +65,7 @@ class Car {
     //When the booleans are true, then alive becomes false
     if (left && right &&top && bottom && obstacle.sizeX > 0 && obstacle.sizeY > 0) {
       alive = false;
+      println(alive);
     }
   }
   //Check the collision for trucks as well
@@ -80,10 +81,11 @@ class Car {
   }
   //This is where alive gets called, when you have no shield and collide with another car, then you lose. 
   void shield(Invisibility invisibility, GameOver gameOver) {
-    if (!alive && !invisibility.shield) {
+    if (!alive) {
       sizeX = 0;
       sizeY = 0;
-      gameOver.gameOver = true;
+      gameOver.gameDone = true;
+      println(gameOver.gameDone);
     }
   }
   //Checks the same as above, if the car comes into contact with oil, then the boolean will turn true

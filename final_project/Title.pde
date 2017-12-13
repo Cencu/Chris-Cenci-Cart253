@@ -27,6 +27,7 @@ class Title {
     text("TRAFFIC",width/2, height/3);
     text("HATER", width/2, height/2.2);
         textSize(30);
+    menuMusic.play();
 
     text("Press any key to continue", width/2, 3*height/4);
     textFont(titlefont);

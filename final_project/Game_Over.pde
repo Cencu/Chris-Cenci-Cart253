@@ -1,8 +1,8 @@
 class GameOver {
 
   // A variable to track whether the title screen is finished
-  boolean gameOver = false;
-State selection = State.NONE;
+  boolean gameDone = false;
+State selection = State.GAME_OVER;
 
   // The constructor does nothing
   GameOver() {
@@ -13,9 +13,8 @@ State selection = State.NONE;
   // Just displays the title
 
   void update() {
-    if (gameOver) {
     display();
-    }
+    
   }
 
   // display()
@@ -29,25 +28,12 @@ State selection = State.NONE;
     fill(255);
     text("GAME",width/2, height/3);
     text("OVER", width/2, height/2.2);
-    text("SCORE"+time, width/2, height/4);
-
+    text("SCORE "+time, width/2, height/5);
         textSize(30);
-
-    text("Press any key to continue", width/2, 3*height/4);
+    text("You Lose",width/2,height/1.5);
     textFont(titlefont);
   }
-  
-  // keyPressed()
-  //
-  // Called by the main program when the title is active.
-  // Sets finished to true immediately (since it's any key)
 
- 
-
-  // keyReleased()
-  //
-  // Does nothing.
-  
   void keyReleased() {
   }
 }

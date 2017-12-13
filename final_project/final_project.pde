@@ -56,6 +56,7 @@ float speed = 5;
 //Fonts\\
 PFont clock;
 PFont titlefont;
+PFont instructionFont;
 
 //Timer for the cars
 //The string displays the time
@@ -126,6 +127,7 @@ State state;
 Title title;
 Menu menu;
 GameOver gameOver;
+Obstacle obstacleGame;
 void setup() {
   size(700, 800); 
   //Capturing the webcam of the game, webcam's maximum capture is 640,480\\
@@ -135,25 +137,25 @@ void setup() {
   title = new Title();
   //Menu screen for different options of the game
   menu = new Menu();
-
   //Game over screen
   gameOver = new GameOver();
-
+  obstacleGame = new Obstacle();
   //state in the title screen
   state = State.TITLE;
 
   //Load in the sound and microphone levels
   tone = new SoundFile(this, "honk.wav");
-  shieldTone = new SoundFile(this,"hailmary.wav");
+  shieldTone = new SoundFile(this, "hailmary.wav");
   minim = new Minim(this);
   mic = minim.getLineIn();
 
   //Load in the sound of highways, the fonts and the menu on the left
   stereoSound = minim.loadFile("highway.wav");
-  menuMusic = minim.loadFile("menumusic.wav");
+  menuMusic = minim.loadFile("menuMusic.wav");
   scoremenu = loadImage("scoremenu.png");   
   clock = createFont("digital-7.ttf", 50);
   titlefont = createFont("ABATI__.TTF", 50);
+  instructionFont = createFont("HelveticaNeueLTCom-Md.ttf",15);
 
   //Each lane are in a different position. So I had to initialze all lanes in different positions
   for (int i = 0; i < lanes.length; i++) {
@@ -234,6 +236,7 @@ void draw() {
       state = menu.selection;
       menu.selection = State.NONE;
       state = State.OBSTACLE;
+      menuMusic.pause();
     }
     break;
     // If our state is OBSTACLE we update the
@@ -243,6 +246,7 @@ void draw() {
   case OBSTACLE:
   case WEBCAM_MODE:
     if (menu.selection == State.NONE ) {
+      if (!gameOver.gameDone) {
       background(100); 
       image(scoremenu, 600, height/2);
       scoremenu.resize(200, 805);
@@ -306,20 +310,16 @@ void draw() {
       //Displays the car
       car.display(menu);
       car.track(menu);
+      if (gameOver.gameDone) {
+      state = State.GAME_OVER;
+      }
+      }
     }
     break;
   case GAME_OVER:
-if (gameOver.selection != State.NONE) {
-      state = gameOver.selection;
-      gameOver.selection = State.NONE;
-      state = State.GAME_OVER;
-    }
-    if (gameOver.gameOver) {
-      state = State.GAME_OVER;
-      gameOver.display();
-      gameOver.update();
-    }
+        gameOver.update();      
     break;
+    
   }
 }
 

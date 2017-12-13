@@ -24,7 +24,8 @@ class Obstacle {
   //Tracks wether or not we should return to the menu
   boolean returnToMenu = false;
 
-
+Obstacle() {
+}
   Obstacle(PImage tempimg, float tempX, float tempY, float tempS, float tempSX, float tempSY) {
     x = tempX;
     y = tempY;
@@ -78,7 +79,7 @@ class Obstacle {
     }
 
     //Displays the timer
-    text(time, 600, 125);
+    text(time, 600, 110);
     //Timer font
     textFont(clock);
   }
