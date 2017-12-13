@@ -16,10 +16,11 @@ import ddf.minim.ugens.*;
 import processing.sound.*;
 
 
-//Import sounds and microphones
+//Import sounds, video and microphone
 SoundFile tone;
 Minim minim;
 AudioPlayer stereoSound;
+AudioPlayer menuMusic;
 AudioInput mic;
 Capture video;
 
@@ -30,21 +31,20 @@ PImage redCar;
 PImage shieldPic;
 //Array of cars, the images of the obstacles
 PImage[] cars = new PImage[5];
-
+//The Menu on the right side, which displays time/score
 PImage scoremenu;
 
-//X location
-float x = 100;
-//Lanes size
+//Global X location
+int x = 100;
+//Lanes sizes
 float sizex = 8;
 float sizey = 150;
 
 //Obstacles location
 float b =100;
-float y;
 float sizeX = 40;
 float sizeY = 80;
-
+//X and Y location, Y location depends on the webcam
 float carX = 157;
 float carY = 450;
 
@@ -52,9 +52,10 @@ float carY = 450;
 //Global Speed
 float speed = 5;
 
-//Fonts
+//Fonts\\
 PFont clock;
 PFont titlefont;
+
 //Timer for the cars
 //The string displays the time
 String time = ":00";
@@ -63,6 +64,7 @@ int interval = 00;
 //CarAdd adds time for when the next car is supposed to appear
 int carAdd = 0;
 int tempTime = 0;
+
 //Timer for the trucks
 String timeTruck = "00";
 int tTruck;
@@ -70,18 +72,21 @@ int intervalTruck = 00;
 int truckAdd = 0;
 int tempTimeTruck = 0;
 
+//Timer for appending invisibility
 String timeC = ":00";
 int tC;
 int intervalC = 00;
 int tempTimeC = 0;
 int invisiadd = 0;
 
+//Timer for when Invisiblity ends
 String timeI = ":00";
 int tI;
 int intervalI = 00;
 int tempTimeI = 0;
 int invisi = 0;
 
+//Webcam Tracker\\
 int reddestX = 0;
 int reddestY = 0;
 float record = 1000;
@@ -90,16 +95,16 @@ float record = 1000;
 //Array of lanes, 16 are appearing on the screen
 Lanes[] lanes = new Lanes[16];
 
-//Obstacle Class
+//Obstacle Classes\\
 Obstacle[] obstacle = new Obstacle[1];
 Obstacle[] truck = new Obstacle[1];
 Obstacle[] oil = new Obstacle[1];
 
-//Rocket Class
+//Powerup Classes\\
 Invisibility[] invisibility = new Invisibility[1];
 Rocket[] rocket = new Rocket[1];
 
-//Car class
+//Car class\\
 Car car;
 
 // An enum is a way to group together a set of named options
@@ -109,34 +114,45 @@ enum State {
     TITLE, 
     MENU, 
     OBSTACLE, 
-    WEBCAM_MODE
+    WEBCAM_MODE, 
+    GAME_OVER
 }
+
 // This is the variable that actually tracks the state in the game
 State state;
 //create variables to store the different objects that
-// represent the different states of the game
+//represent the different states of the game
 Title title;
 Menu menu;
-
+GameOver gameOver;
 void setup() {
   size(700, 800); 
+  //Capturing the webcam of the game, webcam's maximum capture is 640,480\\
   video = new Capture(this, 640, 480, 30);
 
   // Create the different states
   title = new Title();
+  //Menu screen for different options of the game
   menu = new Menu();
+
+  //Game over screen
+  gameOver = new GameOver();
+
   //state in the title screen
   state = State.TITLE;
+
   //Load in the sound and microphone levels
   tone = new SoundFile(this, "honk.wav");
   minim = new Minim(this);
   mic = minim.getLineIn();
 
-  //Load in the sound of highways, the clock font and the menu on the left
+  //Load in the sound of highways, the fonts and the menu on the left
   stereoSound = minim.loadFile("highway.wav");
+  menuMusic = minim.loadFile("menumusic.wav");
   scoremenu = loadImage("scoremenu.png");   
   clock = createFont("digital-7.ttf", 50);
-  titlefont = createFont("ABATI__.TTF",50);
+  titlefont = createFont("ABATI__.TTF", 50);
+
   //Each lane are in a different position. So I had to initialze all lanes in different positions
   for (int i = 0; i < lanes.length; i++) {
     lanes[0] = new Lanes(x, 0, speed, sizex, sizey);
@@ -156,12 +172,12 @@ void setup() {
     lanes[14] = new Lanes(x*3, 825, speed, sizex, sizey);
     lanes[15] = new Lanes(x*4, 825, speed, sizex, sizey);
   }
-
+  //Load in the array of car images
   for (int i = 0; i < cars.length; i++) {
     cars[i] = loadImage("cars" +i+ ".png");
   }
-  
-  //All obstacles spawn in a ranom lane
+
+  //All obstacles and powerups spawn in a random lane
   for (int i = 0; i < obstacle.length; i++) {
     obstacle[i] = new Obstacle(cars[0], 50 + b*floor(random(0, 5)), -80, speed, sizeX, sizeY);
   }
@@ -172,11 +188,11 @@ void setup() {
     oil[i] = new Obstacle(cars[3], 50 + b*floor(random(0, 5)), -50, speed, 30, 30);
   }
   for (int i = 0; i < rocket.length; i++) {
-    rocket[i] = new Rocket(50 + x*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
+    rocket[i] = new Rocket(50 + b*floor(random(0, 5)), -50, speed, 10, 20, color(0, 0, 255));
   }
 
   for (int i = 0; i < invisibility.length; i++) {
-    invisibility[i] = new Invisibility(shieldPic, 50 + x*floor(random(0, 5)), -50, speed, 80, 80);
+    invisibility[i] = new Invisibility(shieldPic, 50 + b*floor(random(0, 5)), -50, speed, 80, 80);
   }
 
   //Cars starting location, starts in the second lane
@@ -184,10 +200,12 @@ void setup() {
 }
 
 void draw() {
+  //Checks if the webcam is availabe
   if (video.available()) {
     video.read();
-    image(video, 0, 0);
   }
+  image(video, 0, 0);
+
   //Selects between alternatives
   switch (state) {
     // If our state is NONE, we do nothing
@@ -217,7 +235,7 @@ void draw() {
     }
     break;
     // If our state is OBSTACLE we update the
-    // obstacle object which runs the game and then check whether 
+    // obstacle objects which runs the game and then check whether 
     // the player has chosen to return to the menu. If so we set
     // the state appropriate, and reset the game.
   case OBSTACLE:
@@ -227,7 +245,7 @@ void draw() {
       image(scoremenu, 600, height/2);
       scoremenu.resize(200, 805);
 
-
+      //Loop all the functions
       for (int i = 0; i < lanes.length; i++) {
         lanes[i].display();
         lanes[i].update();
@@ -280,13 +298,24 @@ void draw() {
         invisibility[i].collected(car);
         invisibility[i].follow(car);
         invisibility[i].activate();
-        car.shield(invisibility[i]);
+        car.shield(invisibility[i], gameOver);
         invisibility[i].invisEnd(car);
       }
       //Displays the car
       car.display(menu);
       car.track(menu);
-
+    }
+    break;
+  case GAME_OVER:
+if (gameOver.selection != State.NONE) {
+      state = gameOver.selection;
+      gameOver.selection = State.NONE;
+      state = State.GAME_OVER;
+    }
+    if (gameOver.gameOver) {
+      state = State.GAME_OVER;
+      gameOver.display();
+      gameOver.update();
     }
     break;
   }
@@ -308,7 +337,8 @@ void keyPressed() {
   case MENU:
     menu.keyPressed();
     break;
-
+  case GAME_OVER:
+    break;
 
     //Switch lanes with left and right
     //Honk your horn with the Z key
@@ -323,26 +353,28 @@ void keyPressed() {
     if (keyCode == 'z' || keyCode == 'Z') {
       tone.play();
     }
-       
-      break;
-    }
+
+    break;
   }
-  void keyReleased() {
-    switch (state) {
-    case NONE:
-      break;
+}
+void keyReleased() {
+  switch (state) {
+  case NONE:
+    break;
 
-    case TITLE:
-      title.keyReleased();
-      break;
+  case TITLE:
+    title.keyReleased();
+    break;
 
-    case MENU:
-      menu.keyReleased();
-      break;
+  case MENU:
+    menu.keyReleased();
+    break;
 
-    case OBSTACLE:
-      break; 
-    case WEBCAM_MODE:
-      break;
-    }
+  case OBSTACLE:
+    break; 
+  case WEBCAM_MODE:
+    break;
+  case GAME_OVER:
+    break;
   }
+}

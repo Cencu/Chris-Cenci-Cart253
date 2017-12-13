@@ -1,4 +1,5 @@
 class Menu {
+  //This boolean checks if you started in webcam mode and changes certain things for the game to work
   boolean vidstart = false;
 State selection = State.NONE;
   Menu() {

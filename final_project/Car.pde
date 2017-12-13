@@ -1,23 +1,25 @@
 class Car {
-  //X and Y location, as well as sizes
-  //The red car is your car
-  //Slipped checks to see if you landed in an oil spill
+  //Variables for the car
   float x = 157;
   float y = 600;
   float sizeX = 40;
   float sizeY = 80;
+  //Car image
   PImage redCar;
+  //Boolean to detect if the obstacle has "slipped"
+  //in oil
   boolean slipped = false;
-  //Used for the rockets
+  //Used for the powerups
   float c;
   float p;
-  float grip = 2;
+  //Checks if the car is still on the screen
   boolean alive = true;
-
+  //Checks for the reddest object on the webcam, then tracks it
   color trackColor = color (255, 0, 0);
   float trackX = 0;
   float trackY = 0;
 
+  //Car constructor
   Car(float tempX, float tempY, float tempSizeX, float tempSizeY) {
     x = tempX;
     y = tempY;
@@ -30,6 +32,7 @@ class Car {
   //Is switching lanes
   //when slipped is true, the boolean stops you from switching lanes, like there is no more grip on the car
   //See oilspill void below.
+  //If the webcam is on, the car will have no need to switch lanes
   void switchLanesLeft(Menu menu) {
     if (!slipped) {
       if (!menu.vidstart) {
@@ -59,11 +62,12 @@ class Car {
     boolean right = (x - sizeX/2 < obstacle.x + obstacle.sizeX/2);
     boolean top = (y + sizeY/2 > obstacle.y - obstacle.sizeY/2);
     boolean bottom = (y - sizeY/2 < obstacle.y + obstacle.sizeY/2);
-    //When the booleans are true, then the car disappears
+    //When the booleans are true, then alive becomes false
     if (left && right &&top && bottom && obstacle.sizeX > 0 && obstacle.sizeY > 0) {
       alive = false;
     }
   }
+  //Check the collision for trucks as well
   void accidentTruck (Obstacle truck) {
     boolean leftT = (x + sizeX/2 > truck.x - truck.sizeX/2);
     boolean rightT = (x - sizeX/2 < truck.x + truck.sizeX/2);
@@ -74,11 +78,12 @@ class Car {
       alive = false;
     }
   }
-
-  void shield(Invisibility invisibility) {
+  //This is where alive gets called, when you have no shield and collide with another car, then you lose. 
+  void shield(Invisibility invisibility, GameOver gameOver) {
     if (!alive && !invisibility.shield) {
       sizeX = 0;
       sizeY = 0;
+      gameOver.gameOver = true;
     }
   }
   //Checks the same as above, if the car comes into contact with oil, then the boolean will turn true
@@ -99,6 +104,9 @@ class Car {
       slipped = false;
     }
   }
+
+  //Checks if the webcam option has been chosen
+  //If it has, then the car will no longer move with left and right keys but tracking the reddest pixel
   void track(Menu menu) {
     if (menu.vidstart) {
       //radius to detect changes
@@ -129,11 +137,13 @@ class Car {
       }
     }
   }
+
+
   //Displays the car as a car image, starting in the second lane
   void display(Menu menu) {
     //Constrains the car the the screen so it doesnt go off when switching lanes
     x= constrain(x, 50, 450);
-    //c = y is made so you can "trick" the rocket into thinking that it is following the car
+    //c = y is made so you can "trick" the rocket and shield/invisibility into thinking that it is following the car
     //When the rocket is used, it uses the X and Y location to launch from, however, when setting the speed of the rocket to launch, the car would
     //Also launch. By putting c = y, the car stays in place but the rocket still launches
     p = x;
@@ -142,6 +152,7 @@ class Car {
       x = trackX;
       y = trackY;
     } else {
+      //since the webcam only captures Y = 480, when the webcam option is not selected, the car will revert back to its original position
       y = 600;
     }
     noStroke();

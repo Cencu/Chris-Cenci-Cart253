@@ -1,17 +1,21 @@
 class Obstacle {
-  //checked if the car are placed, starts as false
+  
+  //checked if the obstacles are placed, starts as false
   boolean placed = false;
+  //Checks if the obstacles are alive or on the screen
   boolean alive = true;
-  //Location of the cars, when they go into the lanes
+  //Location of the obstacles, when they go into the lanes
   float x=100;
   float y;
-  //Car speeds
+  //Obstacles speed
   float speed = 5; 
+  //Sizes
   float sizeX = 40;
   float sizeY = 80;
+  
   //the moment the car is off the screen
   float moment;
-  color carColor;
+  //Images of the cars
   PImage cars;
 
   //After 20 seconds, the difficulty increases
@@ -48,12 +52,12 @@ class Obstacle {
     }
   }
   //By yelling into the mic, the other cars can move out of the way, potentially making it easier
+  //The statment checks withing the parameters of the car, if you are yelling when the obstacle is in front of the car, then it will change lane
   //Does not work for trucks, as they are too big to move, and frankly, don't care.
   void swerve(Car car) {
     float level = mic.mix.level();
-    if (level > .5 && car.y -200 < y && car.x > x - 5 && car.x < x + sizeX + 5 ) {
+    if (level > .6 && car.y -200 < y && car.x > x - 5 && car.x < x + sizeX + 5 ) {
       x+=100;
-      println(level);
     }
   }
 
@@ -71,8 +75,6 @@ class Obstacle {
       obstacle = (Obstacle[]) append(obstacle, j);
       //Timer that adds the cars every six seconds
       carAdd +=6;
-      println("added",x,y);
-      println("append");
     }
 
     //Displays the timer
@@ -113,6 +115,7 @@ class Obstacle {
   }
   //If the obstacles go off the screen, then they will reappear at the top, the +150 is so it is completely off the screen, and the +200 is so that 
   //It is smooth when coming down from the top
+  //However if alive is false then they will not respawn
   void addToScreen() {
     if (placed && !alive) {
       return;
@@ -179,8 +182,8 @@ class Obstacle {
     t = interval+int(millis()/1000)-tempTime;
     //nf formats the numbers into strings, so time = 00, it'll show the string time, and adds 2 zeros
     time = nf(t, 2);
-    //if the seconds equal 6 + car add, then the array appends and another car appears onscreen
-    //carAdd starts at 0, and when the first timer reaches 6, it adds another six, so when the timer reaches 12, it adds a car, and the variable carAdd goes to 18
+   //Same timer as the above ones, however this one just adjusts the speeds
+   //Creates a certain ranomness to the speeds of the cars
     if (t == 20+ difficultAdd) {
       speed +=2;
       difficultAdd += 20;
