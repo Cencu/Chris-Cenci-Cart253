@@ -1,5 +1,5 @@
 class Invisibility {
-  
+
   //Variables, locations, size and speed\\
   float x = 100;
   float y;
@@ -13,6 +13,7 @@ class Invisibility {
   PImage shieldPic;
 
 
+
   Invisibility(PImage tempimg, float tempx, float tempy, float tempspeed, float tempsizex, float tempsizey) {
     x = tempx;
     y = tempy;
@@ -22,19 +23,19 @@ class Invisibility {
     shieldPic = tempimg;
     shieldPic = loadImage("shield.png");
   }
-//Update the speed of the powerup
+  //Update the speed of the powerup
   void update() {
     y += speed;
   }
-//Display the powerup
+  //Display the powerup
   void display() {
     fill(0);
     imageMode(CENTER);
     image(shieldPic, x, y, sizeX, sizeY);
   }
-//Like the collision booleans in the car class, but the end result is different
-//When the car collides with the shield, it "picks it up"
-//Follow turns true
+  //Like the collision booleans in the car class, but the end result is different
+  //When the car collides with the shield, it "picks it up"
+  //Follow turns true
   void collected(Car car) {
     boolean leftP = (x + sizeX/2 > car.x - car.sizeX/2);
     boolean rightP = (x - sizeX/2 < car.x + car.sizeX/2);
@@ -45,39 +46,24 @@ class Invisibility {
       follow = true;
     }
   }
-//When follow turns true, the shield starts following the car
-//P and C were the "ghost variables" used for when objects follow the car
+  //When follow turns true, the shield starts following the car
+  //P and C were the "ghost variables" used for when objects follow the car
   void follow(Car car) {
     if (follow) {
       x = car.p;
       y = car.c;
-    } 
+    }
   }
-  
-//S is used to activate the powerup
+
+  //S is used to activate the powerup
   void activate() {
-    if (key == 's' || key == 'S') {    
+    if (key == 's' && follow || key == 'S' && follow) {    
       shield = true;
       println(shield);
-    }
+      shieldTone.play();
+    } 
   }
-//The timer used to append the shield
-  void invisitimer() {
-    //Converts milliseconds to actual seconds
-    //int converts millis to integers, minus temp time 
-    tC = intervalC+int(millis()/1000)-tempTimeC;
-    ////nf formats the numbers into strings, so time = 00, it'll show the string time, and adds 2 zeros
-    timeC = nf(tC, 2);
-    ////if the seconds equal 6 + invisiadd, then the array appends and another powerup appears onscreen
-    //invisi starts at 0, and when the first timer reaches 15, it adds 30, so when the timer reaches 45, it adds a powerup, and the variable invisiadd goes to 60
-    if (tC == 15 + invisiadd) {
-      //The new object being added to the array, spawns on a random lane
-      Invisibility o = new Invisibility(shieldPic, 50 + x*floor(random(0, 5)), -80, speed, sizeX, sizeY);
-      invisibility = (Invisibility[]) append(invisibility, o);
-      //Timer that adds the cars every 30 seconds
-      invisiadd +=10;
-    }
-  }
+
   //This void checks when the powerup starts and stops
   void invisEnd(Car car) {
     //If shield becomes active, the timer subtracts 6, 
@@ -93,10 +79,12 @@ class Invisibility {
       tI -= 6;
       car.alive = true;
     }
-    if (tI >= 6) {
-      tI -=7;
+    if (tI > 6) {
+      tI -= 6;
       follow = false;
       shield = false;
+      y += speed;
+      x += y;
       car.alive = true;
       println(follow);
     }

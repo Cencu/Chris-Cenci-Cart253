@@ -18,6 +18,7 @@ import processing.sound.*;
 
 //Import sounds, video and microphone
 SoundFile tone;
+SoundFile shieldTone;
 Minim minim;
 AudioPlayer stereoSound;
 AudioPlayer menuMusic;
@@ -143,6 +144,7 @@ void setup() {
 
   //Load in the sound and microphone levels
   tone = new SoundFile(this, "honk.wav");
+  shieldTone = new SoundFile(this,"hailmary.wav");
   minim = new Minim(this);
   mic = minim.getLineIn();
 
@@ -292,7 +294,7 @@ void draw() {
         //rocket[i].timerRocket();
       }
       for (int i = 0; i < invisibility.length; i++) {
-        invisibility[i].invisitimer();
+
         invisibility[i].update();
         invisibility[i].display();
         invisibility[i].collected(car);
@@ -353,7 +355,6 @@ void keyPressed() {
     if (keyCode == 'z' || keyCode == 'Z') {
       tone.play();
     }
-
     break;
   }
 }
