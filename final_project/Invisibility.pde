@@ -2,6 +2,7 @@ class Invisibility {
 
   //Variables, locations, size and speed\\
   float x = 100;
+  float shrink = -.001;
   float y;
   float sizeX =80;
   float sizeY = 80;
@@ -12,7 +13,11 @@ class Invisibility {
   //Picture for the powerup
   PImage shieldPic;
 
-
+  //Timer for when Invisiblity ends
+  int tI = 0;
+  int intervalI = 00;
+  int tempTimeI = 0;
+  int invisi = 0;
 
   Invisibility(PImage tempimg, float tempx, float tempy, float tempspeed, float tempsizex, float tempsizey) {
     x = tempx;
@@ -29,7 +34,6 @@ class Invisibility {
   }
   //Display the powerup
   void display() {
-    fill(0);
     imageMode(CENTER);
     image(shieldPic, x, y, sizeX, sizeY);
   }
@@ -51,7 +55,7 @@ class Invisibility {
   void follow(Car car) {
     if (follow) {
       x = car.p;
-      y = car.c;
+      y = car.c+75;
     }
   }
 
@@ -61,7 +65,9 @@ class Invisibility {
       shield = true;
       println(shield);
       shieldTone.play();
-    } 
+    } if (shield) {
+      invisEnd(car);
+    }
   }
 
   //This void checks when the powerup starts and stops
@@ -72,21 +78,18 @@ class Invisibility {
     //deactivates. When the timer counts six seconds, it restarts at 0, but if you activate the powerup at, lets say 4 seconds
     //Then you'll only have two seconds of usage...
     //However, when the powerup activates, the timer subtracts another six seconds, giving the player the full time usage
-    if (shield) {
-      tI = intervalI+int(millis()/1000)-tempTimeI;
-      timeI = nf(tI, 2);
-      println(tI);
-      tI -= 6;
-      car.alive = true;
-    }
-    if (tI > 6) {
-      tI -= 6;
-      follow = false;
-      shield = false;
-      y += speed;
-      x += y;
-      car.alive = true;
-      println(follow);
+
+
+      sizeX--;
+      sizeY--;
+
+      if (sizeX <= 0 && sizeY <= 0) {
+        follow = false;
+        shield = false;
+        y += speed;
+        x += y;
+        car.alive = true;
+      
     }
   }
 }

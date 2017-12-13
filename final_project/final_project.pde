@@ -1,3 +1,7 @@
+import sprites.*;
+import sprites.maths.*;
+import sprites.utils.*;
+
 import processing.video.*;
 
 //WHATS LEFT TO DO
@@ -19,6 +23,7 @@ import processing.sound.*;
 //Import sounds, video and microphone
 SoundFile tone;
 SoundFile shieldTone;
+SoundFile crashed;
 Minim minim;
 AudioPlayer stereoSound;
 AudioPlayer menuMusic;
@@ -27,7 +32,9 @@ Capture video;
 
 //IMAGES\\
 //Players Car
-PImage redCar;
+Sprite avatar;
+StopWatch times = new StopWatch();
+float avatarSpeed = 1;
 //Shield Powerup
 PImage shieldPic;
 //Array of cars, the images of the obstacles
@@ -40,10 +47,9 @@ int x = 100;
 //Lanes sizes
 float sizex = 8;
 float sizey = 150;
-
 //Obstacles location
 float b =100;
-float sizeX = 40;
+float sizeX = 80;
 float sizeY = 80;
 //X and Y location, Y location depends on the webcam
 float carX = 157;
@@ -81,12 +87,6 @@ int intervalC = 00;
 int tempTimeC = 0;
 int invisiadd = 0;
 
-//Timer for when Invisiblity ends
-String timeI = ":00";
-int tI;
-int intervalI = 00;
-int tempTimeI = 0;
-int invisi = 0;
 
 //Webcam Tracker\\
 int reddestX = 0;
@@ -98,7 +98,7 @@ float record = 1000;
 Lanes[] lanes = new Lanes[16];
 
 //Obstacle Classes\\
-Obstacle[] obstacle = new Obstacle[1];
+Obstacle[] obstacle = new Obstacle[2];
 Obstacle[] truck = new Obstacle[1];
 Obstacle[] oil = new Obstacle[1];
 
@@ -132,7 +132,10 @@ void setup() {
   size(700, 800); 
   //Capturing the webcam of the game, webcam's maximum capture is 640,480\\
   video = new Capture(this, 640, 480, 30);
-
+  
+  avatar = new Sprite(this,"cars1.png",3,1,1);
+  avatar.setFrameSequence(0,2);
+  
   // Create the different states
   title = new Title();
   //Menu screen for different options of the game
@@ -146,6 +149,7 @@ void setup() {
   //Load in the sound and microphone levels
   tone = new SoundFile(this, "honk.wav");
   shieldTone = new SoundFile(this, "hailmary.wav");
+  crashed = new SoundFile(this,"dead.wav");
   minim = new Minim(this);
   mic = minim.getLineIn();
 
@@ -236,7 +240,6 @@ void draw() {
       state = menu.selection;
       menu.selection = State.NONE;
       state = State.OBSTACLE;
-      menuMusic.pause();
     }
     break;
     // If our state is OBSTACLE we update the
@@ -250,7 +253,11 @@ void draw() {
       background(100); 
       image(scoremenu, 600, height/2);
       scoremenu.resize(200, 805);
-
+      double deltaTime  = times.getElapsedTime();
+      S4P.updateSprites(deltaTime);
+      S4P.drawSprites();
+      avatar.setFrameSequence(1,0,.01);
+      
       //Loop all the functions
       for (int i = 0; i < lanes.length; i++) {
         lanes[i].display();
@@ -304,8 +311,8 @@ void draw() {
         invisibility[i].collected(car);
         invisibility[i].follow(car);
         invisibility[i].activate();
-        car.shield(invisibility[i], gameOver);
-        invisibility[i].invisEnd(car);
+        car.shield(gameOver, invisibility[i]);
+        //invisibility[i].invisEnd(car);
       }
       //Displays the car
       car.display(menu);

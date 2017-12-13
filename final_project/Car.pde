@@ -36,6 +36,7 @@ class Car {
   void switchLanesLeft(Menu menu) {
     if (!slipped) {
       if (!menu.vidstart) {
+
         x-=100;
       }
     } 
@@ -80,12 +81,13 @@ class Car {
     }
   }
   //This is where alive gets called, when you have no shield and collide with another car, then you lose. 
-  void shield(Invisibility invisibility, GameOver gameOver) {
-    if (!alive) {
+  void shield(GameOver gameOver, Invisibility invisibility ) {
+    if (!alive && !invisibility.shield) {
       sizeX = 0;
       sizeY = 0;
       gameOver.gameDone = true;
       println(gameOver.gameDone);
+      crashed.play();
     }
   }
   //Checks the same as above, if the car comes into contact with oil, then the boolean will turn true
@@ -160,6 +162,7 @@ class Car {
     noStroke();
     fill(255, 0, 0);
     imageMode(CENTER);
-    image(redCar, x, y, sizeX, sizeY);
+      avatar.setXY(x, y);
+    //image(redCar, x, y, sizeX, sizeY);
   }
 }

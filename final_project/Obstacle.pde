@@ -79,7 +79,7 @@ Obstacle() {
     }
 
     //Displays the timer
-    text(time, 600, 110);
+    text(time, 600, 320);
     //Timer font
     textFont(clock);
   }
@@ -126,7 +126,7 @@ Obstacle() {
     //Checks when the obstacles will respawn 
     //Respawn before the screen, so it will appear as they are flowing smoothly
     //Spawn between the five lanes
-    moment = millis() + floor(random(0, 5000));
+    moment = millis() + floor(random(0, 3000));
     y = -150;
     x = 50 + b*floor(random(0, 5));
     placed = true;

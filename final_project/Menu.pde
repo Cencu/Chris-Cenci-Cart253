@@ -30,7 +30,7 @@ State selection = State.NONE;
   void keyPressed() {
    if (key == 'r' || key == 'R') {
      selection = State.OBSTACLE; 
-     stereoSound.loop();
+     //stereoSound.loop();
  
 
    }
@@ -38,7 +38,7 @@ State selection = State.NONE;
    selection = State.WEBCAM_MODE;
    video.start();
    vidstart = true;
-   stereoSound.loop();
+  // stereoSound.loop();
   } 
 }
 
