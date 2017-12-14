@@ -1,10 +1,15 @@
+//ARTIST STATMENT\\
 
+/*The game I created is called “Deadline Avoider”. The point of the game is that you are a student who is really bad at time management and is literally running away from his deadlines. 
+The objective of the game is to avoid them for as long as possible before they eventually “catch up” with you. This was originally intended to be a car game, however I changed the subject 
+to be a little more enticing. In the game you have one help, a shield, or a doctor’s note. What this does is, it lets you avoid one obstacle if ever you are in trouble. There is also the 
+yelling part, when you yell at a deadline, it can move out of the way. The most interesting part of the game in my opinion, is the deadlines and the shield. I used lots of timers and append 
+the obstacles, two things I had never done in this level of detail. It took a lot of time and understanding to append the obstacles within the parameters I wanted, and without them overlapping. 
+As for the shield, it also took lots of time to develop, I had lots of trouble with the timer and making the shield disappear after a certain amount of time, therefore I found a workaround.
+What I tried to do in the game, is incorporate code I’ve learned in class, and bring it up a level, for example, I learned how to append arrays and create an array of images, so each 
+appended object can have a unique image. I also attempted to make the game fully interactive, I brought in usage of the microphone and the webcam to interact with the game. Lastly, I intended 
+for the game to be slightly comedic, by incorporating a running sprite man, who yells “I’m late!” (Although he says it very low).*/
 
-//WHATS LEFT TO DO
-//Rockets
-//Game over menu
-//Instructions menu
-//Comment
 
 //LIBRARIES\\
 import ddf.minim.*;
