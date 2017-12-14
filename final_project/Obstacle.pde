@@ -79,7 +79,7 @@ Obstacle() {
     }
 
     //Displays the timer
-    text(time, 600, 320);
+    text(time, 620, 320);
     //Timer font
     textFont(clock);
   }
