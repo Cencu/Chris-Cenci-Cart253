@@ -1,7 +1,8 @@
 class GameOver {
 
-  // A variable to track whether the title screen is finished
+  // A variable to track whether the game is over 
   boolean gameDone = false;
+  //If it is, we select the game over screen
 State selection = State.GAME_OVER;
 
   // The constructor does nothing
@@ -10,7 +11,7 @@ State selection = State.GAME_OVER;
 
   // update()
   //
-  // Just displays the title
+  // Just updates what will be displaying
 
   void update() {
     display();

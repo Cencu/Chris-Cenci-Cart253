@@ -26,10 +26,10 @@ class Obstacle {
 
 Obstacle() {
 }
-  Obstacle(PImage tempimg, float tempX, float tempY, float tempS, float tempSX, float tempSY) {
+  Obstacle(PImage tempimg, float tempX, float tempY, float tempSX, float tempSY, float tempSpeed) {
     x = tempX;
     y = tempY;
-    speed = tempS;
+    speed = tempSpeed;
     sizeX = tempSX;
     sizeY = tempSY;
     moment = 0;
@@ -41,7 +41,7 @@ Obstacle() {
 
   //Obstacle moves downwards
   void update() {
-    //If the moment the car is off the screen is less than the milliseconds, and if 
+    //If the moment the obstacle is off the screen is less than the milliseconds, and if 
     //The car is not placed, then we add it to the screen
     //If not we update the speed
     if (moment < millis()) {
@@ -57,7 +57,7 @@ Obstacle() {
   //Does not work for trucks, as they are too big to move, and frankly, don't care.
   void swerve(Car car) {
     float level = mic.mix.level();
-    if (level > .6 && car.y -200 < y && car.x > x - 5 && car.x < x + sizeX + 5 ) {
+    if (level > .5 && car.y -200 < y && car.x > x - 5 && car.x < x + sizeX + 5 ) {
       x+=100;
     }
   }
@@ -72,7 +72,7 @@ Obstacle() {
     //carAdd starts at 0, and when the first timer reaches 6, it adds another six, so when the timer reaches 12, it adds a car, and the variable carAdd goes to 18
     if (t == 6 + carAdd) {
       //The new object being added to the array, spawns on a random lane
-      Obstacle j = new Obstacle(cars, 50 + x*floor(random(0, 5)), -80, speed, sizeX, sizeY);
+      Obstacle j = new Obstacle(cars, 50 + x*floor(random(0, 5)), -80, sizeX, sizeY, speed);
       obstacle = (Obstacle[]) append(obstacle, j);
       //Timer that adds the cars every six seconds
       carAdd +=6;
@@ -94,7 +94,7 @@ Obstacle() {
     //Same as the car timer, when the timer reaches 11, the array appends and adds 11 to the timer, so at 22 seconds another truck will appear, and again at 33 seconds
     if (tTruck == 11 + truckAdd) {
       //Appends the truck, like above
-      Obstacle d = new Obstacle(cars, 50 + b*floor(random(0, 5)), -150, speed, 40, 150);
+      Obstacle d = new Obstacle(cars, 50 + b*floor(random(0, 5)), -150, 40, 150, speed);
       truck = (Obstacle[]) append(truck, d);
       truckAdd += 11;
     }
@@ -122,7 +122,7 @@ Obstacle() {
       return;
     } 
 
-    //moment equals a random time between 0 and 5,
+    //moment equals a random time between 0 and 3,
     //Checks when the obstacles will respawn 
     //Respawn before the screen, so it will appear as they are flowing smoothly
     //Spawn between the five lanes
@@ -139,7 +139,7 @@ Obstacle() {
         placed = false;
       }
     }
-    //Checks for each obstacle, if they have collieded with eachother or one another
+    //Checks for each obstacle, if they have collided with eachother or one another
     for (int j = 0; j < oil.length; j++) {
       if (this != oil[j] && collision(oil[j])) {
         placed = false;

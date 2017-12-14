@@ -24,10 +24,11 @@ class Title {
     textAlign(CENTER, CENTER);
     textSize(80);
     fill(255);
-    text("TRAFFIC",width/2, height/3);
-    text("HATER", width/2, height/2.2);
+    text("DEADLINE",width/2, height/3);
+    text("AVOIDER", width/2, height/2.2);
         textSize(30);
     menuMusic.play();
+    menuMusic.loop();
 
     text("Press any key to continue", width/2, 3*height/4);
     textFont(titlefont);

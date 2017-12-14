@@ -13,11 +13,6 @@ class Invisibility {
   //Picture for the powerup
   PImage shieldPic;
 
-  //Timer for when Invisiblity ends
-  int tI = 0;
-  int intervalI = 00;
-  int tempTimeI = 0;
-  int invisi = 0;
 
   Invisibility(PImage tempimg, float tempx, float tempy, float tempspeed, float tempsizex, float tempsizey) {
     x = tempx;
@@ -52,18 +47,21 @@ class Invisibility {
   }
   //When follow turns true, the shield starts following the car
   //P and C were the "ghost variables" used for when objects follow the car
+  //This was done since when I update the X and Y below, the player/car doesnt update too
   void follow(Car car) {
     if (follow) {
       x = car.p;
+      //The Note/shield trails behind you so its not in the way
       y = car.c+75;
     }
   }
 
   //S is used to activate the powerup
   void activate() {
-    if (key == 's' && follow || key == 'S' && follow) {    
+    if (key == 's' && follow || key == 'S' && follow) {  
+      //When the shield/note is follow you, or true, and the S key is used, then 
+      //The shield will be used and the void invisEnd will be called
       shield = true;
-      println(shield);
       shieldTone.play();
     } if (shield) {
       invisEnd(car);
@@ -72,17 +70,14 @@ class Invisibility {
 
   //This void checks when the powerup starts and stops
   void invisEnd(Car car) {
-    //If shield becomes active, the timer subtracts 6, 
-    //Since the millis() timer never stops running, this was the solution I found
-    //The timer is continously counting, so when the powerup becomes active, it only has six seconds before it
-    //deactivates. When the timer counts six seconds, it restarts at 0, but if you activate the powerup at, lets say 4 seconds
-    //Then you'll only have two seconds of usage...
-    //However, when the powerup activates, the timer subtracts another six seconds, giving the player the full time usage
-
-
+    //When the void gets called
+    //Your doctors note starts shrinking
+    //You have enough time to get through one obstacle before it disappears
       sizeX--;
       sizeY--;
-
+    //Once it disappears, the teachers wont fall for it again
+    //You no longer have your note/shield
+    //Resets your alive state back to true, since you collided with another object while using the note/shield
       if (sizeX <= 0 && sizeY <= 0) {
         follow = false;
         shield = false;

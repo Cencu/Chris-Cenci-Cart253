@@ -1,13 +1,12 @@
 class Car {
-  //Variables for the car
+  //Variables for the player
   float x = 157;
   float y = 600;
   float sizeX = 40;
   float sizeY = 80;
   //Car image
   PImage redCar;
-  //Boolean to detect if the obstacle has "slipped"
-  //in oil
+  //Boolean to detect if the obstacle has encountered a pop quiz
   boolean slipped = false;
   //Used for the powerups
   float c;
@@ -28,9 +27,9 @@ class Car {
     redCar = loadImage("cars1.png");
   }
 
-  //If the left key is pressed, then the car will move on the x axis by 100 pixels, like it
+  //If the left key is pressed, then the player will move on the x axis by 100 pixels, like he
   //Is switching lanes
-  //when slipped is true, the boolean stops you from switching lanes, like there is no more grip on the car
+  //when slipped is true, the boolean stops you from switching lanes, like your player is stuck doing the pop quiz
   //See oilspill void below.
   //If the webcam is on, the car will have no need to switch lanes
   void switchLanesLeft(Menu menu) {
@@ -66,7 +65,6 @@ class Car {
     //When the booleans are true, then alive becomes false
     if (left && right &&top && bottom && obstacle.sizeX > 0 && obstacle.sizeY > 0) {
       alive = false;
-      println(alive);
     }
   }
   //Check the collision for trucks as well
@@ -102,7 +100,7 @@ class Car {
       slipped = true;
     }
   }
-  //Once the oilspill is ofscreen, then slipped goes back to false, so that you can change lanes again
+  //Once the oilspill is offscreen, then slipped goes back to false, so that you can change lanes again
   void oilreset(Obstacle oil) {
     if (slipped && oil.y > height+100) {
       slipped = false;
@@ -162,7 +160,7 @@ class Car {
     noStroke();
     fill(255, 0, 0);
     imageMode(CENTER);
+    //Use the avatar as your character
       avatar.setXY(x, y);
-    //image(redCar, x, y, sizeX, sizeY);
   }
 }
