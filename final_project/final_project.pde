@@ -173,7 +173,7 @@ void setup() {
   mic = minim.getLineIn();
 
   //Load in the music
-  menuMusic = minim.loadFile("menuMusic.wav");
+  menuMusic = minim.loadFile("menumusic.wav");
   //The menu on the left
   scoremenu = loadImage("scoremenu.png");   
   //Fonts used in the game
